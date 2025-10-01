@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Охота на кружки</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../../common.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div id="game-container">
+    <!-- ВЕРХНИЙ HUD (повёрнут на 180°) -->
+    <header class="hud hud-top">
+      <div class="hud-row hud-rotated">
+        <button class="btn btn-ghost" id="menuTop" aria-label="Меню" onclick="goToMenu()">← Меню</button>
+        <div id="turnLabelTop" class="turn-label">Раунд · <span id="timerTop">20</span>с</div>
+        <div id="pointsTop" class="points">Очки: 0</div>
+        <div id="scoreTop" class="score">Победы: 0 – 0</div>
+        <button class="btn" id="newGameTop">Новая партия ↻</button>
+      </div>
+    </header>
+
+    <!-- ИГРОВОЕ ПОЛЕ -->
+    <main id="board" aria-label="Игровое поле">
+      <section id="player1" class="half" data-player="1" aria-label="Поле игрока 1"></section>
+      <section id="player2" class="half" data-player="2" aria-label="Поле игрока 2"></section>
+    </main>
+
+    <!-- НИЖНИЙ HUD (обычный) -->
+    <footer class="hud hud-bottom">
+      <div class="hud-row">
+        <button class="btn btn-ghost" id="menuBottom" aria-label="Меню" onclick="goToMenu()">← Меню</button>
+        <div id="turnLabelBottom" class="turn-label">Раунд · <span id="timerBottom">20</span>с</div>
+        <div id="pointsBottom" class="points">Очки: 0</div>
+        <div id="scoreBottom" class="score">Победы: 0 – 0</div>
+        <button class="btn" id="newGameBottom">Новая партия ↻</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Модалка окончания -->
+  <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h2 id="resultText"></h2>
+      <div class="modal-actions">
+        <button id="newGameBtn" class="btn primary">Новая игра</button>
+        <button class="btn" onclick="goToMenu()">← Меню</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

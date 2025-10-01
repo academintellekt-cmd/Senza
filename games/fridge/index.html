@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Холодильник 5×5</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="../../common.js" defer></script>
+  <script src="game.js" defer></script>
+  <style>
+    .placeholder{{position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#64748B; font-size:clamp(14px,2vw,18px);}}
+    .placeholder strong{{color:#0F172A}}
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <header class="hud hud-top">
+      <div class="hud-row hud-rotated">
+        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
+        <div class="turn-label">Холодильник 5×5</div>
+        <div class="score" id="scoreTop">Победы: 0 – 0</div>
+        <button class="btn" id="newGameTop">Новая партия ↻</button>
+      </div>
+    </header>
+
+    <main id="board" aria-label="Игровое поле">
+      <section id="stage" class="half" style="display:block; position:relative;">
+        <div class="placeholder">
+          <div>
+            <strong>Холодильник 5×5</strong><br/>
+            Заглушка. Замените файлы <code>style.css</code> и <code>game.js</code> на ваши из сборки.<br/>
+            Макет HUD и маршрутизация уже настроены.
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="hud hud-bottom">
+      <div class="hud-row">
+        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
+        <div class="turn-label">Холодильник 5×5</div>
+        <div class="score" id="scoreBottom">Победы: 0 – 0</div>
+        <button class="btn" id="newGameBottom">Новая партия ↻</button>
+      </div>
+    </footer>
+  </div>
+
+  <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h2 id="resultText"></h2>
+      <div class="modal-actions">
+        <button id="newGameBtn" class="btn primary">Новая игра</button>
+        <button class="btn" onclick="goToMenu()">← Меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToMenu(){{ window.location.href='../../index.html'; }}
+    document.getElementById('newGameTop').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
+    document.getElementById('newGameBottom').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
+    document.getElementById('newGameBtn').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
+  </script>
+</body>
+</html>

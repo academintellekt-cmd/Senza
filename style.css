@@ -1,0 +1,149 @@
+/* global styles placeholder if needed by games */
+
+/* Demo Tablet 43" Frame Styles - Portrait Mode */
+.demo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.tablet-frame-demo {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  background: #1a1a1a;
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow: 
+    0 0 0 2px #333,
+    0 0 0 4px #1a1a1a,
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.tablet-frame-demo:hover {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+}
+
+.tablet-screen-demo {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tablet-content-demo {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Demo game content */
+.demo-game {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.demo-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.demo-status {
+  background: #FF6A00;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.demo-gif {
+  flex: 1;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-placeholder {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  border: 2px dashed #ccc;
+}
+
+.demo-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.demo-btn {
+  background: #FF6A00;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.demo-btn:hover {
+  background: #e55a00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 106, 0, 0.3);
+}
+
+/* Responsive adjustments for demo */
+@media (max-width: 900px) {
+  .tablet-frame-demo {
+    width: 320px;
+    height: 480px;
+    transform: none;
+  }
+  
+  .demo-game {
+    padding: 15px;
+  }
+  
+  .demo-header h3 {
+    font-size: 16px;
+  }
+  
+  .demo-placeholder {
+    font-size: 12px;
+    padding: 15px;
+  }
+}

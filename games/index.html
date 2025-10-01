@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Игры (Демо) — Senza</title>
+  <style>
+    :root{--bg:#F6F7FB;--card:#fff;--text:#0F172A;--line:#E5E7EB;--accent:#FF6A00;--shadow:0 12px 28px rgba(15,23,42,.06);}
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family: Involve, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    .container{width:min(1200px,92%);margin:0 auto;padding:24px 0}
+    header{position:sticky;top:0;background:#2f343d;color:#f5f7fb;border-bottom:1px solid rgba(255,255,255,.08);z-index:10}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px}
+    .thumb{height:160px;border-radius:12px;background:linear-gradient(135deg, rgba(255,106,0,.14), rgba(37,99,235,.14));display:grid;place-items:center;color:#555;font-weight:700;text-align:center;padding:8px}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn:hover{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 10px 20px rgba(255,106,0,.18)}
+    a.btn{text-decoration:none;display:inline-block;text-align:center}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div>Игры (Демо) — Senza</div>
+      <a class="btn" href="../index.html">← На главную</a>
+    </div>
+  </header>
+  <div class="container">
+    <div class="grid">
+
+      <div class="card">
+        <div class="thumb">Охота на кружки</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./hunt-circles/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">🎯 Быстро нажимай на кружки! Чем быстрее ты нажимаешь, тем больше очков получаешь. Играй вдвоём - у каждого своя половина экрана. Кто наберёт больше очков за 20 секунд?</div>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Крестики‑нолики (3 фишки)</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./tictactoe/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">❌⭕ Сначала поставь 3 крестика или нолика, потом передвигай их по очереди! Собери 3 в ряд по горизонтали, вертикали или диагонали. Хитрость: можешь двигать только свои фишки!</div>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Запомни цвет</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./remember-color/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">🎨 Запомни цвета в правильном порядке! Сначала 2 цвета, потом 4, 6, 8 и даже 10! Нажимай на цвета в том же порядке, как они загорались. Чем больше запомнишь - тем ты умнее!</div>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Холодильник 5×5</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./fridge/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">🧊 Включи все лампочки в холодильнике! Нажимай на ряды и столбцы - они переключаются с тёмного на светлое. Попробуй включить все лампочки за меньше ходов и побить свой рекорд!</div>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Сёма</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./syoma/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">🎪 Сёма показывает цвета - повтори за ним! Смотри внимательно, как он нажимает на кнопки, и делай точно так же. С каждым уровнем становится сложнее, но ты справишься!</div>
+      </div>
+
+      <div class="card">
+        <div class="thumb">Змейка</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a class="btn" href="./snake/index.html">Играть</a>
+        </div>
+        <div style="font-size:14px;color:#64748B;">🐍 Классическая змейка для 1-2 игроков! Собирай яблоки, избегай столкновений и становись длиннее. Выбери тип поля и играй с друзьями или один. Кто продержится дольше всех?</div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

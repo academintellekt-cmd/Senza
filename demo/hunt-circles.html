@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Демо: Охота на кружки — Senza</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    :root{--bg:#F6F7FB;--card:#fff;--text:#0F172A;--line:#E5E7EB;--accent:#FF6A00;--shadow:0 12px 28px rgba(15,23,42,.06);}
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family: Involve, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;}
+    .container{width:min(1200px,92%);margin:0 auto;padding:24px 0}
+    header{position:sticky;top:0;background:#2f343d;color:#f5f7fb;border-bottom:1px solid rgba(255,255,255,.08);z-index:10}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .btn:hover{border-color:var(--accent);background:var(--accent);color:#fff;box-shadow:0 10px 20px rgba(255,106,0,.18)}
+    a.btn{text-decoration:none;display:inline-block;text-align:center}
+    
+    /* Game Animation Styles */
+    .game-animation {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .game-area {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 10px;
+    }
+    
+    .player-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 2px dashed #ddd;
+      margin: 5px;
+      border-radius: 8px;
+    }
+    
+    .player1 {
+      background: rgba(255, 106, 0, 0.1);
+    }
+    
+    .player2 {
+      background: rgba(30, 111, 227, 0.1);
+    }
+    
+    .player-label {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #666;
+    }
+    
+    .circles-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .circle {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .circle-1 {
+      background: #FF6A00;
+      top: 20%;
+      left: 20%;
+      animation: appearDisappear 2s infinite;
+    }
+    
+    .circle-2 {
+      background: #1E6FE3;
+      top: 60%;
+      right: 20%;
+      animation: appearDisappear 2s infinite 0.5s;
+    }
+    
+    .circle-3 {
+      background: #FF6A00;
+      bottom: 20%;
+      left: 50%;
+      animation: appearDisappear 2s infinite 1s;
+    }
+    
+    .circle-4 {
+      background: #1E6FE3;
+      top: 30%;
+      right: 30%;
+      animation: appearDisappear 2s infinite 1.5s;
+    }
+    
+    .circle-5 {
+      background: #FF6A00;
+      bottom: 30%;
+      left: 30%;
+      animation: appearDisappear 2s infinite 2s;
+    }
+    
+    .circle-6 {
+      background: #1E6FE3;
+      top: 50%;
+      left: 20%;
+      animation: appearDisappear 2s infinite 2.5s;
+    }
+    
+    .circle:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+    }
+    
+    .timer {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    @keyframes appearDisappear {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      20% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      80% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div>Демо: Охота на кружки — Senza</div>
+      <a class="btn" href="../demo.html">← Назад к демо</a>
+    </div>
+  </header>
+  <div class="container">
+    <div class="demo-container">
+      <div class="tablet-frame-demo">
+        <div class="tablet-screen-demo">
+          <div class="tablet-content-demo">
+            <div class="demo-game">
+              <div class="demo-header">
+                <h3>🎯 Охота на кружки</h3>
+                <div class="demo-status">Демо режим</div>
+              </div>
+              <div class="demo-gif">
+                <div class="game-animation">
+                  <div class="game-area">
+                    <div class="player-area player1">
+                      <div class="player-label">Игрок 1</div>
+                      <div class="circles-container">
+                        <div class="circle circle-1"></div>
+                        <div class="circle circle-2"></div>
+                        <div class="circle circle-3"></div>
+                      </div>
+                    </div>
+                    <div class="player-area player2">
+                      <div class="player-label">Игрок 2</div>
+                      <div class="circles-container">
+                        <div class="circle circle-4"></div>
+                        <div class="circle circle-5"></div>
+                        <div class="circle circle-6"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="timer">⏱️ 20с</div>
+                </div>
+              </div>
+              <div class="demo-controls">
+                <button class="demo-btn" onclick="playDemo()">▶️ Запустить демо</button>
+              </div>
+              <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 14px; color: #666;">
+                <strong>Как играть:</strong><br/>
+                • Быстро нажимай на появляющиеся кружки<br/>
+                • Чем быстрее нажимаешь, тем больше очков<br/>
+                • Играй вдвоём - у каждого своя половина экрана<br/>
+                • Кто наберёт больше очков за 20 секунд?
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let isPlaying = false;
+    let score1 = 0;
+    let score2 = 0;
+    
+    function playDemo() {
+      const btn = document.querySelector('.demo-btn');
+      const circles = document.querySelectorAll('.circle');
+      
+      if (!isPlaying) {
+        isPlaying = true;
+        btn.textContent = '⏸️ Остановить демо';
+        
+        // Добавляем интерактивность к кружкам
+        circles.forEach(circle => {
+          circle.addEventListener('click', handleCircleClick);
+        });
+        
+        // Запускаем таймер
+        startTimer();
+      } else {
+        isPlaying = false;
+        btn.textContent = '▶️ Запустить демо';
+        
+        // Убираем интерактивность
+        circles.forEach(circle => {
+          circle.removeEventListener('click', handleCircleClick);
+        });
+      }
+    }
+    
+    function handleCircleClick(event) {
+      const circle = event.target;
+      circle.style.background = '#4CAF50';
+      circle.style.transform = 'scale(1.3)';
+      
+      // Подсчет очков
+      if (circle.classList.contains('circle-1') || 
+          circle.classList.contains('circle-2') || 
+          circle.classList.contains('circle-3')) {
+        score1++;
+      } else {
+        score2++;
+      }
+      
+      setTimeout(() => {
+        circle.style.background = circle.classList.contains('circle-1') || 
+                                 circle.classList.contains('circle-3') || 
+                                 circle.classList.contains('circle-5') ? '#FF6A00' : '#1E6FE3';
+        circle.style.transform = 'scale(1)';
+      }, 200);
+    }
+    
+    function startTimer() {
+      let timeLeft = 20;
+      const timer = document.querySelector('.timer');
+      
+      const countdown = setInterval(() => {
+        if (!isPlaying) {
+          clearInterval(countdown);
+          return;
+        }
+        
+        timer.textContent = `⏱️ ${timeLeft}с`;
+        timeLeft--;
+        
+        if (timeLeft < 0) {
+          clearInterval(countdown);
+          timer.textContent = `🏁 Игра окончена! Счет: ${score1} - ${score2}`;
+          isPlaying = false;
+          document.querySelector('.demo-btn').textContent = '▶️ Запустить демо';
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>

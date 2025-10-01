@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Запомни цвет</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop" aria-label="Вернуться в меню (верх)">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🎨 Запомни цвет</span></div>
+      </div>
+      <div class="score" id="scoreTop">Уровень: 1</div>
+      <button class="btn" id="btnNewTop" aria-label="Новая партия (верх)">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+    </div>
+  </header>
+
+  <!-- Игровая зона -->
+  <main class="stage">
+    <div id="stage">
+      <!-- Игровое поле будет создано динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom (без поворота) -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom" aria-label="Вернуться в меню (низ)">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🎨 Запомни цвет</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Уровень: 1</div>
+      <button class="btn" id="btnNewBottom" aria-label="Новая партия (низ)">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора сложности -->
+  <div id="difficultyModal" class="modal-backdrop" role="dialog" aria-modal="true" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🎨 Запомни цвет</div>
+      <div class="modal-subtitle">Запомни позиции целевого цвета на поле 5×5!</div>
+      
+      <div class="difficulty-grid">
+        <button class="difficulty-option" data-level="2">
+          <div class="difficulty-name">Лёгкий</div>
+          <div class="difficulty-count">2</div>
+        </button>
+        <button class="difficulty-option" data-level="4">
+          <div class="difficulty-name">Средний</div>
+          <div class="difficulty-count">4</div>
+        </button>
+        <button class="difficulty-option" data-level="6">
+          <div class="difficulty-name">Высокий</div>
+          <div class="difficulty-count">6</div>
+        </button>
+        <button class="difficulty-option" data-level="8">
+          <div class="difficulty-name">Экстра</div>
+          <div class="difficulty-count">8</div>
+        </button>
+        <button class="difficulty-option" data-level="10">
+          <div class="difficulty-name">Вассерман</div>
+          <div class="difficulty-count">10</div>
+        </button>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модалка результата -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden style="display: none !important;">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Финальный счёт: 0</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goToMenu() {
+      window.location.href = '../../index.html';
+    }
+  </script>
+  <script src="game.js"></script>
+</body>
+</html>

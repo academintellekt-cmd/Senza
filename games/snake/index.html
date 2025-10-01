@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Змейка</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🐍 Змейка</span></div>
+      </div>
+      <div class="score" id="scoreTop">Скорость: 1</div>
+      <div class="player-controls-hud" id="player1Controls" style="display: none;">
+        <div class="player-info red">Игрок 1</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="0" data-action="left">←</button>
+          <button class="control-btn" data-player="0" data-action="right">→</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🐍 Змейка</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Скорость: 1</div>
+      <div class="player-controls-hud" id="player2Controls" style="display: none;">
+        <div class="player-info green">Игрок 2</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="1" data-action="left">←</button>
+          <button class="control-btn" data-player="1" data-action="right">→</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора настроек -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🐍 Змейка</div>
+      <div class="modal-subtitle">Выберите настройки игры</div>
+      <div class="snake-settings">
+        <div class="setting-group">
+          <h3>Количество игроков:</h3>
+          <div class="player-options">
+            <button class="player-option" data-players="1">1 игрок</button>
+            <button class="player-option selected" data-players="2">2 игрока</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <h3>Тип поля:</h3>
+          <div class="field-options">
+            <button class="field-option selected" data-field="empty">Пустое поле (телепорт)</button>
+            <button class="field-option" data-field="bordered">С рамкой</button>
+            <button class="field-option" data-field="donut">Поле-бублик</button>
+          </div>
+        </div>
+        <button class="btn start-game-btn" id="startGameBtn">Начать игру</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden style="display: none !important;">
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Победитель: Красный</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

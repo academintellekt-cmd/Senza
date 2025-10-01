@@ -1,0 +1,451 @@
+/* --- Style guide variables --- */
+:root{
+  --bg:#F6F7FB;
+  --card:#FFFFFF;
+  --text:#0F172A;
+  --muted:#64748B;
+  --line:#E5E7EB;
+  --accent:#FF6A00;
+  --blue:#2563EB;
+  --shadow:0 12px 28px rgba(15,23,42,.06);
+  
+  /* Цвета для игры из брендбука */
+  --color-red: #FE112E;
+  --color-blue: #1E6FE3;
+  --color-green: #2ED573;
+  --color-yellow: #FFE23F;
+  --color-cyan: #17A2B8;
+  --color-purple: #A55EEA;
+  --color-orange: #FE7800;
+  --color-white: #FFFFFF;
+  
+  /* Игровые цвета */
+  --neutral-color: #F6F7FB;
+  --target-color: #FF6A00;
+  --success-color: #2ED573;
+  --error-color: #FE112E;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: Involve, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* HUD */
+.hud{position:fixed; left:0; right:0; z-index:1000; background:var(--card); color:var(--text);}
+.hud-top{top:0; border-bottom:1px solid var(--line);}
+.hud-bottom{bottom:0; border-top:1px solid var(--line);}
+.hud-row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:12px clamp(12px, 3vw, 28px);
+  max-width:1400px; margin:0 auto;
+}
+.hud-rotated{ transform: rotate(180deg); }
+.hud-center{display:flex; flex-direction:column; align-items:center; gap:4px}
+.turn-label{font-weight:700; font-size:clamp(16px, 2.2vw, 24px)}
+.score{font-size:clamp(14px, 1.8vw, 20px)}
+
+/* Buttons */
+.btn{
+  appearance:none; border:1px solid var(--line);
+  background:#fff; color:var(--text);
+  padding:10px 16px; border-radius:12px; font-weight:600;
+  cursor:pointer; transition: all .2s ease; box-shadow: none;
+}
+.btn:hover{ border-color:var(--accent); color:#fff; background:var(--accent); box-shadow:0 10px 20px rgba(255,106,0,.18); }
+.btn:active{ transform: translateY(1px); }
+.btn-ghost{ background:#fff; border-color:var(--line); }
+.btn-ghost:hover{ border-color:var(--accent); background:#fff; color:var(--accent); }
+
+/* Stage */
+.stage{
+  height:100%;
+  display:flex; align-items:center; justify-content:center;
+  padding:90px 16px;
+}
+
+/* Игровое поле 5x5 */
+#stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.game-field {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  width: calc(100vw - 32px);
+  height: calc(100vh - 200px);
+  max-width: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  margin: 0 auto;
+}
+
+.field-cell {
+  position: relative;
+  background: var(--neutral-color);
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 40px;
+  min-height: 40px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.field-cell:hover {
+  box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  transform: scale(1.02);
+}
+
+.field-cell:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+.field-cell.selected {
+  border-color: var(--accent);
+  border-width: 4px;
+  box-shadow: 0 0 0 4px rgba(255,106,0,.3), 0 4px 12px rgba(255,106,0,.2);
+  animation: pulse 0.6s ease-in-out;
+  background: rgba(255,106,0,0.1);
+}
+
+.field-cell.correct {
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px rgba(46,213,115,.18);
+}
+
+.field-cell.wrong {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(254,17,46,.18);
+  animation: shake 0.5s ease-in-out;
+}
+
+.field-cell.wrong::after {
+  content: '✗';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: var(--error-color);
+  background: var(--card);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+
+.field-cell.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Эталон цвета */
+.color-sample {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 160px !important;
+  height: 160px !important;
+  border-radius: 50% !important;
+  border: none !important;
+  z-index: 2001 !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.color-sample.showing {
+  animation: pulse 0.8s ease-in-out infinite;
+  box-shadow: 0 0 30px rgba(255,106,0,0.4);
+  border-color: var(--accent);
+}
+
+/* HUD элементы для статуса */
+.hud-status {
+  font-size: clamp(12px, 1.5vw, 16px);
+  font-weight: 600;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.hud-status.showing-target {
+  color: var(--accent);
+  background: rgba(255, 106, 0, 0.1);
+}
+
+.hud-status.showing-field {
+  color: var(--blue);
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.hud-status.remembering {
+  color: var(--success-color);
+  background: rgba(46, 213, 115, 0.1);
+}
+
+.hud-status.checking {
+  color: var(--purple);
+  background: rgba(165, 94, 234, 0.1);
+}
+
+.hud-status.correct {
+  color: var(--success-color);
+  background: rgba(46, 213, 115, 0.2);
+}
+
+.hud-status.wrong {
+  color: var(--error-color);
+  background: rgba(254, 17, 46, 0.2);
+}
+
+.hud-status.progress {
+  color: var(--accent);
+  background: rgba(255, 106, 0, 0.1);
+  font-weight: 700;
+  font-size: clamp(16px, 2vw, 20px);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+}
+
+.hud-status.play-again {
+  color: var(--blue);
+  background: rgba(37, 99, 235, 0.1);
+  font-weight: 600;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Кнопка проверки в HUD */
+.hud-check-btn {
+  appearance: none;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-size: clamp(12px, 1.5vw, 16px);
+}
+
+.hud-check-btn:hover {
+  background: rgba(255, 106, 0, 0.9);
+  transform: translateY(-1px);
+}
+
+.hud-check-btn:disabled {
+  background: var(--muted);
+  border-color: var(--muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-backdrop.hidden {
+  display: none !important;
+}
+
+.modal {
+  width: min(90vw, 520px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  transform: scale(.98);
+  opacity: 0;
+  animation: pop .24s ease forwards;
+}
+
+@keyframes pop {
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.modal-subtitle {
+  margin: 0 0 24px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Сетка выбора сложности */
+.difficulty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.difficulty-option {
+  appearance: none;
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 16px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: none;
+  text-align: center;
+}
+
+.difficulty-option:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(255,106,0,.18);
+  transform: translateY(-2px);
+}
+
+.difficulty-option:active {
+  transform: translateY(0);
+}
+
+.difficulty-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.difficulty-count {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.difficulty-option:hover .difficulty-count {
+  color: #fff;
+}
+
+/* Анимации */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  .modal {
+    width: 95vw;
+    padding: 16px;
+  }
+  
+  .difficulty-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .difficulty-option {
+    padding: 12px 8px;
+  }
+  
+  .difficulty-name {
+    font-size: 14px;
+  }
+  
+  .difficulty-count {
+    font-size: 20px;
+  }
+  
+  .game-field {
+    width: min(85vmin, 300px);
+    height: min(85vmin, 300px);
+    padding: 8px;
+    gap: 6px;
+  }
+  
+  .field-cell {
+    min-width: 30px;
+    min-height: 30px;
+  }
+  
+  .color-sample {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .game-status {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+  
+  .selection-status {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}

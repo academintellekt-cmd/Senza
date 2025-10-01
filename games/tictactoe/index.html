@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Крестики-нолики — 3×3 (перемещение)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop" aria-label="Вернуться в меню (верх)">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">Ход X</span></div>
+      </div>
+      <div class="score" id="scoreTop">Победы: 0 – 0</div>
+      <button class="btn" id="btnNewTop" aria-label="Новая партия (верх)">Новая партия ↻</button>
+    </div>
+  </header>
+
+  <!-- Игровая зона -->
+  <main class="stage">
+    <div class="board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
+  </main>
+
+  <!-- HUD Bottom (без поворота) -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom" aria-label="Вернуться в меню (низ)">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">Ход X</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Победы: 0 – 0</div>
+      <button class="btn" id="btnNewBottom" aria-label="Новая партия (низ)">Новая партия ↻</button>
+    </div>
+  </footer>
+
+  <!-- Модалка результата -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 class="modal-title" id="modalTitle">Победа X</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Три в ряд</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

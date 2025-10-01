@@ -1,0 +1,504 @@
+# 📋 ТЕХНИЧЕСКОЕ ЗАДАНИЕ: Создание игр в едином стиле
+
+## 🎯 ОБЩИЕ ТРЕБОВАНИЯ
+
+### Структура проекта:
+```
+games/
+  название-игры/
+    index.html
+    style.css  
+    game.js
+```
+
+### Обязательные элементы:
+- HUD панели сверху и снизу
+- Модальные окна (выбор сложности, результаты)
+- Адаптивное игровое поле
+- Система уровней и очков
+- Кнопки навигации
+
+---
+
+## 📄 HTML ШАБЛОН
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>НАЗВАНИЕ ИГРЫ</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🎮 НАЗВАНИЕ ИГРЫ</span></div>
+      </div>
+      <div class="score" id="scoreTop">Уровень: 1</div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🎮 НАЗВАНИЕ ИГРЫ</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Уровень: 1</div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора сложности -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🎮 НАЗВАНИЕ ИГРЫ</div>
+      <div class="modal-subtitle">Выберите уровень сложности</div>
+      <div class="difficulty-options">
+        <button class="difficulty-option" data-level="2">Лёгкий (2)</button>
+        <button class="difficulty-option" data-level="4">Средний (4)</button>
+        <button class="difficulty-option" data-level="6">Высокий (6)</button>
+        <button class="difficulty-option" data-level="8">Экстра (8)</button>
+        <button class="difficulty-option" data-level="10">Вассерман (10)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden style="display: none !important;">
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Финальный счёт: 0</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+```
+
+---
+
+## 🎨 CSS ШАБЛОН
+
+```css
+/* Подключение корневых стилей */
+@import url('../../style.css');
+
+/* Игровой контейнер */
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 16px;
+  background: var(--background);
+}
+
+/* Игровое поле */
+.game-field {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  width: calc(100vw - 32px);
+  height: calc(100vh - 200px);
+  max-width: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  padding: 12px;
+  margin: 0 auto;
+}
+
+/* Клетки поля */
+.field-cell {
+  position: relative;
+  background: var(--neutral-color);
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.field-cell:hover {
+  box-shadow: 0 8px 18px rgba(15,23,42,.08);
+  transform: scale(1.02);
+}
+
+.field-cell:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+.field-cell.selected {
+  border-color: var(--accent);
+  border-width: 4px;
+  box-shadow: 0 0 0 4px rgba(255,106,0,.3), 0 4px 12px rgba(255,106,0,.2);
+  animation: pulse 0.6s ease-in-out;
+  background: rgba(255,106,0,0.1);
+}
+
+/* HUD кнопка проверки */
+.hud-check-btn {
+  appearance: none;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-size: clamp(12px, 1.5vw, 16px);
+}
+
+.hud-check-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.hud-check-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Анимации */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+```
+
+---
+
+## ⚙️ JAVASCRIPT ШАБЛОН
+
+```javascript
+// НАЗВАНИЕ ИГРЫ - полноэкранная версия
+(() => {
+  // КОНФИГУРАЦИЯ ИГРЫ
+  const GAME_CONFIG = {
+    name: 'НАЗВАНИЕ ИГРЫ',
+    icon: '🎮',
+    colors: [
+      { name: 'red', value: '#FE112E', display: 'Красный' },
+      { name: 'blue', value: '#1E6FE3', display: 'Синий' },
+      { name: 'green', value: '#2ED573', display: 'Зелёный' },
+      { name: 'yellow', value: '#FFE23F', display: 'Жёлтый' },
+      { name: 'cyan', value: '#17A2B8', display: 'Голубой' },
+      { name: 'purple', value: '#A55EEA', display: 'Фиолетовый' },
+      { name: 'orange', value: '#FE7800', display: 'Оранжевый' }
+    ],
+    difficulties: [
+      { level: 2, name: 'Лёгкий', count: 2 },
+      { level: 4, name: 'Средний', count: 4 },
+      { level: 6, name: 'Высокий', count: 6 },
+      { level: 8, name: 'Экстра', count: 8 },
+      { level: 10, name: 'Вассерман', count: 10 }
+    ]
+  };
+
+  // СОСТОЯНИЕ ИГРЫ
+  const gameState = {
+    currentDifficulty: 2,
+    score: 0,
+    level: 1,
+    isPlaying: false,
+    gamePhase: 'selecting', // 'selecting', 'playing', 'checking', 'finished'
+    isWin: false,
+    // ДОБАВИТЬ СПЕЦИФИЧНЫЕ ДЛЯ ИГРЫ ПОЛЯ
+  };
+
+  // DOM ЭЛЕМЕНТЫ
+  let stage, gameField;
+  let hudCheckTop, hudCheckBottom;
+
+  // ИНИЦИАЛИЗАЦИЯ
+  function initGame() {
+    stage = document.getElementById('stage');
+    if (!stage) return;
+    
+    createGameInterface();
+    updateDisplay();
+    bindEvents();
+    showDifficultyModal();
+  }
+
+  // СОЗДАНИЕ ИНТЕРФЕЙСА
+  function createGameInterface() {
+    stage.innerHTML = `
+      <div class="game-field" id="gameField" style="display: none;">
+        <!-- ИГРОВЫЕ ЭЛЕМЕНТЫ СОЗДАЮТСЯ ДИНАМИЧЕСКИ -->
+      </div>
+    `;
+    
+    gameField = document.getElementById('gameField');
+    hudCheckTop = document.getElementById('hudCheckTop');
+    hudCheckBottom = document.getElementById('hudCheckBottom');
+  }
+
+  // ОБЯЗАТЕЛЬНЫЕ ФУНКЦИИ
+  function updateDisplay() {
+    const scoreTop = document.getElementById('scoreTop');
+    const scoreBottom = document.getElementById('scoreBottom');
+    if (scoreTop) scoreTop.textContent = `Уровень: ${gameState.level}`;
+    if (scoreBottom) scoreBottom.textContent = `Уровень: ${gameState.level}`;
+    
+    if (!gameState.isPlaying) {
+      const turnLabelTop = document.getElementById('turnLabelTop');
+      const turnLabelBottom = document.getElementById('turnLabelBottom');
+      if (turnLabelTop) turnLabelTop.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      if (turnLabelBottom) turnLabelBottom.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+    }
+  }
+
+  function updateHUDInfo(text) {
+    const turnLabelTop = document.getElementById('turnLabelTop');
+    const turnLabelBottom = document.getElementById('turnLabelBottom');
+    if (turnLabelTop) turnLabelTop.textContent = text;
+    if (turnLabelBottom) turnLabelBottom.textContent = text;
+  }
+
+  function showHUDCheckButton() {
+    if (hudCheckTop) hudCheckTop.style.display = 'block';
+    if (hudCheckBottom) hudCheckBottom.style.display = 'block';
+  }
+
+  function hideHUDCheckButton() {
+    if (hudCheckTop) hudCheckTop.style.display = 'none';
+    if (hudCheckBottom) hudCheckBottom.style.display = 'none';
+  }
+
+  function resetGame() {
+    gameState.score = 0;
+    gameState.level = 1;
+    gameState.isPlaying = false;
+    gameState.gamePhase = 'selecting';
+    gameState.isWin = false;
+    
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    if (modalBackdrop) modalBackdrop.hidden = true;
+    
+    if (gameField) gameField.style.display = 'none';
+    hideHUDCheckButton();
+    
+    showDifficultyModal();
+    updateDisplay();
+  }
+
+  // МОДАЛЬНЫЕ ОКНА
+  function showDifficultyModal() {
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    if (modalBackdrop) modalBackdrop.hidden = true;
+    
+    const difficultyModal = document.getElementById('difficultyModal');
+    if (difficultyModal) difficultyModal.style.display = 'flex';
+  }
+
+  function hideDifficultyModal() {
+    const difficultyModal = document.getElementById('difficultyModal');
+    if (difficultyModal) difficultyModal.style.display = 'none';
+  }
+
+  function showEndModal() {
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    
+    if (modalBackdrop && modalTitle && modalSubtitle) {
+      modalTitle.textContent = 'Игра окончена!';
+      modalSubtitle.textContent = `Финальный счёт: ${gameState.score} очков, пройдено ${gameState.level - 1} уровней`;
+      modalBackdrop.hidden = false;
+    }
+  }
+
+  // ОБРАБОТЧИКИ СОБЫТИЙ
+  function bindEvents() {
+    // Выбор сложности
+    const difficultyOptions = document.querySelectorAll('.difficulty-option');
+    difficultyOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        const level = parseInt(e.currentTarget.dataset.level);
+        gameState.currentDifficulty = level;
+        hideDifficultyModal();
+        startGame();
+      });
+    });
+
+    // Кнопки HUD
+    const btnNewTop = document.getElementById('btnNewTop');
+    const btnNewBottom = document.getElementById('btnNewBottom');
+    const btnBackTop = document.getElementById('btnBackTop');
+    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnRematch = document.getElementById('btnRematch');
+    const btnToMenu = document.getElementById('btnToMenu');
+    
+    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
+    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
+    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnRematch) btnRematch.addEventListener('click', () => {
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      if (modalBackdrop) modalBackdrop.hidden = true;
+      if (gameState.isWin) {
+        nextLevel();
+      } else {
+        resetGame();
+      }
+    });
+    if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../../index.html');
+
+    // Кнопки проверки
+    if (hudCheckTop) hudCheckTop.addEventListener('click', checkResult);
+    if (hudCheckBottom) hudCheckBottom.addEventListener('click', checkResult);
+  }
+
+  // АЛГОРИТМ ИГРЫ (ИЗМЕНИТЬ ПОД КОНКРЕТНУЮ ИГРУ)
+  function startGame() {
+    gameState.isPlaying = true;
+    gameState.gamePhase = 'playing';
+    // ИНИЦИАЛИЗАЦИЯ ИГРОВЫХ ДАННЫХ
+    updateDisplay();
+    showGameInstructions();
+  }
+
+  function showGameInstructions() {
+    updateHUDInfo('Инструкция для игрока');
+    setTimeout(() => {
+      startGameplay();
+    }, 2000);
+  }
+
+  function startGameplay() {
+    updateHUDInfo('Играйте!');
+    createGameField();
+    enableFieldInteraction();
+    updateSelectionStatus();
+  }
+
+  function checkResult() {
+    gameState.gamePhase = 'checking';
+    updateHUDInfo('Проверяем результат...');
+    
+    const result = calculateResult();
+    
+    if (result.isPerfect) {
+      gameState.score += gameState.currentDifficulty * 10;
+      gameState.level++;
+      gameState.isWin = true;
+      
+      updateHUDInfo('Отлично! Все правильно!');
+      
+      setTimeout(() => {
+        nextLevel();
+      }, 2000);
+    } else {
+      gameState.isWin = false;
+      updateHUDInfo(`Результат: ${result.correct}/${result.total}`);
+      
+      setTimeout(() => {
+        endGame();
+      }, 3000);
+    }
+    
+    hideHUDCheckButton();
+    updateDisplay();
+  }
+
+  function nextLevel() {
+    // СБРОС ИГРОВЫХ ДАННЫХ
+    if (gameField) gameField.style.display = 'none';
+    
+    // УВЕЛИЧЕНИЕ СЛОЖНОСТИ
+    if (gameState.level % 3 === 0 && gameState.currentDifficulty < 10) {
+      gameState.currentDifficulty = Math.min(10, gameState.currentDifficulty + 2);
+    }
+    
+    updateDisplay();
+    startGame();
+  }
+
+  function endGame() {
+    gameState.isPlaying = false;
+    gameState.gamePhase = 'finished';
+    
+    hideHUDCheckButton();
+    updateHUDInfo('Давай сыграем еще?');
+    showEndModal();
+  }
+
+  // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // ЗАПУСК ИГРЫ
+  document.addEventListener('DOMContentLoaded', initGame);
+  
+  // ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ НАВИГАЦИИ
+  window.goToMenu = () => {
+    window.location.href = '../../index.html';
+  };
+})();
+```
+
+---
+
+## 📝 ЧЕКЛИСТ ДЛЯ НОВОЙ ИГРЫ
+
+### Обязательные изменения:
+- [ ] Заменить "НАЗВАНИЕ ИГРЫ" на реальное название
+- [ ] Заменить "🎮" на подходящую иконку
+- [ ] Реализовать функции: `createGameField()`, `enableFieldInteraction()`, `updateSelectionStatus()`, `calculateResult()`
+- [ ] Добавить специфичные поля в `gameState`
+- [ ] Настроить логику геймплея в `startGame()`, `showGameInstructions()`, `startGameplay()`
+
+### Опциональные изменения:
+- [ ] Изменить размер игрового поля (если не 5×5)
+- [ ] Добавить специфичные анимации
+- [ ] Настроить цвета и стили под игру
+- [ ] Добавить звуковые эффекты
+
+### Тестирование:
+- [ ] Все кнопки HUD работают
+- [ ] Переходы между уровнями
+- [ ] Модальные окна
+- [ ] Адаптивность
+- [ ] Производительность
+
+---
+
+**Теперь просто копируйте этот шаблон и меняйте только алгоритм игры!** 🚀
+
+
