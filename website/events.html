@@ -3,8 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Senza — интерактивный сенсорный стол 43" | Time Quest Lab</title>
-  <!-- Fullscreen player fields with 24px circles - v2.1 -->
+  <title>Senza — интерактивные активности для мероприятий | Event Solutions</title>
   
   <!-- Google tag (gtag.js) — replace G-XXXXXXXXXX with your GA4 Measurement ID -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -26,10 +25,10 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/00000000" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 
-  <meta name="description" content="Интерактивный мини-аттракцион «Senza»: сенсорный стол 43″ с наборами игр на реакцию, логику, внимание, память и скорость. Полностью автономен, мобильный, окупаемость 2–4 месяца.">
+  <meta name="description" content="Интерактивный стол Senza для event-агентств: уникальные активности для корпоративов, презентаций, выставок. Вовлекайте гостей в игровые активности и создавайте незабываемые впечатления.">
   <link rel="icon" href="../shared/img/logo_ruj.png">
   <style>
-/* Brand fonts (placeholders; replace with real files in /assets/fonts/) */
+/* Brand fonts */
 @font-face { font-family: 'Bowler'; src: url('../shared/fonts/BOWLER.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Involve'; src: url('../shared/fonts/Involve-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: 'Involve'; src: url('../shared/fonts/Involve-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
@@ -98,48 +97,31 @@ html{scroll-padding-top:120px}
 .card h3{margin:0 0 8px;font-size:18px}
 .card p{margin:0;color:var(--muted);font-size:14px}
 
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:8px}
-.kpis .kpi{background:#fff;border:2px solid rgba(254,120,0,0.1);border-radius:16px;padding:16px;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
-.kpis .kpi:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(254,120,0,0.15);border-color:var(--orange);background:linear-gradient(135deg, rgba(254,120,0,0.02), rgba(30,111,227,0.02))}
-.kpis .kpi::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg, rgba(254,120,0,0.05), rgba(30,111,227,0.05));opacity:0;transition:opacity 0.3s ease}
-.kpis .kpi:hover::before{opacity:1}
-.kpi strong{display:block;font-size:22px;margin-bottom:6px}
-
 .cta{padding:48px 0 64px;background:var(--bg)}
 .cta-inner{background:#fff;border:1px solid #f5c99c;border-radius:20px;padding:28px;text-align:center;box-shadow:0 12px 34px rgba(254,120,0,0.15)}
 .cta h3{font-family:'Bowler','Involve',sans-serif;font-size:clamp(26px,3.2vw,36px);margin-top:0}
 .footer{padding:28px 0;border-top:1px solid #e5e7eb;color:var(--muted);font-size:14px}
 
-/* Projects Grid */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-top:24px}
-.project-card{display:flex;align-items:center;gap:16px;padding:20px;background:var(--card);border:1px solid rgba(0,0,0,0.06);border-radius:16px;text-decoration:none;color:var(--text);transition:all 0.3s ease;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.project-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.12);text-decoration:none;color:var(--text)}
-.project-card:hover .project-arrow{transform:translateX(4px)}
-.project-icon{font-size:32px;flex-shrink:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(254,120,0,0.1)}
-.project-content{flex:1;min-width:0}
-.project-content h3{margin:0 0 6px;font-size:18px;font-weight:600;color:var(--text)}
-.project-content p{margin:0 0 8px;font-size:14px;color:var(--muted);line-height:1.4}
-.project-stats{font-size:12px;font-weight:600;color:var(--orange);background:rgba(254,120,0,0.1);padding:4px 8px;border-radius:6px;display:inline-block}
-.project-arrow{font-size:18px;color:var(--orange);transition:transform 0.2s ease;flex-shrink:0}
+/* Event-specific styles */
+.event-scenarios{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:24px}
+.scenario-card{background:var(--card);border:1px solid rgba(0,0,0,0.06);border-radius:16px;padding:24px;box-shadow:var(--shadow);transition:all 0.3s ease;position:relative;overflow:hidden}
+.scenario-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.12)}
+.scenario-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg, var(--orange), var(--blue));opacity:0;transition:opacity 0.3s ease}
+.scenario-card:hover::before{opacity:1}
+.scenario-icon{font-size:48px;margin-bottom:16px;display:block}
+.scenario-card h3{margin:0 0 12px;font-size:20px;font-weight:600}
+.scenario-card p{margin:0 0 16px;color:var(--muted);line-height:1.5}
+.scenario-features{list-style:none;padding:0;margin:0}
+.scenario-features li{padding:4px 0;color:var(--muted);font-size:14px}
+.scenario-features li:before{content:'✓';color:var(--orange);font-weight:bold;margin-right:8px}
 
-/* Project Card Themes */
-.youtube-card:hover{border-color:#ff0000;box-shadow:0 20px 40px rgba(255,0,0,0.15)}
-.telegram-card:hover{border-color:#0088cc;box-shadow:0 20px 40px rgba(0,136,204,0.15)}
-.website-card:hover{border-color:#1E6FE3;box-shadow:0 20px 40px rgba(30,111,227,0.15)}
-.lava-card:hover{border-color:#ff6b00;box-shadow:0 20px 40px rgba(255,107,0,0.15)}
-.vr-card:hover{border-color:#8b5cf6;box-shadow:0 20px 40px rgba(139,92,246,0.15)}
-.rutube-card:hover{border-color:#00a8ff;box-shadow:0 20px 40px rgba(0,168,255,0.15)}
-
-@media (max-width: 980px){.hero-grid{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.projects-grid{grid-template-columns:1fr}}
-@media (max-width: 1200px){.options-grid{max-width:900px !important}}
-@media (max-width: 900px){.options-grid{max-width:700px !important}}
-@media (max-width: 768px){.options-grid{grid-template-columns:1fr !important; max-width:500px !important}}
 /* Force large circle size for fullscreen fields */
 .hunt-game .circle {
   width: 24px !important;
   height: 24px !important;
 }
 
+@media (max-width: 980px){.hero-grid{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.event-scenarios{grid-template-columns:1fr}}
 @media (max-width: 768px){
   .demo-games-grid{grid-template-columns:1fr !important}
   .demo-game-card{padding:15px !important}
@@ -152,17 +134,14 @@ html{scroll-padding-top:120px}
     <div class="container header-inner">
       <div class="logo-wrap">
         <img src="../shared/img/logo_ru_horizontal.png" alt="Time Quest Lab" />
-        <div class="brand">Пол — это Лава</div>
+        <div class="brand">Event Solutions</div>
       </div>
       <nav class="nav">
-        <a href="../index.html">← Главная</a>
         <a href="#product">Продукт</a>
+        <a href="#scenarios">Сценарии</a>
         <a href="#demo">Демо игр</a>
         <a href="#benefits">Преимущества</a>
-        <a href="#gameplay">Игровой процесс</a>
-        <a href="#options">Комплектация</a>
-        <a href="#economics">Экономика</a>
-        <a href="#projects">Проекты</a>
+        <a href="#contact">Контакты</a>
       </nav>
     </div>
   </header>
@@ -170,21 +149,19 @@ html{scroll-padding-top:120px}
   <section class="hero" id="product">
     <div class="container hero-grid">
       <div>
-        <h1>Senza — интерактивный сенсорный стол 43″</h1>
-        <p class="lead">Компактный мини‑аттракцион с наборами игр на реакцию, логику, внимание, память и скорость. Полностью автономен: просто подключите питание — и играйте.</p>
+        <h1>Senza — интерактивные активности для ваших мероприятий</h1>
+        <p class="lead">Инновационный интерактивный стол, который превратит любое мероприятие в незабываемое событие. Вовлекайте гостей в командные игры, создавайте networking-активности и удивляйте уникальными развлечениями.</p>
         <div class="badges">
           <span class="badge">43″ Multi‑Touch экран</span>
-          <span class="badge">Полная автономность</span>
-          <span class="badge">30+ игр в базе</span>
-          <span class="badge">Ежемесячные обновления</span>
-          <span class="badge">Высокая проходимость</span>
-          <span class="badge">До 4 игроков</span>
-          <span class="badge">Окупаемость 2-4 месяца</span>
-          <span class="badge">Кастомизация под бренд</span>
+          <span class="badge">Готовые сценарии</span>
+          <span class="badge">Брендинг под событие</span>
+          <span class="badge">Простая установка</span>
+          <span class="badge">Фото/видео контент</span>
+          <span class="badge">Аналитика активности</span>
         </div>
         <div style="display:flex;gap:10px;margin-top:18px;">
-          <a href="#economics" class="btn">Узнать цену</a>
-          <a href="#projects" class="btn btn-outline">Наши проекты</a>
+          <a href="#contact" class="btn">Получить предложение</a>
+          <a href="#cases" class="btn btn-outline">Посмотреть кейсы</a>
         </div>
       </div>
       <div class="hero-card">
@@ -200,14 +177,96 @@ html{scroll-padding-top:120px}
     </div>
   </section>
 
-  <section class="section" id="demo" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+  <section class="section" id="scenarios">
     <div class="container">
-      <h2 style="text-align: center; margin-bottom: 20px;">🎮 Демо игр</h2>
+      <h2 style="text-align: center; margin-bottom: 20px;">🎭 Сценарии использования</h2>
       <p style="text-align: center; color: var(--muted); margin-bottom: 40px; font-size: 18px;">
-        Посмотрите, как работают игры на сенсорном столе 43″
+        Готовые решения для любого типа мероприятий
       </p>
       
-      <div class="demo-games-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;">
+      <div class="event-scenarios">
+        
+        <div class="scenario-card">
+          <span class="scenario-icon">🏢</span>
+          <h3>Корпоративные мероприятия</h3>
+          <p>Сплотите команду через совместные игровые активности. Идеально для тимбилдингов, корпоративов и презентаций новых продуктов.</p>
+          <ul class="scenario-features">
+            <li>Командные турниры и соревнования</li>
+            <li>Ледоколы для знакомства сотрудников</li>
+            <li>Интерактивные презентации продуктов</li>
+            <li>Брендинг в корпоративных цветах</li>
+          </ul>
+        </div>
+
+        <div class="scenario-card">
+          <span class="scenario-icon">🎪</span>
+          <h3>Выставки и конференции</h3>
+          <p>Привлекайте посетителей к вашему стенду и создавайте очереди. Собирайте контакты через игровую механику и увеличивайте конверсию.</p>
+          <ul class="scenario-features">
+            <li>Сбор лидов через игровые активности</li>
+            <li>Демонстрация продуктов в игровой форме</li>
+            <li>Фотозоны с брендированным контентом</li>
+            <li>Аналитика вовлеченности посетителей</li>
+          </ul>
+        </div>
+
+        <div class="scenario-card">
+          <span class="scenario-icon">🎉</span>
+          <h3>Частные мероприятия</h3>
+          <p>Добавьте изюминку в дни рождения, свадьбы и семейные праздники. Развлечение для гостей всех возрастов с персонализированным контентом.</p>
+          <ul class="scenario-features">
+            <li>Персонализированные игры с фото</li>
+            <li>Развлечения для детей и взрослых</li>
+            <li>Создание памятных моментов</li>
+            <li>Интеграция с фотосессией</li>
+          </ul>
+        </div>
+
+        <div class="scenario-card">
+          <span class="scenario-icon">🛍️</span>
+          <h3>Retail и промо-акции</h3>
+          <p>Увеличьте время пребывания клиентов в точке продаж. Проводите промо-игры, розыгрыши призов и интерактивные презентации товаров.</p>
+          <ul class="scenario-features">
+            <li>Промо-игры с призами и скидками</li>
+            <li>Интерактивные каталоги товаров</li>
+            <li>Сбор обратной связи от клиентов</li>
+            <li>Увеличение времени в магазине</li>
+          </ul>
+        </div>
+
+        <div class="scenario-card">
+          <span class="scenario-icon">🎓</span>
+          <h3>Образовательные события</h3>
+          <p>Сделайте обучение интерактивным и запоминающимся. Идеально для воркшопов, тренингов и образовательных мероприятий.</p>
+          <ul class="scenario-features">
+            <li>Интерактивные обучающие игры</li>
+            <li>Проверка знаний в игровой форме</li>
+            <li>Командная работа над проектами</li>
+            <li>Геймификация учебного процесса</li>
+          </ul>
+        </div>
+
+        <div class="scenario-card">
+          <span class="scenario-icon">🌐</span>
+          <h3>Networking события</h3>
+          <p>Помогите участникам познакомиться через совместные игры. Создавайте естественные поводы для общения и новых знакомств.</p>
+          <ul class="scenario-features">
+            <li>Ледоколы для знакомства участников</li>
+            <li>Командные активности для networking</li>
+            <li>Обмен контактами через игры</li>
+            <li>Создание общих воспоминаний</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="demo" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 40px;">🎮 Попробуйте игры прямо сейчас</h2>
+
+      <div class="demo-games-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;">
         
         <!-- Hunt Circles Demo -->
         <div class="card demo-game-card" style="text-align: center; padding: 20px; border: 2px solid #e2e8f0; background: white;">
@@ -235,10 +294,9 @@ html{scroll-padding-top:120px}
               </div>
             </div>
           </div>
-          <h3 style="margin: 0 0 15px; color: var(--text); font-size: 20px;">🎯 Охота на кружки</h3>
+          <h3 style="margin: 0 0 15px; color: var(--orange); font-size: 20px;">🎯 Охота на кружки</h3>
           <p style="color: var(--muted); margin-bottom: 20px; line-height: 1.5;">
-            Быстро нажимайте на появляющиеся кружки! Чем быстрее реакция, тем больше очков. 
-            Развивает реакцию и внимание.
+            Быстрая игра на реакцию для 2-4 игроков. Идеально для разминки и знакомства участников.
           </p>
         </div>
         
@@ -259,14 +317,16 @@ html{scroll-padding-top:120px}
                     <div class="cell" data-index="7" style="width: 30px; height: 30px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;"></div>
                     <div class="cell" data-index="8" style="width: 30px; height: 30px; background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;"></div>
                   </div>
+                  <div class="game-info">
+                    <div class="game-status" style="color: #666; font-weight: bold; font-size: 12px;">Автодемо</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <h3 style="margin: 0 0 15px; color: var(--text); font-size: 20px;">❌⭕ Крестики-нолики</h3>
+          <h3 style="margin: 0 0 15px; color: var(--blue); font-size: 20px;">❌⭕ Крестики-нолики</h3>
           <p style="color: var(--muted); margin-bottom: 20px; line-height: 1.5;">
-            Сначала расставьте по 3 фишки, потом передвигайте их по очереди. 
-            Соберите 3 в ряд и выиграйте!
+            Стратегическая игра с уникальными правилами. Отлично подходит для командных турниров.
           </p>
         </div>
         
@@ -286,213 +346,79 @@ html{scroll-padding-top:120px}
               </div>
             </div>
           </div>
-          <h3 style="margin: 0 0 15px; color: var(--text); font-size: 20px;">🎨 Угадай цвет</h3>
+          <h3 style="margin: 0 0 15px; color: var(--red); font-size: 20px;">🎨 Угадай цвет</h3>
           <p style="color: var(--muted); margin-bottom: 20px; line-height: 1.5;">
-            Запомните цвет и найдите все клетки этого цвета на поле. 
-            Сложность растет с каждым уровнем!
+            Тренировка памяти и внимания. Можно адаптировать под корпоративные цвета компании.
           </p>
         </div>
         
       </div>
       
+      <div style="text-align: center; margin-top: 40px;">
+        <p style="color: var(--muted); margin-bottom: 20px; font-size: 18px;">
+          Протестируйте интерактивные игры, которые будут развлекать гостей ваших мероприятий
+        </p>
+        <a href="../games/index.html" class="btn" style="font-size: 18px; padding: 16px 32px;" target="_blank">
+          🎯 Играть в демо-версии
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="section" id="benefits">
     <div class="container">
-      <h2>Ключевые преимущества</h2>
+      <h2>Преимущества для event-агентств</h2>
       <div class="grid-3">
-        <div class="card"><h3>Полная кастомизация под бренд</h3><p>Логотипы, цвета, персонажи — перебрендируем игры под ваш парк или мероприятие.</p></div>
-        <div class="card"><h3>Мгновенный старт</h3><p>Один тап — и игра запускается за секунду. Никаких загрузок или настроек.</p></div>
-        <div class="card"><h3>До 4 игроков одновременно</h3><p>Мультитач-технология позволяет играть всей семьёй на одном столе.</p></div>
-        <div class="card"><h3>Ежемесячные обновления</h3><p>Контент никогда не устаревает — каждый месяц новые игры и функции.</p></div>
-        <div class="card"><h3>Комплексное развитие способностей</h3><p>Реакция, логика, память, внимание, скорость — все в одном продукте.</p></div>
-        <div class="card"><h3>Автономная работа</h3><p>Только питание, никаких настроек — подключили и играйте.</p></div>
-        <div class="card"><h3>Быстрая окупаемость</h3><p>2-4 месяца — высокая проходимость и короткие игровые сессии.</p></div>
-        <div class="card"><h3>30+ игр в базе</h3><p>Богатая коллекция развлечений — от аркад до головоломок.</p></div>
-        <div class="card"><h3>Универсальность</h3><p>От парков развлечений до корпоративных мероприятий.</p></div>
+        <div class="card"><h3>🎯 Уникальность мероприятий</h3><p>Выделяйтесь среди конкурентов, предлагая клиентам инновационные интерактивные решения, которых нет у других.</p></div>
+        <div class="card"><h3>⚡ Быстрая установка</h3><p>Всего 15 минут на установку. Не нужны специалисты — просто подключите питание и интернет.</p></div>
+        <div class="card"><h3>🎨 Полная кастомизация</h3><p>Адаптируем игры под любое мероприятие: логотипы, цвета, персонажи, сценарии — всё под ваш бренд.</p></div>
+        <div class="card"><h3>📊 Аналитика и отчёты</h3><p>Получайте детальную статистику участия гостей, время игры, популярные активности для анализа успешности.</p></div>
+        <div class="card"><h3>👥 Массовое вовлечение</h3><p>Может стать центральным элементом вашего мероприятия, а если поставить несколько столов, то заставить команды соревноваться между собой.</p></div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="gameplay">
-    <div class="container">
-      <h2>Игровой процесс</h2>
-      <div class="grid-3">
-        <div class="card"><h3>👥 1-4 игрока одновременно</h3><p>Мультитач-технология позволяет до 4 человек играть одновременно на одном столе. Каждый игрок получает свою зону управления — никаких конфликтов и столкновений пальцев.</p></div>
-        <div class="card"><h3>🎮 30+ игр в базе</h3><p>Богатая коллекция игр: от быстрых аркад до сложных головоломок. Каждая игра тщательно протестирована и оптимизирована для сенсорного управления.</p></div>
-        <div class="card"><h3>🔄 Ежемесячные обновления</h3><p>Каждый месяц добавляются новые игры и функции. Ваш стол никогда не устареет — контент постоянно развивается и становится интереснее.</p></div>
-        <div class="card"><h3>🧠 4 категории развития</h3><p>Реакция и скорость, логическое мышление, память и внимание, координация движений. Комплексное развитие когнитивных способностей через игру.</p></div>
-        <div class="card"><h3>⚔️ 4 режима игры</h3><p>Соло-тренировки, дуэли один на один, командные соревнования и турнирные режимы. Каждый найдет свой стиль игры.</p></div>
-        <div class="card"><h3>⚡ Мгновенный старт</h3><p>Один тап — и игра запускается за секунду. Никаких загрузок, регистраций или сложных настроек. Просто коснитесь экрана и играйте.</p></div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section" id="options">
-    <div class="container">
-      <h2>Варианты комплектации</h2>
-      <p class="section-lead">Выберите подходящий режим работы для вашего бизнеса</p>
-      <div class="options-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto;">
-        
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--orange); display: flex; flex-direction: column; min-height: 160px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(254,120,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
-          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <span style="font-size: 22px;">₽</span>
-            <h3 style="margin: 0; font-size: 19px; color: var(--orange); font-weight: 600;">Монетоприемник</h3>
-          </div>
-          <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Классический вариант для парков развлечений. Принимает монеты 1₽, 2₽, 5₽, 10₽. Автоматический запуск игры после оплаты.</p>
-        </div>
-        
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--blue); display: flex; flex-direction: column; min-height: 160px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(30,111,227,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
-          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <span style="font-size: 22px;">💳</span>
-            <h3 style="margin: 0; font-size: 19px; color: var(--blue); font-weight: 600;">Банковский терминал</h3>
-          </div>
-          <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Современное решение для торговых центров. Принимает МИР, СБП, QR-код. Интеграция с кассовой системой.</p>
-        </div>
-        
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--red); display: flex; flex-direction: column; min-height: 160px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(254,17,46,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
-          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <span style="font-size: 22px;">🎫</span>
-            <h3 style="margin: 0; font-size: 19px; color: var(--red); font-weight: 600;">Система парка</h3>
-          </div>
-          <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Интеграция с системой управления парком. Работает по билетам, браслетам или картам гостей. Централизованная статистика.</p>
-        </div>
-        
-        <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--red-dark); display: flex; flex-direction: column; min-height: 160px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(193,3,42,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
-          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <span style="font-size: 22px;">🎁</span>
-            <h3 style="margin: 0; font-size: 19px; color: var(--red-dark); font-weight: 600;">Промо-режим</h3>
-          </div>
-          <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Специальные акции и скидки. Интеграция с маркетинговыми кампаниями. Сбор контактов для рассылок.</p>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="economics">
-    <div class="container">
-      <h2>Экономика продукта</h2>
-      <p class="section-lead">Оценка на базовых допущениях. Фактические цифры зависят от локации и трафика.</p>
-      <div class="kpis">
-        <div class="kpi"><strong>250 000 ₽</strong>Стоимость устройства</div>
-        <div class="kpi"><strong>200 ₽</strong>Средний чек</div>
-        <div class="kpi"><strong>10 мин</strong>Длительность игры</div>
-        <div class="kpi"><strong>30</strong>Игроков в день</div>
-        <div class="kpi"><strong>2–4 мес.</strong>Окупаемость</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="projects">
-    <div class="container">
-      <h2>Наши проекты и каналы</h2>
-      <p class="section-lead">Следите за нашими разработками и присоединяйтесь к сообществу</p>
-      <div class="projects-grid">
-        <a class="project-card youtube-card" href="https://www.youtube.com/@tql_rus" target="_blank" rel="noopener">
-          <div class="project-icon">▶️</div>
-          <div class="project-content">
-            <h3>YouTube канал</h3>
-            <p>Видеообзоры игр, демонстрации и новости индустрии</p>
-            <div class="project-stats">2.5K подписчиков</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-        
-        <a class="project-card telegram-card" href="https://t.me/lava_attraction" target="_blank" rel="noopener">
-          <div class="project-icon">📣</div>
-          <div class="project-content">
-            <h3>Telegram канал</h3>
-            <p>Анонсы новых игр, обновления и обратная связь</p>
-            <div class="project-stats">Активное сообщество</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-        
-        <a class="project-card website-card" href="https://timequestlab.com/" target="_blank" rel="noopener">
-          <div class="project-icon">🌐</div>
-          <div class="project-content">
-            <h3>Time Quest Lab</h3>
-            <p>Официальный сайт с портфолио и кейсами</p>
-            <div class="project-stats">Главная площадка</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-        
-        <a class="project-card lava-card" href="https://floor-lava.ru/" target="_blank" rel="noopener">
-          <div class="project-icon">🔥</div>
-          <div class="project-content">
-            <h3>«Пол — это Лава»</h3>
-            <p>Интерактивный аттракцион с датчиками движения</p>
-            <div class="project-stats">Флагманский проект</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-        
-        <a class="project-card vr-card" href="https://another-world.com/ru" target="_blank" rel="noopener">
-          <div class="project-icon">🕶️</div>
-          <div class="project-content">
-            <h3>Another World VR</h3>
-            <p>Виртуальная реальность и иммерсивные технологии</p>
-            <div class="project-stats">VR-решения</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-        
-        <a class="project-card rutube-card" href="https://rutube.ru/channel/66906624/" target="_blank" rel="noopener">
-          <div class="project-icon">📺</div>
-          <div class="project-content">
-            <h3>RUTUBE канал</h3>
-            <p>Видеообзоры игр и проектов без VPN</p>
-            <div class="project-stats">Российская платформа</div>
-          </div>
-          <div class="project-arrow">→</div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="cta" id="cta">
+  <section class="cta" id="contact">
     <div class="container">
       <div class="cta-inner">
-        <h3>Добавьте «умное» развлечение в ваш проект</h3>
-        <p class="section-lead">Senza — компактный сенсорный стол с обновляемыми играми. Протестируйте игры и оставьте заявку — подберём конфигурацию под вашу локацию.</p>
+        <h3>Добавьте интерактивности в ваши мероприятия</h3>
+        <p class="section-lead">Senza — это не просто развлечение, это инструмент для создания незабываемых впечатлений и достижения целей мероприятия. Получите персональное предложение для вашего проекта.</p>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 30px 0; max-width: 900px; margin-left: auto; margin-right: auto;">
           
           <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--blue); display: flex; flex-direction: column; min-height: 140px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(30,111,227,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
             <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;">
-              <span style="font-size: 22px;">📞</span>
-              <h4 style="margin: 0; font-size: 18px; color: var(--blue); font-weight: 600;">Бесплатная консультация</h4>
+              <span style="font-size: 22px;">📋</span>
+              <h4 style="margin: 0; font-size: 18px; color: var(--blue); font-weight: 600;">Техническое задание</h4>
             </div>
-            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Подберем решение под ваш бизнес и ответим на все вопросы</p>
+            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Поможем составить ТЗ под ваше мероприятие и подберём оптимальные сценарии</p>
           </div>
           
           <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--orange); display: flex; flex-direction: column; min-height: 140px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(254,120,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
             <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;">
-              <span style="font-size: 22px;">🚚</span>
-              <h4 style="margin: 0; font-size: 18px; color: var(--orange); font-weight: 600;">Доставка и установка</h4>
+              <span style="font-size: 22px;">🎨</span>
+              <h4 style="margin: 0; font-size: 18px; color: var(--orange); font-weight: 600;">Кастомизация</h4>
             </div>
-            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">По всей России с гарантией и полным сервисным обслуживанием</p>
+            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Адаптируем игры под ваш бренд, событие и целевую аудиторию</p>
           </div>
           
           <div style="background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border: 1px solid #e9ecef; border-radius: 16px; padding: 28px; position: relative; overflow: hidden; transition: all 0.3s ease; border-left: 4px solid var(--red); display: flex; flex-direction: column; min-height: 140px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(254,17,46,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'">
             <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;">
-              <span style="font-size: 22px;">💰</span>
-              <h4 style="margin: 0; font-size: 18px; color: var(--red); font-weight: 600;">Окупаемость 2-4 месяца</h4>
+              <span style="font-size: 22px;">🚀</span>
+              <h4 style="margin: 0; font-size: 18px; color: var(--red); font-weight: 600;">Полное сопровождение</h4>
             </div>
-            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">Быстрая окупаемость благодаря высокой привлекательности для посетителей</p>
+            <p style="margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; flex-grow: 1;">От идеи до реализации: доставка, установка, настройка и техподдержка</p>
           </div>
           
         </div>
         
         <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
-          <a class="btn btn-outline" href="#" id="openLead">📝 Оставить заявку</a>
+          <a class="btn" href="#" id="openLead">📞 Получить консультацию</a>
         </div>
         
         <div style="margin-top: 20px; text-align: center; font-size: 14px; color: var(--muted);">
-          <p>📞 Звоните: <strong>+7 (995) 347-34-91</strong> | ⏰ Ответим в течение 1 часа</p>
+          <p>📞 Звоните: <strong>+7 (995) 347-34-91</strong></p>
         </div>
       </div>
     </div>
@@ -504,20 +430,21 @@ html{scroll-padding-top:120px}
     </div>
   </footer>
 
-  <!-- Simple inline modal (frontend only). For production, use send_telegram.php -->
+  <!-- Simple inline modal (frontend only) -->
   <div id="leadModal" style="position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1000; background: rgba(0,0,0,.5);">
     <div style="width:min(520px,92%); background:#fff; color:#111; border:1px solid rgba(0,0,0,.08); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.15); padding:18px;">
       <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
-        <h3 style="margin:0; font-family:'Bowler','Involve',sans-serif;">Оставить заявку</h3>
+        <h3 style="margin:0; font-family:'Bowler','Involve',sans-serif;">Заявка на консультацию</h3>
         <button id="leadClose" class="btn btn-outline" style="padding:8px 12px; border-radius:10px;">Закрыть</button>
       </div>
-      <p class="section-lead" style="margin:10px 0 16px;">Заполните форму — мы свяжемся с вами.</p>
+      <p class="section-lead" style="margin:10px 0 16px;">Расскажите о вашем мероприятии — подберём идеальное решение</p>
       <form id="leadForm" class="list" style="display:grid; gap:12px;">
-        <input name="name" placeholder="Имя" required style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;">
+        <input name="name" placeholder="Ваше имя" required style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;">
         <input name="phone" placeholder="Телефон" required style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;">
         <input name="email" placeholder="Email" type="email" style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;">
-        <textarea name="comment" placeholder="Комментарий" rows="4" style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;"></textarea>
-        <button type="submit" class="btn">Отправить</button>
+        <input name="company" placeholder="Компания/агентство" style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;">
+        <textarea name="event_details" placeholder="Расскажите о мероприятии: тип, количество гостей, дата, особые пожелания" rows="4" style="padding:12px 14px; border-radius:12px; border:1px solid #e5e7eb; background:#fff; color:#111;"></textarea>
+        <button type="submit" class="btn">Отправить заявку</button>
       </form>
       <div id="leadResult" style="margin-top:10px; font-size:14px;"></div>
     </div>
@@ -536,19 +463,24 @@ html{scroll-padding-top:120px}
       const payload = Object.fromEntries(fd.entries());
       leadResult.textContent = 'Отправляем...';
       
-      // Простая отправка email
+      // Email для event-агентств
       const emailData = {
-        to: 'academintellekt@gmail.com',
-        subject: 'Новая заявка с сайта Senza',
+        to: 'events@timequestlab.com',
+        subject: 'Новая заявка от event-агентства - Senza',
         body: `
-Новая заявка с сайта Senza
+Новая заявка на консультацию по интерактивным решениям
 
+Контактные данные:
 Имя: ${payload.name}
 Телефон: ${payload.phone}
 Email: ${payload.email || 'не указан'}
-Комментарий: ${payload.comment || 'нет'}
+Компания: ${payload.company || 'не указана'}
 
-Время: ${new Date().toLocaleString()}
+Детали мероприятия:
+${payload.event_details || 'не указаны'}
+
+Время заявки: ${new Date().toLocaleString()}
+Источник: Event Solutions Landing Page
         `.trim()
       };
       
@@ -565,9 +497,7 @@ Email: ${payload.email || 'не указан'}
         leadForm.reset(); 
       }, 2000);
     });
-  </script>
 
-  <script>
     // Demo Games Animation Script
     (function() {
       // Hunt Circles Demo Animation
@@ -774,12 +704,6 @@ Email: ${payload.email || 'не указан'}
                   }
                 }
               }
-              
-              // Проверяем общее количество символов
-              const totalSymbols = xMoves.length + oMoves.length;
-              if (totalSymbols > 6) {
-                console.log('Ошибка: больше 6 символов на поле!', totalSymbols);
-              }
             }
             
             ticDemoStep++;
@@ -802,7 +726,8 @@ Email: ${payload.email || 'не указан'}
               ticDemoSequence.length = 0;
               ticDemoSequence.push(...newSequence);
               
-              makeMove();
+              ticDemoPlaying = false;
+              startTicDemo();
             }, 2000);
           }
         }
@@ -811,15 +736,15 @@ Email: ${payload.email || 'не указан'}
       }
       
       // Remember Color Demo Animation
-      let colorDemoPlaying = false;
-      let colorDemoStep = 0;
-      
       const colorDemoColors = [
         { name: 'red', value: '#FE112E', display: 'Красный' },
         { name: 'blue', value: '#1E6FE3', display: 'Синий' },
         { name: 'green', value: '#2ED573', display: 'Зелёный' },
         { name: 'yellow', value: '#FFE23F', display: 'Жёлтый' }
       ];
+      
+      let colorDemoPlaying = false;
+      let colorDemoStep = 0;
       
       function startColorDemo() {
         if (colorDemoPlaying) return;
@@ -925,3 +850,4 @@ Email: ${payload.email || 'не указан'}
   </script>
 </body>
 </html>
+
