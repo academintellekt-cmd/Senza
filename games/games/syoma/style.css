@@ -1,1 +1,477 @@
-/* Заглушка стилей игры. Замените на ваши */
+/* Основные переменные */
+:root {
+  --red: #FE112E;
+  --blue: #1E6FE3;
+  --green: #2ED573;
+  --yellow: #FFE23F;
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --card: rgba(255, 255, 255, 0.95);
+  --line: rgba(0, 0, 0, 0.1);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --accent: #667eea;
+  --accent-hover: #5a67d8;
+  --text: #2d3748;
+  --neutral-color: #f7fafc;
+}
+
+/* Базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Игровой контейнер */
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 16px;
+  background: var(--background);
+}
+
+/* Основное игровое поле */
+.syoma-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  min-height: 400px;
+}
+
+/* Центральный круг */
+.center-circle {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 4px solid #333;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  cursor: default;
+  transition: none;
+  flex-shrink: 0;
+}
+
+.center-circle:hover {
+  transform: none;
+}
+
+.center-circle:active {
+  transform: none;
+}
+
+/* Сектора круга */
+.sector {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  border: 2px solid #333;
+}
+
+.sector.top-left {
+  top: 0;
+  left: 0;
+  background: var(--red);
+  border-radius: 100% 0 0 0;
+  transform-origin: bottom right;
+}
+
+.sector.top-right {
+  top: 0;
+  right: 0;
+  background: var(--blue);
+  border-radius: 0 100% 0 0;
+  transform-origin: bottom left;
+}
+
+.sector.bottom-left {
+  bottom: 0;
+  left: 0;
+  background: var(--green);
+  border-radius: 0 0 0 100%;
+  transform-origin: top right;
+}
+
+.sector.bottom-right {
+  bottom: 0;
+  right: 0;
+  background: var(--yellow);
+  border-radius: 0 0 100% 0;
+  transform-origin: top left;
+}
+
+/* Активные сектора (вспышка) */
+.sector.active {
+  opacity: 0.3;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+}
+
+/* Кнопки игроков */
+.players-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.player-controls {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow);
+  min-width: 120px;
+  pointer-events: auto;
+}
+
+.player-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.player-label.flipped {
+  transform: rotate(180deg);
+}
+
+.player-status.flipped {
+  transform: rotate(180deg);
+}
+
+.player-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.player-btn {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 12px;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.player-btn:active {
+  transform: scale(0.95);
+}
+
+.player-btn.red {
+  background: var(--red);
+}
+
+.player-btn.blue {
+  background: var(--blue);
+}
+
+.player-btn.green {
+  background: var(--green);
+}
+
+.player-btn.yellow {
+  background: var(--yellow);
+  color: var(--text);
+}
+
+.player-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Статус игрока */
+.player-status {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.player-status.active {
+  color: var(--accent);
+}
+
+.player-status.eliminated {
+  color: #e53e3e;
+}
+
+.player-status.winner {
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* HUD элементы */
+.hud {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.hud-top {
+  top: 0;
+}
+
+.hud-bottom {
+  bottom: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: none;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  gap: 1rem;
+}
+
+.hud-rotated {
+  transform: rotate(180deg);
+}
+
+.hud-center {
+  flex: 1;
+  text-align: center;
+}
+
+.turn-label {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.score {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn-ghost:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* HUD кнопка проверки */
+.hud-check-btn {
+  appearance: none;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.hud-check-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.hud-check-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.modal-subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.difficulty-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.difficulty-option {
+  appearance: none;
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.difficulty-option:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Анимации */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.sector.flashing {
+  animation: flash 0.3s ease-in-out;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .center-circle {
+    width: 500px;
+    height: 500px;
+  }
+  
+  .player-controls {
+    padding: 0.75rem;
+    min-width: 100px;
+  }
+  
+  .player-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 10px;
+  }
+  
+  .hud-row {
+    padding: 8px 12px;
+    gap: 0.5rem;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .center-circle {
+    width: 400px;
+    height: 400px;
+  }
+  
+  .player-controls {
+    min-width: 90px;
+    padding: 0.5rem;
+  }
+  
+  .player-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 9px;
+  }
+  
+  .modal {
+    padding: 1.5rem;
+  }
+  
+  .difficulty-options {
+    grid-template-columns: 1fr;
+  }
+}

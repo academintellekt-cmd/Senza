@@ -1,66 +1,72 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Сёма</title>
-  <link rel="stylesheet" href="../../../style.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="../../../common.js" defer></script>
-  <script src="game.js" defer></script>
-  <style>
-    .placeholder{{position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#64748B; font-size:clamp(14px,2vw,18px);}}
-    .placeholder strong{{color:#0F172A}}
-  </style>
+  <link rel="stylesheet" href="../../../assets/styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-container">
-    <header class="hud hud-top">
-      <div class="hud-row hud-rotated">
-        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Сёма</div>
-        <div class="score" id="scoreTop">Победы: 0 – 0</div>
-        <button class="btn" id="newGameTop">Новая партия ↻</button>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🧠 Сёма</span></div>
       </div>
-    </header>
+      <div class="score" id="scoreTop">Уровень: 1</div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+    </div>
+  </header>
 
-    <main id="board" aria-label="Игровое поле">
-      <section id="stage" class="half" style="display:block; position:relative;">
-        <div class="placeholder">
-          <div>
-            <strong>Сёма</strong><br/>
-            Заглушка. Замените файлы <code>style.css</code> и <code>game.js</code> на ваши из сборки.<br/>
-            Макет HUD и маршрутизация уже настроены.
-          </div>
-        </div>
-      </section>
-    </main>
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
 
-    <footer class="hud hud-bottom">
-      <div class="hud-row">
-        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Сёма</div>
-        <div class="score" id="scoreBottom">Победы: 0 – 0</div>
-        <button class="btn" id="newGameBottom">Новая партия ↻</button>
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🧠 Сёма</span></div>
       </div>
-    </footer>
-  </div>
+      <div class="score" id="scoreBottom">Уровень: 1</div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+    </div>
+  </footer>
 
-  <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <h2 id="resultText"></h2>
-      <div class="modal-actions">
-        <button id="newGameBtn" class="btn primary">Новая игра</button>
-        <button class="btn" onclick="goToMenu()">← Меню</button>
+  <!-- Модальное окно выбора количества игроков -->
+  <div id="playersModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🧠 Сёма</div>
+      <div class="modal-subtitle">Выберите количество игроков</div>
+      <div class="difficulty-options">
+        <button class="difficulty-option" data-players="1">1 игрок</button>
+        <button class="difficulty-option" data-players="2">2 игрока</button>
+        <button class="difficulty-option" data-players="3">3 игрока</button>
+        <button class="difficulty-option" data-players="4">4 игрока</button>
       </div>
     </div>
   </div>
 
-  <script>
-    function goToMenu(){{ window.location.href='../../index.html'; }}
-    document.getElementById('newGameTop').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-    document.getElementById('newGameBottom').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-    document.getElementById('newGameBtn').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-  </script>
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Финальный счёт: 0</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
 </body>
 </html>
