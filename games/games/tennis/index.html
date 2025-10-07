@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Теннис</title>
+  <link rel="stylesheet" href="../../shared/styles/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🎾 Теннис</span></div>
+      </div>
+      <div class="score" id="scoreTop">Счёт: 0 - 0</div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🎾 Теннис</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Счёт: 0 - 0</div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора сложности -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🎾 Теннис</div>
+      <div class="modal-subtitle">Выберите уровень сложности</div>
+      <div class="difficulty-options">
+        <button class="difficulty-option" data-level="2">Лёгкий</button>
+        <button class="difficulty-option" data-level="4">Средний</button>
+        <button class="difficulty-option" data-level="6">Высокий</button>
+        <button class="difficulty-option" data-level="8">Экстра</button>
+        <button class="difficulty-option" data-level="10">Вассерман</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Финальный счёт: 0 - 0</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
