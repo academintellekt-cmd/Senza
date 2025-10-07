@@ -34,6 +34,7 @@
     gameLoop: null,
     touchStartY: { left: 0, right: 0 },
     touchCurrentY: { left: 0, right: 0 },
+    activeTouches: { left: null, right: null }, // Отслеживание ID касаний
     // Система бонусов
     bonuses: [],
     bonusTimers: { spawn: null, lifetime: null },
@@ -714,16 +715,44 @@
 
   function handleTouchStart(side, e) {
     e.preventDefault();
-    const touch = e.touches[0];
+    
+    // Находим касание в нужной области
     const rect = gameField.getBoundingClientRect();
-    gameState.touchStartY[side] = touch.clientY - rect.top;
-    gameState.touchCurrentY[side] = gameState.touchStartY[side];
+    const areaLeft = side === 'left' ? 0 : rect.width / 2;
+    const areaRight = side === 'left' ? rect.width / 2 : rect.width;
+    
+    for (let i = 0; i < e.touches.length; i++) {
+      const touch = e.touches[i];
+      const touchX = touch.clientX - rect.left;
+      
+      // Проверяем, попадает ли касание в нужную область
+      if (touchX >= areaLeft && touchX < areaRight && !gameState.activeTouches[side]) {
+        gameState.activeTouches[side] = touch.identifier;
+        gameState.touchStartY[side] = touch.clientY - rect.top;
+        gameState.touchCurrentY[side] = gameState.touchStartY[side];
+        break;
+      }
+    }
   }
 
   function handleTouchMove(side, e) {
     e.preventDefault();
-    const touch = e.touches[0];
+    
+    if (gameState.activeTouches[side] === null) return;
+    
+    // Находим касание с нужным ID
     const rect = gameField.getBoundingClientRect();
+    let touch = null;
+    
+    for (let i = 0; i < e.touches.length; i++) {
+      if (e.touches[i].identifier === gameState.activeTouches[side]) {
+        touch = e.touches[i];
+        break;
+      }
+    }
+    
+    if (!touch) return;
+    
     let touchY = touch.clientY - rect.top;
     
     // Инвертируем управление если активен бонус
@@ -740,6 +769,15 @@
 
   function handleTouchEnd(side, e) {
     e.preventDefault();
+    
+    // Проверяем, было ли отпущено наше касание
+    const changedTouches = e.changedTouches;
+    for (let i = 0; i < changedTouches.length; i++) {
+      if (changedTouches[i].identifier === gameState.activeTouches[side]) {
+        gameState.activeTouches[side] = null;
+        break;
+      }
+    }
   }
 
   // Mouse обработчики
