@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Шайба</title>
+  <link rel="stylesheet" href="../../shared/styles/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">🏒 Шайба</span></div>
+      </div>
+      <div class="score" id="scoreTop">Красный: 5 | Синий: 5</div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">🏒 Шайба</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Красный: 5 | Синий: 5</div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора режима управления -->
+  <div id="controlModeModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">🏒 Шайба</div>
+      <div class="modal-subtitle">Выберите режим управления</div>
+      <div class="difficulty-options">
+        <button class="difficulty-option" data-mode="direct">
+          <div style="font-size: 20px; margin-bottom: 4px;">👆</div>
+          <div>Прямой</div>
+          <div style="font-size: 12px; color: var(--neutral-color); margin-top: 4px;">Перетаскивайте шайбы пальцем</div>
+        </button>
+        <button class="difficulty-option" data-mode="aim">
+          <div style="font-size: 20px; margin-bottom: 4px;">🎯</div>
+          <div>Прицельный</div>
+          <div style="font-size: 12px; color: var(--neutral-color); margin-top: 4px;">Прицеливайтесь и стреляйте</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Победа!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Победил Красный игрок</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Начать заново</button>
+        <button class="btn btn-ghost" id="btnToMenu">Меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+
+

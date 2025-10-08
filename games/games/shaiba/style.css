@@ -1,0 +1,289 @@
+/* Подключение корневых стилей */
+@import url('../../shared/styles/fonts.css');
+
+/* CSS переменные - светлая тема */
+:root {
+  --background: #f8fafc;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --text: #1e293b;
+  --accent: #ff6a00;
+  --accent-hover: #e55a00;
+  --neutral-color: #cbd5e1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --red-color: #dc2626;
+  --blue-color: #2563eb;
+}
+
+/* Базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Involve', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* HUD стили */
+.hud {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 16px;
+}
+
+.hud-top {
+  top: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.hud-bottom {
+  bottom: 0;
+  border-top: 1px solid var(--line);
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hud-rotated {
+  transform: rotate(180deg);
+}
+
+.hud-center {
+  flex: 1;
+  text-align: center;
+}
+
+.turn-label {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+.score {
+  font-weight: 600;
+  font-size: clamp(12px, 1.5vw, 16px);
+  color: var(--accent);
+}
+
+/* Кнопки */
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-size: clamp(12px, 1.5vw, 16px);
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--line);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-ghost:hover {
+  background: var(--line);
+}
+
+/* Игровой контейнер */
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 0;
+  background: var(--background);
+}
+
+/* Игровое поле */
+.shaiba-field {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 160px);
+  background: linear-gradient(90deg, #fee2e2 0%, #fee2e2 50%, #dbeafe 50%, #dbeafe 100%);
+  border: 4px solid var(--line);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* Центральная стена с проёмом */
+.center-wall {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 8px;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.center-wall::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(50% - 45px); /* 50% минус половина размера ворот */
+  background: #334155;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.center-wall::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(50% - 45px); /* 50% минус половина размера ворот */
+  background: #334155;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Ворота */
+.gate {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  z-index: 6;
+  background: transparent;
+  border-top: 4px solid #ff6a00;
+  border-bottom: 4px solid #ff6a00;
+  box-sizing: border-box;
+}
+
+/* Шайбы */
+.puck {
+  position: absolute;
+  border-radius: 50%;
+  cursor: grab;
+  transition: box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 10;
+  touch-action: none;
+}
+
+.puck:active {
+  cursor: grabbing;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+.puck.red {
+  background: radial-gradient(circle at 30% 30%, #ef4444, #dc2626);
+  border: 3px solid #991b1b;
+}
+
+.puck.blue {
+  background: radial-gradient(circle at 30% 30%, #3b82f6, #2563eb);
+  border: 3px solid #1e40af;
+}
+
+.puck.dragging {
+  opacity: 0.8;
+}
+
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-backdrop[hidden] {
+  display: none !important;
+}
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.modal-subtitle {
+  font-size: 18px;
+  color: var(--neutral-color);
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Анимации */
+@keyframes puckCollision {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.puck-collision {
+  animation: puckCollision 0.2s ease-in-out;
+}
+
+/* Треугольник прицеливания */
+.aim-triangle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 50;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .shaiba-field {
+    width: 100vw;
+    height: calc(100vh - 160px);
+  }
+}
+
+
