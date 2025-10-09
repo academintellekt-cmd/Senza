@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Минёр</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">💣 Минёр</span></div>
+      </div>
+      <div class="score" id="scoreTop">Время: 3:00</div>
+      <div class="player-controls-hud" id="player4Controls" style="display: none;">
+        <div class="player-info blue">Игрок 4</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="3" data-action="down">↓</button>
+          <button class="control-btn" data-player="3" data-action="up">↑</button>
+          <button class="control-btn" data-player="3" data-action="right">→</button>
+          <button class="control-btn" data-player="3" data-action="left">←</button>
+          <button class="control-btn bomb-btn" data-player="3" data-action="bomb">💣</button>
+        </div>
+      </div>
+      <div class="player-controls-hud" id="player1Controls" style="display: none;">
+        <div class="player-info red">Игрок 1</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="0" data-action="down">↓</button>
+          <button class="control-btn" data-player="0" data-action="up">↑</button>
+          <button class="control-btn" data-player="0" data-action="right">→</button>
+          <button class="control-btn" data-player="0" data-action="left">←</button>
+          <button class="control-btn bomb-btn" data-player="0" data-action="bomb">💣</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">💣 Минёр</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Время: 3:00</div>
+      <div class="player-controls-hud" id="player3Controls" style="display: none;">
+        <div class="player-info yellow">Игрок 3</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="2" data-action="up">↑</button>
+          <button class="control-btn" data-player="2" data-action="down">↓</button>
+          <button class="control-btn" data-player="2" data-action="left">←</button>
+          <button class="control-btn" data-player="2" data-action="right">→</button>
+          <button class="control-btn bomb-btn" data-player="2" data-action="bomb">💣</button>
+        </div>
+      </div>
+      <div class="player-controls-hud" id="player2Controls" style="display: none;">
+        <div class="player-info green">Игрок 2</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="1" data-action="up">↑</button>
+          <button class="control-btn" data-player="1" data-action="down">↓</button>
+          <button class="control-btn" data-player="1" data-action="left">←</button>
+          <button class="control-btn" data-player="1" data-action="right">→</button>
+          <button class="control-btn bomb-btn" data-player="1" data-action="bomb">💣</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора настроек -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">💣 Минёр</div>
+      <div class="modal-subtitle">Выберите количество игроков</div>
+      <div class="player-settings">
+        <div class="player-options">
+          <button class="player-option selected" data-players="2">2 игрока</button>
+          <button class="player-option" data-players="3">3 игрока</button>
+          <button class="player-option" data-players="4">4 игрока</button>
+        </div>
+        <button class="btn start-game-btn" id="startGameBtn">Начать игру</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" style="display: none;">
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Победитель: Красный игрок</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Новая партия</button>
+        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+
