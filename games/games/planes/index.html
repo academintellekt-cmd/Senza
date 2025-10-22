@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Самолеты</title>
+  <link rel="stylesheet" href="../../assets/styles/main.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- HUD Top (повёрнут на 180°) -->
+  <header class="hud hud-top">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelTop">✈️ Самолеты</span></div>
+      </div>
+      <div class="score" id="scoreTop">Скорость: 1</div>
+      <div class="player-controls-hud" id="player1Controls" style="display: none;">
+        <div class="player-info red">Игрок 1</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="0" data-action="left">←</button>
+          <button class="control-btn" data-player="0" data-action="right">→</button>
+          <button class="control-btn shoot-btn" data-player="0" data-action="shoot">💥</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+    </div>
+  </header>
+
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <!-- Игровые элементы создаются динамически -->
+    </div>
+  </main>
+
+  <!-- HUD Bottom -->
+  <footer class="hud hud-bottom">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label"><span id="turnLabelBottom">✈️ Самолеты</span></div>
+      </div>
+      <div class="score" id="scoreBottom">Скорость: 1</div>
+      <div class="player-controls-hud" id="player2Controls" style="display: none;">
+        <div class="player-info green">Игрок 2</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="1" data-action="left">←</button>
+          <button class="control-btn" data-player="1" data-action="right">→</button>
+          <button class="control-btn shoot-btn" data-player="1" data-action="shoot">💥</button>
+        </div>
+      </div>
+      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+    </div>
+  </footer>
+
+  <!-- Модальное окно выбора количества игроков -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
+    <div class="modal">
+      <div class="modal-title">✈️ Самолеты</div>
+      <div class="modal-subtitle">Выберите количество игроков</div>
+      <div class="player-options">
+        <button class="player-option" data-players="2">2 игрока</button>
+        <button class="player-option" data-players="3">3 игрока</button>
+        <button class="player-option" data-players="4">4 игрока</button>
+      </div>
+      <div class="game-instructions">
+        <h3>Управление:</h3>
+        <p>← → - поворот самолета</p>
+        <p>💥 - выстрел</p>
+        <p>Самолеты летят вперед автоматически</p>
+        <p>При вылете за край появляются с противоположной стороны</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden style="display: none !important;">
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Победитель: Красный</p>
+      <div class="modal-actions">
+        <button class="btn" id="btnRematch">Заново</button>
+        <button class="btn btn-ghost" id="btnToMenu">Меню</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
