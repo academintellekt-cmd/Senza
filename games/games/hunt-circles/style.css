@@ -14,12 +14,16 @@ html, body { height: 100%; margin: 0; overflow: hidden; }
 .turn-label{ justify-self: center; font-weight: 800; font-size: clamp(16px, 2.1vw, 22px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .points{ justify-self: center; font-weight: 700; font-size: clamp(14px, 1.8vw, 20px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .score{ justify-self: end; font-weight: 700; font-size: clamp(14px, 1.9vw, 20px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
-#board{ flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
-.half{ flex: 1 1 0; min-height: 0; overflow: hidden; position: relative; background: var(--card); border:1px solid var(--line); border-radius:20px; }
+#board{ flex: 1 1 auto; min-height: 0; display: flex; flex-direction: row; gap: 12px; overflow: hidden; }
+.half{ flex: 1 1 0; min-width: 0; overflow: hidden; position: relative; background: var(--card); border:1px solid var(--line); border-radius:20px; }
 .half.lead{ box-shadow: inset 0 0 0 4px rgba(255,106,0,0.18); }
-.target{ position:absolute; border-radius:50%; cursor:pointer; transition:transform .2s ease, opacity .2s ease; display:flex; align-items:center; justify-content:center; user-select:none; -webkit-tap-highlight-color: transparent; }
+.target{ position:absolute; border-radius:50%; cursor:pointer; transition:transform .2s ease, opacity .2s ease; display:flex; align-items:center; justify-content:center; user-select:none; -webkit-tap-highlight-color: transparent; touch-action: none; }
 .target.p1{ background: var(--accent); } .target.p2{ background: var(--blue); }
 .target:active{ transform: scale(0.88); }
+.bomb{ position:absolute; cursor:pointer; transition:transform .2s ease, opacity .2s ease; display:flex; align-items:center; justify-content:center; user-select:none; -webkit-tap-highlight-color: transparent; touch-action: none; padding: 8px; box-sizing: border-box; }
+.bomb.p1{ color: var(--accent); } .bomb.p2{ color: var(--blue); }
+.bomb svg{ width: 100%; height: 100%; }
+.bomb:active{ transform: scale(0.88); }
 .pop{ position:absolute; font-weight:800; color:#111; pointer-events:none; opacity:0; transform: translate(-50%, -10px); animation: popfade 650ms ease forwards; text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
 .pop.plus2{ color:var(--accent); } .pop.plus3{ color:var(--blue); }
 @keyframes popfade{ 0%{ opacity:0; transform: translate(-50%, 0) scale(0.9); } 15%{ opacity:1; transform: translate(-50%, -6px) scale(1.05); } 100%{ opacity:0; transform: translate(-50%, -28px) scale(1.0); } }

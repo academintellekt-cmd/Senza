@@ -15,7 +15,7 @@
     <header class="hud hud-top">
       <div class="hud-row hud-rotated">
         <button class="btn btn-ghost" id="menuTop" aria-label="Меню" onclick="goToMenu()">← Меню</button>
-        <div id="turnLabelTop" class="turn-label">Раунд · <span id="timerTop">20</span>с</div>
+        <div id="turnLabelTop" class="turn-label">Раунд · <span id="timerTop">30</span>с</div>
         <div id="pointsTop" class="points">Очки: 0</div>
         <div id="scoreTop" class="score">Победы: 0 – 0</div>
         <button class="btn" id="newGameTop">Новая партия ↻</button>
@@ -32,7 +32,7 @@
     <footer class="hud hud-bottom">
       <div class="hud-row">
         <button class="btn btn-ghost" id="menuBottom" aria-label="Меню" onclick="goToMenu()">← Меню</button>
-        <div id="turnLabelBottom" class="turn-label">Раунд · <span id="timerBottom">20</span>с</div>
+        <div id="turnLabelBottom" class="turn-label">Раунд · <span id="timerBottom">30</span>с</div>
         <div id="pointsBottom" class="points">Очки: 0</div>
         <div id="scoreBottom" class="score">Победы: 0 – 0</div>
         <button class="btn" id="newGameBottom">Новая партия ↻</button>
@@ -44,6 +44,7 @@
   <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-content">
       <h2 id="resultText"></h2>
+      <div id="scoresText" style="margin-top: 16px; font-size: 18px; font-weight: 600;"></div>
       <div class="modal-actions">
         <button id="newGameBtn" class="btn primary">Новая игра</button>
         <button class="btn" onclick="goToMenu()">← Меню</button>
