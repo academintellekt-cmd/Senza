@@ -18,11 +18,12 @@ let score1 = 0, score2 = 0;
 let wins1 = 0, wins2 = 0;
 let seconds = 30;
 let tickTimer = null;
+let cycleTimer = null;
 let lastHitTime = {1: 0, 2: 0};
 let combo = {1: 0, 2: 0};
 let running = false;
 let activePointers = new Set(); // Отслеживание активных касаний для мультитача
-let bombTimers = {1: null, 2: null}; // Таймеры для бомб
+let cycleNumber = 0; // Общий счетчик циклов для обоих игроков
 
 // WebAudio (простые бипы)
 let audioCtx = null;
@@ -66,7 +67,15 @@ function beepBomb(){
   }catch(e){}
 }
 
-function placeTarget(container, el, pxSize){
+function getRandomPosition(container, pxSize){
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+  const x = Math.random() * (w - pxSize);
+  const y = Math.random() * (h - pxSize);
+  return {x, y};
+}
+
+function placeObject(container, el, pxSize){
   const tries = 40;
   const w = container.clientWidth;
   const h = container.clientHeight;
@@ -89,83 +98,64 @@ function placeTarget(container, el, pxSize){
       return true;
     }
   }
-  el.style.left = `${Math.random()*(w - pxSize)}px`;
-  el.style.top  = `${Math.random()*(h - pxSize)}px`;
+  // Если не удалось найти место без пересечений, размещаем случайно
+  const pos = getRandomPosition(container, pxSize);
+  el.style.left = `${pos.x}px`;
+  el.style.top  = `${pos.y}px`;
   return false;
 }
 
-function spawnNeeded(container, player){
-  while(container.querySelectorAll(".target").length < 2){
-    const t = document.createElement("div");
-    t.className = "target " + (player===1 ? "p1" : "p2");
-    t.dataset.player = String(player);
+function createTarget(container, player){
+  const minSide = Math.min(container.clientWidth, container.clientHeight);
+  const sizePct = 10 + Math.random()*5;
+  const px = Math.max(32, Math.round(minSide * sizePct / 100));
+  
+  const t = document.createElement("div");
+  t.className = "target " + (player===1 ? "p1" : "p2");
+  t.dataset.player = String(player);
+  t.style.width = t.style.height = px + "px";
 
-    const minSide = Math.min(container.clientWidth, container.clientHeight);
-    const sizePct = 10 + Math.random()*5;
-    const px = Math.max(32, Math.round(minSide * sizePct / 100));
-    t.style.width = t.style.height = px + "px";
+  placeObject(container, t, px);
 
-    placeTarget(container, t, px);
-
-    const life = setTimeout(()=>{
-      if(t.isConnected){
-        t.remove();
-        spawnNeeded(container, player);
-      }
-    }, 2200);
-
-    // Обработка мультитача через pointer events
-    const handlePointerDown = (e) => {
-      e.preventDefault();
-      if(!running) return;
-      
-      // Проверяем, не обработан ли уже этот target другим касанием
-      const pointerId = e.pointerId;
-      if(activePointers.has(pointerId)) return;
-      
-      // Проверяем, не удален ли уже target
-      if(!t.isConnected) return;
-      
-      activePointers.add(pointerId);
-      clearTimeout(life);
-      if(t.isConnected) t.remove();
-      
-      const rect = container.getBoundingClientRect();
-      const localX = e.clientX - rect.left;
-      const localY = e.clientY - rect.top;
-      const gained = onHit(player);
-      spawnNeeded(container, player);
-      showPop(container, localX, localY, gained);
-      beep(gained);
-      
-      // Очищаем pointerId после обработки
-      setTimeout(() => activePointers.delete(pointerId), 100);
-    };
+  // Обработка мультитача через pointer events
+  const handlePointerDown = (e) => {
+    e.preventDefault();
+    if(!running) return;
     
-    const handlePointerUp = (e) => {
-      activePointers.delete(e.pointerId);
-    };
+    const pointerId = e.pointerId;
+    if(activePointers.has(pointerId)) return;
+    if(!t.isConnected) return;
     
-    const handlePointerCancel = (e) => {
-      activePointers.delete(e.pointerId);
-    };
+    activePointers.add(pointerId);
+    if(t.isConnected) t.remove();
     
-    t.addEventListener("pointerdown", handlePointerDown, {passive:false});
-    t.addEventListener("pointerup", handlePointerUp, {passive:false});
-    t.addEventListener("pointercancel", handlePointerCancel, {passive:false});
+    const rect = container.getBoundingClientRect();
+    const localX = e.clientX - rect.left;
+    const localY = e.clientY - rect.top;
+    const gained = onHit(player);
+    showPop(container, localX, localY, gained);
+    beep(gained);
+    
+    // Создаем новый кружок вместо удаленного
+    createTarget(container, player);
+    
+    setTimeout(() => activePointers.delete(pointerId), 100);
+  };
+  
+  const handlePointerUp = (e) => {
+    activePointers.delete(e.pointerId);
+  };
+  
+  const handlePointerCancel = (e) => {
+    activePointers.delete(e.pointerId);
+  };
+  
+  t.addEventListener("pointerdown", handlePointerDown, {passive:false});
+  t.addEventListener("pointerup", handlePointerUp, {passive:false});
+  t.addEventListener("pointercancel", handlePointerCancel, {passive:false});
 
-    container.appendChild(t);
-  }
-}
-
-function showPop(container, x, y, points){
-  const pop = document.createElement("div");
-  pop.className = "pop " + (points>=3 ? "plus3" : points===2 ? "plus2" : "plus1");
-  pop.textContent = points>0 ? "+" + points : (points < 0 ? String(points) : "");
-  pop.style.left = x + "px";
-  pop.style.top  = y + "px";
-  container.appendChild(pop);
-  setTimeout(()=> pop.remove(), 700);
+  container.appendChild(t);
+  return t;
 }
 
 // SVG бомбы
@@ -180,32 +170,18 @@ const bombSVG = `<svg fill="currentColor" height="100%" width="100%" version="1.
   </g>
 </svg>`;
 
-function spawnBomb(container, player){
-  // Удаляем старую бомбу, если есть
-  const oldBomb = container.querySelector(".bomb");
-  if(oldBomb) oldBomb.remove();
+function createBomb(container, player){
+  const minSide = Math.min(container.clientWidth, container.clientHeight);
+  const sizePct = 10 + Math.random()*5;
+  const px = Math.max(32, Math.round(minSide * sizePct / 100));
   
-  // Находим все кружки
-  const targets = container.querySelectorAll(".target:not(.bomb)");
-  if(targets.length === 0) return; // Нет кружков для замены
-  
-  // Выбираем случайный кружок для замены
-  const randomTarget = targets[Math.floor(Math.random() * targets.length)];
-  const x = randomTarget.offsetLeft;
-  const y = randomTarget.offsetTop;
-  const size = randomTarget.clientWidth;
-  
-  // Удаляем выбранный кружок
-  randomTarget.remove();
-  
-  // Создаем бомбу
   const bomb = document.createElement("div");
   bomb.className = "bomb " + (player===1 ? "p1" : "p2");
   bomb.dataset.player = String(player);
-  bomb.style.width = bomb.style.height = size + "px";
-  bomb.style.left = x + "px";
-  bomb.style.top = y + "px";
+  bomb.style.width = bomb.style.height = px + "px";
   bomb.innerHTML = bombSVG;
+  
+  placeObject(container, bomb, px);
   
   // Обработка клика на бомбу
   const handleBombPointerDown = (e) => {
@@ -231,7 +207,10 @@ function spawnBomb(container, player){
     }
     updateHUD();
     showPop(container, localX, localY, -5);
-    beepBomb(); // Звук для бомбы
+    beepBomb();
+    
+    // Создаем новый кружок вместо бомбы
+    createTarget(container, player);
     
     setTimeout(() => activePointers.delete(pointerId), 100);
   };
@@ -249,11 +228,17 @@ function spawnBomb(container, player){
   bomb.addEventListener("pointercancel", handleBombPointerCancel, {passive:false});
   
   container.appendChild(bomb);
-  
-  // Бомба исчезает при следующей смене кружков (через 2.2 секунды, как у кружков)
-  setTimeout(() => {
-    if(bomb.isConnected) bomb.remove();
-  }, 2200);
+  return bomb;
+}
+
+function showPop(container, x, y, points){
+  const pop = document.createElement("div");
+  pop.className = "pop " + (points>=3 ? "plus3" : points===2 ? "plus2" : "plus1");
+  pop.textContent = points>0 ? "+" + points : (points < 0 ? String(points) : "");
+  pop.style.left = x + "px";
+  pop.style.top  = y + "px";
+  container.appendChild(pop);
+  setTimeout(()=> pop.remove(), 700);
 }
 
 function onHit(player){
@@ -282,40 +267,64 @@ function updateHUD(){
   p2.classList.toggle("lead", score2 > score1);
 }
 
+function startCycle(){
+  if(!running) return;
+  
+  cycleNumber += 1;
+  
+  // Удаляем все объекты с полей
+  p1.querySelectorAll(".target, .bomb").forEach(n=>n.remove());
+  p2.querySelectorAll(".target, .bomb").forEach(n=>n.remove());
+  
+  // Определяем, какой тип цикла: каждый третий цикл - 1 кружок + 1 бомба, иначе - 2 кружка
+  const isBombCycle = cycleNumber % 3 === 0;
+  
+  if(isBombCycle){
+    // Бомб-цикл: 1 кружок + 1 бомба для каждого игрока
+    createTarget(p1, 1);
+    createBomb(p1, 1);
+    createTarget(p2, 2);
+    createBomb(p2, 2);
+  } else {
+    // Обычный цикл: 2 кружка для каждого игрока
+    createTarget(p1, 1);
+    createTarget(p1, 1);
+    createTarget(p2, 2);
+    createTarget(p2, 2);
+  }
+}
+
 function startGame(){
   score1 = 0; score2 = 0;
   combo[1] = combo[2] = 0;
   lastHitTime[1] = lastHitTime[2] = 0;
+  cycleNumber = 0;
   seconds = 30;
   running = true;
   document.getElementById("endModal").classList.add("hidden");
 
-  // Останавливаем старые таймеры бомб
-  if(bombTimers[1]) clearInterval(bombTimers[1]);
-  if(bombTimers[2]) clearInterval(bombTimers[2]);
-
   p1.innerHTML = ""; p2.innerHTML = "";
-  spawnNeeded(p1, 1);
-  spawnNeeded(p2, 2);
 
   clearInterval(tickTimer);
+  clearInterval(cycleTimer);
+  
   timerTop.textContent = String(seconds);
   timerBottom.textContent = String(seconds);
+  
   tickTimer = setInterval(()=>{
     seconds -= 1;
     timerTop.textContent = String(seconds);
     timerBottom.textContent = String(seconds);
     if(seconds <= 0){ endGame(); }
   }, 1000);
-
-  // Запускаем таймеры бомб каждые 5 секунд
-  bombTimers[1] = setInterval(() => {
-    if(running) spawnBomb(p1, 1);
-  }, 5000);
   
-  bombTimers[2] = setInterval(() => {
-    if(running) spawnBomb(p2, 2);
-  }, 5000);
+  // Запускаем циклы каждые 2.5 секунды
+  cycleTimer = setInterval(()=>{
+    startCycle();
+  }, 2500);
+  
+  // Запускаем первый цикл сразу
+  startCycle();
 
   updateHUD();
 }
@@ -323,10 +332,7 @@ function startGame(){
 function endGame(){
   running = false;
   clearInterval(tickTimer);
-  // Останавливаем таймеры бомб
-  if(bombTimers[1]) clearInterval(bombTimers[1]);
-  if(bombTimers[2]) clearInterval(bombTimers[2]);
-  bombTimers[1] = bombTimers[2] = null;
+  clearInterval(cycleTimer);
   activePointers.clear(); // Очищаем активные касания
   p1.querySelectorAll(".target, .bomb").forEach(n=>n.remove());
   p2.querySelectorAll(".target, .bomb").forEach(n=>n.remove());
@@ -346,9 +352,25 @@ function goToMenu(){ window.location.href = "../../index.html"; }
 window.addEventListener("resize", ()=>{
   if(!running) return;
   activePointers.clear(); // Очищаем активные касания при изменении размера
-  p1.innerHTML = ""; p2.innerHTML = "";
-  spawnNeeded(p1, 1);
-  spawnNeeded(p2, 2);
+  // При изменении размера пересоздаем объекты на новых позициях
+  p1.querySelectorAll(".target, .bomb").forEach(n=>{
+    const player = parseInt(n.dataset.player);
+    n.remove();
+    if(n.classList.contains("bomb")){
+      createBomb(p1, player);
+    } else {
+      createTarget(p1, player);
+    }
+  });
+  p2.querySelectorAll(".target, .bomb").forEach(n=>{
+    const player = parseInt(n.dataset.player);
+    n.remove();
+    if(n.classList.contains("bomb")){
+      createBomb(p2, player);
+    } else {
+      createTarget(p2, player);
+    }
+  });
 });
 
 newGameBtn.addEventListener("click", startGame);
