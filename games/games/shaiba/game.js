@@ -83,17 +83,19 @@
     const btnBackBottom = document.getElementById('btnBackBottom');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
+    const btnToMenuFromMode = document.getElementById('btnToMenuFromMode');
     
     if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
     if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../index.html');
+    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
       if (modalBackdrop) modalBackdrop.hidden = true;
       showControlModeModal();
     });
-    if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../index.html');
+    if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnToMenuFromMode) btnToMenuFromMode.addEventListener('click', () => window.location.href = '../../index.html');
   }
   
   function showControlModeModal() {
@@ -1014,7 +1016,7 @@
   
   // ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ НАВИГАЦИИ
   window.goToMenu = () => {
-    window.location.href = '../index.html';
+    window.location.href = '../../index.html';
   };
 })();
 
