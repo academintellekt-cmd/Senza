@@ -6,5 +6,7 @@
     "git.enableSmartCommit": true,
     "git.confirmSync": false,
     "git.autofetch": true,
-    "git.postCommitCommand": "push"
+    "git.postCommitCommand": "push",
+    "idf.portWin": "COM3",
+    "idf.flashType": "UART"
 }

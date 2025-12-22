@@ -24,7 +24,7 @@
     fieldHeight: 0,
     gameLoop: null,
     activeTouches: new Map(), // Map<touchId, puckId>
-    draggedPucks: new Map(), // Map<puckId, {startX, startY, touchX, touchY}>
+    draggedPucks: new Map(), // Map<puckId, {startX, startY, touchX, touchY, history: [{x, y, time}]}>
     aimArrows: new Map() // Map<puckId, arrowElement> для прицельного режима
   };
 
@@ -274,13 +274,16 @@
       
       // Находим шайбу под пальцем
       const puck = findPuckAtPosition(touchX, touchY);
-      if (puck && !gameState.activeTouches.has(touch.identifier)) {
+      // Проверяем, что касание не обрабатывается и шайба не захвачена другим касанием
+      if (puck && !gameState.activeTouches.has(touch.identifier) && !gameState.draggedPucks.has(puck.id)) {
         gameState.activeTouches.set(touch.identifier, puck.id);
+        const now = Date.now();
         gameState.draggedPucks.set(puck.id, {
           startX: puck.x,
           startY: puck.y,
           touchX: touchX,
-          touchY: touchY
+          touchY: touchY,
+          history: [{ x: touchX, y: touchY, time: now }] // История позиций с временными метками
         });
         
         // Останавливаем шайбу
@@ -327,6 +330,14 @@
             // Обновляем touchX и touchY для расчета скорости при отпускании
             dragData.touchX = touchX;
             dragData.touchY = touchY;
+            
+            // Добавляем позицию в историю для расчета скорости
+            const now = Date.now();
+            dragData.history.push({ x: touchX, y: touchY, time: now });
+            
+            // Ограничиваем историю последними 200ms (для оптимизации)
+            const maxHistoryTime = 200;
+            dragData.history = dragData.history.filter(point => now - point.time <= maxHistoryTime);
           } else if (gameState.controlMode === 'aim') {
             // Прицельный режим - обновляем стрелку
             updateAimArrow(puckId, puck.x, puck.y, touchX, touchY);
@@ -353,12 +364,40 @@
           const touchY = touch.clientY - rect.top;
           
           if (gameState.controlMode === 'direct') {
-            // Прямой режим - вычисляем скорость на основе последнего движения
-            const dx = touchX - dragData.touchX;
-            const dy = touchY - dragData.touchY;
+            // Прямой режим - вычисляем скорость на основе истории движения
+            const now = Date.now();
+            const history = dragData.history || [];
             
-            puck.vx = dx * 0.5;
-            puck.vy = dy * 0.5;
+            // Добавляем текущую позицию в историю
+            history.push({ x: touchX, y: touchY, time: now });
+            
+            // Фильтруем историю за последние 150ms
+            const timeWindow = 150;
+            const recentHistory = history.filter(point => now - point.time <= timeWindow);
+            
+            if (recentHistory.length >= 2) {
+              // Вычисляем среднюю скорость на основе нескольких точек
+              const firstPoint = recentHistory[0];
+              const lastPoint = recentHistory[recentHistory.length - 1];
+              const timeDelta = (lastPoint.time - firstPoint.time) || 1; // Избегаем деления на 0
+              
+              const dx = lastPoint.x - firstPoint.x;
+              const dy = lastPoint.y - firstPoint.y;
+              
+              // Конвертируем пиксели в скорость (пиксели за кадр при 60 FPS)
+              // timeDelta в миллисекундах, нужно перевести в кадры (16.67ms на кадр)
+              const frames = timeDelta / 16.67;
+              const speedMultiplier = 0.8; // Коэффициент для регулировки силы броска
+              
+              puck.vx = (dx / frames) * speedMultiplier;
+              puck.vy = (dy / frames) * speedMultiplier;
+            } else {
+              // Если истории недостаточно, используем простой расчет
+              const dx = touchX - dragData.touchX;
+              const dy = touchY - dragData.touchY;
+              puck.vx = dx * 0.5;
+              puck.vy = dy * 0.5;
+            }
           } else if (gameState.controlMode === 'aim') {
             // Прицельный режим - запускаем шайбу в направлении стрелки
             const dx = touchX - dragData.startX;
@@ -408,6 +447,7 @@
   // Mouse обработчики для тестирования
   let currentMousePuck = null;
   let mouseStartPos = { x: 0, y: 0 };
+  let mouseHistory = [];
 
   function handleMouseDown(e) {
     const rect = gameField.getBoundingClientRect();
@@ -415,9 +455,11 @@
     const mouseY = e.clientY - rect.top;
     
     const puck = findPuckAtPosition(mouseX, mouseY);
-    if (puck) {
+    if (puck && !gameState.draggedPucks.has(puck.id)) {
       currentMousePuck = puck;
       mouseStartPos = { x: puck.x, y: puck.y };
+      const now = Date.now();
+      mouseHistory = [{ x: mouseX, y: mouseY, time: now }];
       puck.vx = 0;
       puck.vy = 0;
       
@@ -445,6 +487,14 @@
         // Ограничиваем позицию границами поля
         currentMousePuck.x = Math.max(currentMousePuck.radius, Math.min(gameState.fieldWidth - currentMousePuck.radius, currentMousePuck.x));
         currentMousePuck.y = Math.max(currentMousePuck.radius, Math.min(gameState.fieldHeight - currentMousePuck.radius, currentMousePuck.y));
+        
+        // Добавляем позицию в историю
+        const now = Date.now();
+        mouseHistory.push({ x: mouseX, y: mouseY, time: now });
+        
+        // Ограничиваем историю последними 200ms
+        const maxHistoryTime = 200;
+        mouseHistory = mouseHistory.filter(point => now - point.time <= maxHistoryTime);
       } else if (gameState.controlMode === 'aim') {
         // Прицельный режим - обновляем стрелку
         updateAimArrow(currentMousePuck.id, currentMousePuck.x, currentMousePuck.y, mouseX, mouseY);
@@ -459,12 +509,34 @@
       const mouseY = e.clientY - rect.top;
       
       if (gameState.controlMode === 'direct') {
-        // Прямой режим
-        const dx = mouseX - currentMousePuck.x;
-        const dy = mouseY - currentMousePuck.y;
+        // Прямой режим - вычисляем скорость на основе истории движения
+        const now = Date.now();
+        mouseHistory.push({ x: mouseX, y: mouseY, time: now });
         
-        currentMousePuck.vx = dx * 0.5;
-        currentMousePuck.vy = dy * 0.5;
+        // Фильтруем историю за последние 150ms
+        const timeWindow = 150;
+        const recentHistory = mouseHistory.filter(point => now - point.time <= timeWindow);
+        
+        if (recentHistory.length >= 2) {
+          const firstPoint = recentHistory[0];
+          const lastPoint = recentHistory[recentHistory.length - 1];
+          const timeDelta = (lastPoint.time - firstPoint.time) || 1;
+          
+          const dx = lastPoint.x - firstPoint.x;
+          const dy = lastPoint.y - firstPoint.y;
+          
+          const frames = timeDelta / 16.67;
+          const speedMultiplier = 0.8;
+          
+          currentMousePuck.vx = (dx / frames) * speedMultiplier;
+          currentMousePuck.vy = (dy / frames) * speedMultiplier;
+        } else {
+          // Если истории недостаточно, используем простой расчет
+          const dx = mouseX - currentMousePuck.x;
+          const dy = mouseY - currentMousePuck.y;
+          currentMousePuck.vx = dx * 0.5;
+          currentMousePuck.vy = dy * 0.5;
+        }
       } else if (gameState.controlMode === 'aim') {
         // Прицельный режим
         const dx = mouseX - mouseStartPos.x;
