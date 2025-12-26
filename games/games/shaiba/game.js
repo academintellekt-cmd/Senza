@@ -77,18 +77,18 @@
     });
     
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     const btnToMenuFromMode = document.getElementById('btnToMenuFromMode');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnNewLeft) btnNewLeft.addEventListener('click', resetGame);
+    if (btnNewRight) btnNewRight.addEventListener('click', resetGame);
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackRight) btnBackRight.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
       if (modalBackdrop) modalBackdrop.hidden = true;
@@ -952,10 +952,10 @@
     }
     
     const scoreText = `Красный: ${leftSidePucks} | Синий: ${rightSidePucks}`;
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
-    if (scoreTop) scoreTop.textContent = scoreText;
-    if (scoreBottom) scoreBottom.textContent = scoreText;
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
+    if (scoreLeft) scoreLeft.textContent = scoreText;
+    if (scoreRight) scoreRight.textContent = scoreText;
   }
 
   function updateDisplay() {

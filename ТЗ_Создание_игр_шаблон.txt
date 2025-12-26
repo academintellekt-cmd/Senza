@@ -12,8 +12,8 @@ games/
 ```
 
 ### Обязательные элементы:
-- HUD панели сверху и снизу
-- Модальные окна (выбор сложности, результаты)
+- HUD панели слева и справа (или сверху и снизу)
+- Модальные окна (выбор режима/сложности, результаты)
 - Адаптивное игровое поле
 - Система уровней и очков
 - Кнопки навигации
@@ -29,22 +29,20 @@ games/
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>НАЗВАНИЕ ИГРЫ</title>
-  <link rel="stylesheet" href="../../style.css" />
+  <link rel="stylesheet" href="../../shared/styles/fonts.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🎮 НАЗВАНИЕ ИГРЫ</span></div>
+        <div class="turn-label"><span id="turnLabelLeft"><span class="icon-emoji">🎮</span> НАЗВАНИЕ ИГРЫ </span><span class="score" id="scoreLeft">Уровень: 1</span></div>
       </div>
-      <div class="score" id="scoreTop">Уровень: 1</div>
-      <button class="btn" id="btnNewTop">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewLeft">Новая партия ↻</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровое поле -->
   <main class="game-container">
@@ -53,42 +51,53 @@ games/
     </div>
   </main>
 
-  <!-- HUD Bottom -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🎮 НАЗВАНИЕ ИГРЫ</span></div>
+        <div class="turn-label"><span id="turnLabelRight"><span class="icon-emoji">🎮</span> НАЗВАНИЕ ИГРЫ </span><span class="score" id="scoreRight">Уровень: 1</span></div>
       </div>
-      <div class="score" id="scoreBottom">Уровень: 1</div>
-      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewRight">Новая партия ↻</button>
     </div>
-  </footer>
+  </aside>
 
-  <!-- Модальное окно выбора сложности -->
+  <!-- Модальное окно выбора режима/сложности -->
   <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
     <div class="modal">
       <div class="modal-title">🎮 НАЗВАНИЕ ИГРЫ</div>
       <div class="modal-subtitle">Выберите уровень сложности</div>
       <div class="difficulty-options">
-        <button class="difficulty-option" data-level="2">Лёгкий (2)</button>
-        <button class="difficulty-option" data-level="4">Средний (4)</button>
-        <button class="difficulty-option" data-level="6">Высокий (6)</button>
-        <button class="difficulty-option" data-level="8">Экстра (8)</button>
-        <button class="difficulty-option" data-level="10">Вассерман (10)</button>
+        <button class="difficulty-option" data-level="2">
+          <div style="font-size: 20px; margin-bottom: 4px;">1️⃣</div>
+          <div>Лёгкий</div>
+          <div style="font-size: 12px; color: var(--neutral-color); margin-top: 4px;">Описание уровня</div>
+        </button>
+        <button class="difficulty-option" data-level="4">
+          <div style="font-size: 20px; margin-bottom: 4px;">2️⃣</div>
+          <div>Средний</div>
+          <div style="font-size: 12px; color: var(--neutral-color); margin-top: 4px;">Описание уровня</div>
+        </button>
+        <button class="difficulty-option" data-level="6">
+          <div style="font-size: 20px; margin-bottom: 4px;">3️⃣</div>
+          <div>Высокий</div>
+          <div style="font-size: 12px; color: var(--neutral-color); margin-top: 4px;">Описание уровня</div>
+        </button>
+      </div>
+      <div class="modal-actions" style="margin-top: 24px;">
+        <button class="btn btn-ghost" id="btnToMenuFromMode">← Меню</button>
       </div>
     </div>
   </div>
 
   <!-- Модальное окно результатов -->
-  <div id="modalBackdrop" class="modal-backdrop" hidden style="display: none !important;">
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
     <div class="modal">
       <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
       <p class="modal-subtitle" id="modalSubtitle">Финальный счёт: 0</p>
       <div class="modal-actions">
-        <button class="btn" id="btnRematch">Новая партия</button>
-        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+        <button class="btn" id="btnRematch">Начать заново</button>
+        <button class="btn btn-ghost" id="btnToMenu">Меню</button>
       </div>
     </div>
   </div>
@@ -104,34 +113,215 @@ games/
 
 ```css
 /* Подключение корневых стилей */
-@import url('../../style.css');
+@import url('../../shared/styles/fonts.css');
 
-/* Игровой контейнер */
-.game-container {
+/* CSS переменные - светлая тема */
+:root {
+  --background: #f8fafc;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --text: #1e293b;
+  --accent: #ff6a00;
+  --accent-hover: #e55a00;
+  --neutral-color: #cbd5e1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --red-color: #dc2626;
+  --blue-color: #2563eb;
+}
+
+/* Базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Involve', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* HUD стили - боковые панели */
+.hud {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: var(--card);
+  padding: 60px 8px;
+  width: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 80px 16px;
+}
+
+.hud-left {
+  left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.hud-right {
+  right: 0;
+  border-left: 1px solid var(--line);
+}
+
+.hud-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.hud-rotated {
+  transform: rotate(180deg);
+}
+
+.hud-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 0;
+}
+
+.turn-label {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+
+.turn-label span {
+  display: inline-block;
+}
+
+.turn-label .icon-emoji {
+  display: inline-block;
+  transform: rotate(90deg);
+  margin-bottom: 4px;
+}
+
+.turn-label .score {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: inline-block;
+  margin-top: 1.5em;
+}
+
+/* Кнопки */
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-size: clamp(14px, 2vw, 18px);
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--line);
+}
+
+.btn:not(.hud .btn):hover {
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-ghost:hover {
+  background: var(--line);
+}
+
+/* Кнопки в HUD */
+.hud .btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+
+.hud .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud-row.hud-rotated .btn {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+/* Игровой контейнер */
+.game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--background);
+}
+
+#stage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
 }
 
 /* Игровое поле */
 .game-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   gap: 8px;
-  width: calc(100vw - 32px);
-  height: calc(100vh - 200px);
-  max-width: calc(100vh - 200px);
-  max-height: calc(100vh - 200px);
   border-radius: 20px;
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   padding: 12px;
-  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* Клетки поля */
@@ -168,35 +358,133 @@ games/
   background: rgba(255,106,0,0.1);
 }
 
-/* HUD кнопка проверки */
-.hud-check-btn {
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-backdrop[hidden] {
+  display: none !important;
+}
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.modal-subtitle {
+  font-size: 18px;
+  color: var(--neutral-color);
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.difficulty-option {
   appearance: none;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 8px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 16px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all .2s ease;
-  font-size: clamp(12px, 1.5vw, 16px);
+  font-size: 16px;
 }
 
-.hud-check-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
+.difficulty-option:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 106, 0, 0.3);
 }
 
-.hud-check-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
+.difficulty-option:active {
+  transform: translateY(0);
 }
 
 /* Анимации */
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .hud {
+    width: 70px;
+  }
+  
+  .game-container {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .hud .btn {
+    max-height: 54px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hud {
+    width: 50px;
+    padding: 12px 8px;
+  }
+  
+  .game-container {
+    left: 50px;
+    right: 50px;
+  }
+  
+  .turn-label {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .turn-label .score {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .hud .btn {
+    padding: 6px 10px;
+    font-size: clamp(14px, 2vw, 18px);
+    max-height: 34px;
+  }
 }
 ```
 
@@ -242,7 +530,6 @@ games/
 
   // DOM ЭЛЕМЕНТЫ
   let stage, gameField;
-  let hudCheckTop, hudCheckBottom;
 
   // ИНИЦИАЛИЗАЦИЯ
   function initGame() {
@@ -264,40 +551,34 @@ games/
     `;
     
     gameField = document.getElementById('gameField');
-    hudCheckTop = document.getElementById('hudCheckTop');
-    hudCheckBottom = document.getElementById('hudCheckBottom');
   }
 
   // ОБЯЗАТЕЛЬНЫЕ ФУНКЦИИ
   function updateDisplay() {
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
-    if (scoreTop) scoreTop.textContent = `Уровень: ${gameState.level}`;
-    if (scoreBottom) scoreBottom.textContent = `Уровень: ${gameState.level}`;
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
+    if (scoreLeft) scoreLeft.textContent = `Уровень: ${gameState.level}`;
+    if (scoreRight) scoreRight.textContent = `Уровень: ${gameState.level}`;
     
     if (!gameState.isPlaying) {
-      const turnLabelTop = document.getElementById('turnLabelTop');
-      const turnLabelBottom = document.getElementById('turnLabelBottom');
-      if (turnLabelTop) turnLabelTop.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
-      if (turnLabelBottom) turnLabelBottom.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      const turnLabelLeft = document.getElementById('turnLabelLeft');
+      const turnLabelRight = document.getElementById('turnLabelRight');
+      if (turnLabelLeft) {
+        const iconSpan = turnLabelLeft.querySelector('.icon-emoji');
+        if (iconSpan) iconSpan.textContent = GAME_CONFIG.icon;
+      }
+      if (turnLabelRight) {
+        const iconSpan = turnLabelRight.querySelector('.icon-emoji');
+        if (iconSpan) iconSpan.textContent = GAME_CONFIG.icon;
+      }
     }
   }
 
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
-  }
-
-  function showHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'block';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'block';
-  }
-
-  function hideHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'none';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'none';
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   function resetGame() {
@@ -311,7 +592,6 @@ games/
     if (modalBackdrop) modalBackdrop.hidden = true;
     
     if (gameField) gameField.style.display = 'none';
-    hideHUDCheckButton();
     
     showDifficultyModal();
     updateDisplay();
@@ -357,17 +637,18 @@ games/
     });
 
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
+    const btnToMenuFromMode = document.getElementById('btnToMenuFromMode');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnNewLeft) btnNewLeft.addEventListener('click', resetGame);
+    if (btnNewRight) btnNewRight.addEventListener('click', resetGame);
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackRight) btnBackRight.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
       if (modalBackdrop) modalBackdrop.hidden = true;
@@ -378,10 +659,7 @@ games/
       }
     });
     if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../../index.html');
-
-    // Кнопки проверки
-    if (hudCheckTop) hudCheckTop.addEventListener('click', checkResult);
-    if (hudCheckBottom) hudCheckBottom.addEventListener('click', checkResult);
+    if (btnToMenuFromMode) btnToMenuFromMode.addEventListener('click', () => window.location.href = '../../index.html');
   }
 
   // АЛГОРИТМ ИГРЫ (ИЗМЕНИТЬ ПОД КОНКРЕТНУЮ ИГРУ)
@@ -432,7 +710,6 @@ games/
       }, 3000);
     }
     
-    hideHUDCheckButton();
     updateDisplay();
   }
 
@@ -453,7 +730,6 @@ games/
     gameState.isPlaying = false;
     gameState.gamePhase = 'finished';
     
-    hideHUDCheckButton();
     updateHUDInfo('Давай сыграем еще?');
     showEndModal();
   }
@@ -472,6 +748,25 @@ games/
   };
 })();
 ```
+
+---
+
+## 📝 КЛЮЧЕВЫЕ ИЗМЕНЕНИЯ В СТИЛЕ (обновлено на основе игры "Шайба")
+
+### HUD панели:
+- **Ширина рамок**: 90px (вместо 180px) - уменьшена в 2 раза
+- **Padding**: `60px 8px` (вертикальный, горизонтальный)
+- **Счет и название игры**: объединены в одну строку внутри `.turn-label` с расстоянием 1.5em между ними
+- **Размер шрифта**: унифицирован до `clamp(14px, 2vw, 18px)` для всех элементов
+
+### Кнопки:
+- **Ширина**: `width: auto` (вместо `width: 100%`) - подстраиваются под текст
+- **Ограничение**: `max-height: 74px` для предотвращения выхода за границы
+- **Выравнивание**: `align-self: center` для центрирования
+
+### Адаптивность:
+- **1024px**: ширина HUD 70px, max-height кнопок 54px
+- **768px**: ширина HUD 50px, max-height кнопок 34px
 
 ---
 
@@ -500,5 +795,3 @@ games/
 ---
 
 **Теперь просто копируйте этот шаблон и меняйте только алгоритм игры!** 🚀
-
-

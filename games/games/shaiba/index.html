@@ -2,23 +2,26 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Шайба</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="../../shared/styles/fonts.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🏒 Шайба</span></div>
+        <div class="turn-label"><span id="turnLabelLeft"><span class="icon-emoji">🏒</span> Шайба </span><span class="score" id="scoreLeft">Красный: 5 | Синий: 5</span></div>
       </div>
-      <div class="score" id="scoreTop">Красный: 5 | Синий: 5</div>
-      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="btn" id="btnNewLeft">Новая партия ↻</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровое поле -->
   <main class="game-container">
@@ -27,17 +30,16 @@
     </div>
   </main>
 
-  <!-- HUD Bottom -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🏒 Шайба</span></div>
+        <div class="turn-label"><span id="turnLabelRight"><span class="icon-emoji">🏒</span> Шайба </span><span class="score" id="scoreRight">Красный: 5 | Синий: 5</span></div>
       </div>
-      <div class="score" id="scoreBottom">Красный: 5 | Синий: 5</div>
-      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="btn" id="btnNewRight">Новая партия ↻</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модальное окно выбора режима управления -->
   <div id="controlModeModal" class="modal-backdrop" style="display: flex;">

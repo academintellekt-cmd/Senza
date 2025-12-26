@@ -55,7 +55,7 @@
 
   // DOM ЭЛЕМЕНТЫ
   let stage, gameField, ballElement, paddleLeftElement, paddleRightElement;
-  let hudCheckTop, hudCheckBottom;
+  let hudCheckLeft, hudCheckRight;
 
   // ИНИЦИАЛИЗАЦИЯ
   function initGame() {
@@ -86,44 +86,44 @@
     ballElement = document.getElementById('ball');
     paddleLeftElement = document.getElementById('paddleLeft');
     paddleRightElement = document.getElementById('paddleRight');
-    hudCheckTop = document.getElementById('hudCheckTop');
-    hudCheckBottom = document.getElementById('hudCheckBottom');
+    hudCheckLeft = document.getElementById('hudCheckLeft');
+    hudCheckRight = document.getElementById('hudCheckRight');
   }
 
   // ОБЯЗАТЕЛЬНЫЕ ФУНКЦИИ
   function updateDisplay() {
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
     const scoreDisplay = document.getElementById('scoreDisplay');
     
     const scoreText = `${gameState.score.left} - ${gameState.score.right}`;
-    if (scoreTop) scoreTop.textContent = `Счёт: ${scoreText}`;
-    if (scoreBottom) scoreBottom.textContent = `Счёт: ${scoreText}`;
+    if (scoreLeft) scoreLeft.textContent = `Счёт: ${scoreText}`;
+    if (scoreRight) scoreRight.textContent = `Счёт: ${scoreText}`;
     if (scoreDisplay) scoreDisplay.textContent = scoreText;
     
     if (!gameState.isPlaying) {
-      const turnLabelTop = document.getElementById('turnLabelTop');
-      const turnLabelBottom = document.getElementById('turnLabelBottom');
-      if (turnLabelTop) turnLabelTop.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
-      if (turnLabelBottom) turnLabelBottom.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      const turnLabelLeft = document.getElementById('turnLabelLeft');
+      const turnLabelRight = document.getElementById('turnLabelRight');
+      if (turnLabelLeft) turnLabelLeft.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      if (turnLabelRight) turnLabelRight.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
     }
   }
 
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   function showHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'block';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'block';
+    if (hudCheckLeft) hudCheckLeft.style.display = 'block';
+    if (hudCheckRight) hudCheckRight.style.display = 'block';
   }
 
   function hideHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'none';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'none';
+    if (hudCheckLeft) hudCheckLeft.style.display = 'none';
+    if (hudCheckRight) hudCheckRight.style.display = 'none';
   }
 
   function resetGame() {
@@ -194,17 +194,17 @@
     });
 
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnNewLeft) btnNewLeft.addEventListener('click', resetGame);
+    if (btnNewRight) btnNewRight.addEventListener('click', resetGame);
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackRight) btnBackRight.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
       if (modalBackdrop) {
@@ -219,8 +219,8 @@
     if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../../index.html');
 
     // Кнопки проверки (не используются в теннисе)
-    if (hudCheckTop) hudCheckTop.addEventListener('click', () => {});
-    if (hudCheckBottom) hudCheckBottom.addEventListener('click', () => {});
+    if (hudCheckLeft) hudCheckLeft.addEventListener('click', () => {});
+    if (hudCheckRight) hudCheckRight.addEventListener('click', () => {});
   }
 
   // ИГРОВАЯ ЛОГИКА

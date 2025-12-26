@@ -2,8 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Змейка</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,9 +16,8 @@
     <div class="hud-row hud-rotated">
       <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🐍 Змейка</span></div>
+        <div class="turn-label"><span id="turnLabelTop">🐍 Змейка </span><span class="score" id="scoreTop">Скорость: 1</span></div>
       </div>
-      <div class="score" id="scoreTop">Скорость: 1</div>
       <div class="player-controls-hud" id="player1Controls" style="display: none;">
         <div class="player-info red">Игрок 1</div>
         <div class="control-buttons">
@@ -39,9 +42,8 @@
     <div class="hud-row">
       <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🐍 Змейка</span></div>
+        <div class="turn-label"><span id="turnLabelBottom">🐍 Змейка </span><span class="score" id="scoreBottom">Скорость: 1</span></div>
       </div>
-      <div class="score" id="scoreBottom">Скорость: 1</div>
       <div class="player-controls-hud" id="player2Controls" style="display: none;">
         <div class="player-info green">Игрок 2</div>
         <div class="control-buttons">

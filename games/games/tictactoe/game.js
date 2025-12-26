@@ -5,17 +5,17 @@
   const modalSubtitle = document.getElementById('modalSubtitle');
 
   // HUD labels
-  const turnLabelTop = document.getElementById('turnLabelTop');
-  const turnLabelBottom = document.getElementById('turnLabelBottom');
+  const turnLabelLeft = document.getElementById('turnLabelLeft');
+  const turnLabelRight = document.getElementById('turnLabelRight');
 
-  const scoreTopEl = document.getElementById('scoreTop');
-  const scoreBottomEl = document.getElementById('scoreBottom');
+  const scoreLeftEl = document.getElementById('scoreLeft');
+  const scoreRightEl = document.getElementById('scoreRight');
 
   // Buttons (both HUDs)
-  const btnNewTop = document.getElementById('btnNewTop');
-  const btnNewBottom = document.getElementById('btnNewBottom');
-  const btnBackTop = document.getElementById('btnBackTop');
-  const btnBackBottom = document.getElementById('btnBackBottom');
+  const btnNewLeft = document.getElementById('btnNewLeft');
+  const btnNewRight = document.getElementById('btnNewRight');
+  const btnBackLeft = document.getElementById('btnBackLeft');
+  const btnBackRight = document.getElementById('btnBackRight');
   const btnRematch = document.getElementById('btnRematch');
   const btnToMenu = document.getElementById('btnToMenu');
 
@@ -82,13 +82,13 @@
 
   function updateHUD(){
     const turnText = `Ход ${state.turn}`;
-    if (turnLabelTop) turnLabelTop.textContent = turnText;
-    if (turnLabelBottom) turnLabelBottom.textContent = turnText;
+    if (turnLabelLeft) turnLabelLeft.textContent = turnText;
+    if (turnLabelRight) turnLabelRight.textContent = turnText;
 
     const wins1 = state.score.X; // Игрок 1 (X)
     const wins2 = state.score.O; // Игрок 2 (O)
-    if (scoreTopEl) scoreTopEl.textContent = `Победы: ${wins1} – ${wins2}`;
-    if (scoreBottomEl) scoreBottomEl.textContent = `Победы: ${wins2} – ${wins1}`;
+    if (scoreLeftEl) scoreLeftEl.textContent = `Победы: ${wins1} – ${wins2}`;
+    if (scoreRightEl) scoreRightEl.textContent = `Победы: ${wins2} – ${wins1}`;
   }
 
   function emptyCells(){
@@ -214,8 +214,8 @@
 
   const MENU_URL = "../../index.html";
 
-  [btnNewTop, btnNewBottom].filter(Boolean).forEach(b => b.addEventListener('click', () => resetBoard(true)));
-  [btnBackTop, btnBackBottom].filter(Boolean).forEach(b => b.addEventListener('click', () => { try{ window.location.href = MENU_URL; }catch(e){ history.back(); } }));
+  [btnNewLeft, btnNewRight].filter(Boolean).forEach(b => b.addEventListener('click', () => resetBoard(true)));
+  [btnBackLeft, btnBackRight].filter(Boolean).forEach(b => b.addEventListener('click', () => { try{ window.location.href = MENU_URL; }catch(e){ history.back(); } }));
   btnRematch && btnRematch.addEventListener('click', () => { closeModal(); resetBoard(true); });
   btnToMenu && btnToMenu.addEventListener('click', () => { try{ window.location.href = MENU_URL; }catch(e){ closeModal(); history.back(); } });
 

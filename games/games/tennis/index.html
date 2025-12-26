@@ -2,24 +2,27 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Теннис</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="../../shared/styles/fonts.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🎾 Теннис</span></div>
+        <div class="turn-label"><span id="turnLabelLeft">🎾 Теннис </span><span class="score" id="scoreLeft">Счёт: 0 - 0</span></div>
       </div>
-      <div class="score" id="scoreTop">Счёт: 0 - 0</div>
-      <button class="btn" id="btnNewTop">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewLeft">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckLeft" style="display: none;">Проверить</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровое поле -->
   <main class="game-container">
@@ -28,18 +31,17 @@
     </div>
   </main>
 
-  <!-- HUD Bottom -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🎾 Теннис</span></div>
+        <div class="turn-label"><span id="turnLabelRight">🎾 Теннис </span><span class="score" id="scoreRight">Счёт: 0 - 0</span></div>
       </div>
-      <div class="score" id="scoreBottom">Счёт: 0 - 0</div>
-      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewRight">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckRight" style="display: none;">Проверить</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модальное окно выбора сложности -->
   <div id="difficultyModal" class="modal-backdrop" style="display: flex;">

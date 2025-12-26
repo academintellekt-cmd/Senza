@@ -34,8 +34,9 @@ body{
 }
 .hud-rotated{ transform: rotate(180deg); }
 .hud-center{display:flex; flex-direction:column; align-items:center; gap:4px}
-.turn-label{font-weight:700; font-size:clamp(16px, 2.2vw, 24px)}
-.score{font-size:clamp(14px, 1.8vw, 20px)}
+.turn-label{font-weight:600; font-size:clamp(14px, 2vw, 18px)}
+.turn-label .score{font-weight:600; font-size:clamp(14px, 2vw, 18px); color:var(--accent); display:inline-block; margin-left:0.5em}
+.score{font-size:clamp(14px, 2vw, 18px); font-weight:600; color:var(--accent)}
 
 /* Buttons */
 .btn{
@@ -43,6 +44,7 @@ body{
   background:#fff; color:var(--text);
   padding:10px 16px; border-radius:12px; font-weight:600;
   cursor:pointer; transition: all .2s ease; box-shadow: none;
+  font-size: clamp(14px, 2vw, 18px);
 }
 .btn:hover{ border-color:var(--accent); color:#fff; background:var(--accent); box-shadow:0 10px 20px rgba(255,106,0,.18); }
 .btn:active{ transform: translateY(1px); }

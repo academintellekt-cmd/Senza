@@ -2,39 +2,41 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Крестики-нолики — 3×3 (перемещение)</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop" aria-label="Вернуться в меню (верх)">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft" aria-label="Вернуться в меню">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">Ход X</span></div>
+        <div class="turn-label"><span id="turnLabelLeft">Ход X </span><span class="score" id="scoreLeft">Победы: 0 – 0</span></div>
       </div>
-      <div class="score" id="scoreTop">Победы: 0 – 0</div>
-      <button class="btn" id="btnNewTop" aria-label="Новая партия (верх)">Новая партия ↻</button>
+      <button class="btn" id="btnNewLeft" aria-label="Новая партия">Новая партия ↻</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровая зона -->
-  <main class="stage">
+  <main class="game-container">
     <div class="board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
   </main>
 
-  <!-- HUD Bottom (без поворота) -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom" aria-label="Вернуться в меню (низ)">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight" aria-label="Вернуться в меню">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">Ход X</span></div>
+        <div class="turn-label"><span id="turnLabelRight">Ход X </span><span class="score" id="scoreRight">Победы: 0 – 0</span></div>
       </div>
-      <div class="score" id="scoreBottom">Победы: 0 – 0</div>
-      <button class="btn" id="btnNewBottom" aria-label="Новая партия (низ)">Новая партия ↻</button>
+      <button class="btn" id="btnNewRight" aria-label="Новая партия">Новая партия ↻</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модалка результата -->
   <div class="modal-backdrop" id="modalBackdrop" hidden>

@@ -2,8 +2,12 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Самолеты</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="../../assets/styles/main.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,9 +17,8 @@
     <div class="hud-row hud-rotated">
       <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">✈️ Самолеты</span></div>
+        <div class="turn-label"><span id="turnLabelTop">✈️ Самолеты </span><span class="score" id="scoreTop">Игроков: 2</span></div>
       </div>
-      <div class="score" id="scoreTop">Игроков: 2</div>
       <div class="player-controls-hud" id="player3Controls" style="display: none;">
         <div class="player-info blue">Игрок 3</div>
         <div class="control-buttons">
@@ -48,9 +51,8 @@
     <div class="hud-row">
       <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">✈️ Самолеты</span></div>
+        <div class="turn-label"><span id="turnLabelBottom">✈️ Самолеты </span><span class="score" id="scoreBottom">Игроков: 2</span></div>
       </div>
-      <div class="score" id="scoreBottom">Игроков: 2</div>
       <div class="player-controls-hud" id="player4Controls" style="display: none;">
         <div class="player-info green">Игрок 4</div>
         <div class="control-buttons">

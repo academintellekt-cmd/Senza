@@ -2,43 +2,45 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Запомни цвет</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+  </style>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop" aria-label="Вернуться в меню (верх)">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft" aria-label="Вернуться в меню">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🎨 Запомни цвет</span></div>
+        <div class="turn-label"><span id="turnLabelLeft">🎨 Запомни цвет </span><span class="score" id="scoreLeft">Уровень: 1</span></div>
       </div>
-      <div class="score" id="scoreTop">Уровень: 1</div>
-      <button class="btn" id="btnNewTop" aria-label="Новая партия (верх)">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewLeft" aria-label="Новая партия">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckLeft" style="display: none;">Проверить</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровая зона -->
-  <main class="stage">
+  <main class="game-container">
     <div id="stage">
       <!-- Игровое поле будет создано динамически -->
     </div>
   </main>
 
-  <!-- HUD Bottom (без поворота) -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom" aria-label="Вернуться в меню (низ)">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight" aria-label="Вернуться в меню">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🎨 Запомни цвет</span></div>
+        <div class="turn-label"><span id="turnLabelRight">🎨 Запомни цвет </span><span class="score" id="scoreRight">Уровень: 1</span></div>
       </div>
-      <div class="score" id="scoreBottom">Уровень: 1</div>
-      <button class="btn" id="btnNewBottom" aria-label="Новая партия (низ)">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+      <button class="btn" id="btnNewRight" aria-label="Новая партия">Новая партия ↻</button>
+      <button class="hud-check-btn" id="hudCheckRight" style="display: none;">Проверить</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модальное окно выбора сложности -->
   <div id="difficultyModal" class="modal-backdrop" role="dialog" aria-modal="true" style="display: flex;">

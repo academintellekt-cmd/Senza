@@ -32,11 +32,14 @@ body {
 
 /* Игровой контейнер */
 .game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 80px 16px;
   background: var(--background);
 }
 
@@ -236,33 +239,39 @@ body {
   font-weight: 700;
 }
 
-/* HUD элементы */
+/* HUD стили - боковые панели */
 .hud {
   position: fixed;
-  left: 0;
-  right: 0;
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-.hud-top {
   top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: var(--card);
+  padding: 60px 8px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hud-bottom {
-  bottom: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: none;
+.hud-left {
+  left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.hud-right {
+  right: 0;
+  border-left: 1px solid var(--line);
 }
 
 .hud-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 16px 0;
+  box-sizing: border-box;
 }
 
 .hud-rotated {
@@ -271,47 +280,99 @@ body {
 
 .hud-center {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  min-height: 0;
 }
 
 .turn-label {
   font-weight: 600;
-  font-size: 16px;
-  color: var(--text);
+  font-size: clamp(14px, 2vw, 18px);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+
+.turn-label span {
+  display: inline-block;
+}
+
+.turn-label .score {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: inline-block;
+  margin-top: 1.5em;
 }
 
 .score {
   font-weight: 600;
   color: var(--accent);
-  font-size: 14px;
+  font-size: clamp(14px, 2vw, 18px);
 }
 
 .btn {
   appearance: none;
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: white;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 14px;
+  transition: all .2s ease;
+  font-size: clamp(14px, 2vw, 18px);
+  font-family: inherit;
 }
 
 .btn:hover {
-  background: var(--accent-hover);
+  background: var(--line);
+}
+
+.btn:not(.hud .btn):hover {
   transform: translateY(-1px);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--accent);
+  border-color: var(--line);
 }
 
 .btn-ghost:hover {
-  background: var(--accent);
-  color: white;
+  background: var(--line);
+}
+
+/* Кнопки в HUD */
+.hud .btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+
+.hud .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud-row.hud-rotated .btn {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
 }
 
 /* HUD кнопка проверки */
@@ -324,13 +385,30 @@ body {
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 14px;
+  transition: all .2s ease;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+.hud .hud-check-btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
 }
 
 .hud-check-btn:hover {
   background: var(--accent-hover);
-  transform: translateY(-1px);
+}
+
+.hud .hud-check-btn:hover {
+  transform: rotate(90deg) translateX(-1px);
 }
 
 .hud-check-btn:disabled {

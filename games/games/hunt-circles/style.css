@@ -5,15 +5,15 @@ html, body { height: 100%; margin: 0; overflow: hidden; }
 .hud{ flex: 0 0 64px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; padding: 8px 12px; }
 .hud-top{ transform: rotate(180deg); } .hud-bottom{ transform: none; }
 .hud-row{ width: 100%; max-width: 1600px; display: grid; grid-template-columns: auto minmax(0,1fr) auto auto auto; gap: 8px; align-items: center; white-space: nowrap; }
-.btn{ background:#FFF; border:1px solid var(--line); padding:10px 16px; border-radius:12px; font-weight:700; cursor:pointer; transition: all .2s ease; white-space: nowrap; display:inline-flex; align-items:center; gap:8px; width:auto; min-width:unset; flex:0 1 auto; box-sizing:border-box; }
+.btn{ background:#FFF; border:1px solid var(--line); padding:10px 16px; border-radius:12px; font-weight:600; cursor:pointer; transition: all .2s ease; white-space: nowrap; display:inline-flex; align-items:center; gap:8px; width:auto; min-width:unset; flex:0 1 auto; box-sizing:border-box; font-size: clamp(14px, 2vw, 18px); }
 .btn:hover{ background:var(--accent); color:#FFF; box-shadow: var(--shadow); border-color: var(--accent); }
 .btn.primary{ background:var(--accent); color:#FFF; border-color:var(--accent); }
 .btn-ghost{ background: #FFF; color: var(--text); }
 .hud-row .btn.btn-ghost{ justify-self:start; }
 .hud-row #newGameTop, .hud-row #newGameBottom{ justify-self:end; }
-.turn-label{ justify-self: center; font-weight: 800; font-size: clamp(16px, 2.1vw, 22px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
-.points{ justify-self: center; font-weight: 700; font-size: clamp(14px, 1.8vw, 20px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
-.score{ justify-self: end; font-weight: 700; font-size: clamp(14px, 1.9vw, 20px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.turn-label{ justify-self: center; font-weight: 600; font-size: clamp(14px, 2vw, 18px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.points{ justify-self: center; font-weight: 600; font-size: clamp(14px, 2vw, 18px); color: var(--text); min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.score{ justify-self: end; font-weight: 600; font-size: clamp(14px, 2vw, 18px); color: var(--accent); min-width:0; overflow:hidden; text-overflow:ellipsis; }
 #board{ flex: 1 1 auto; min-height: 0; display: flex; flex-direction: row; gap: 12px; overflow: hidden; }
 .half{ flex: 1 1 0; min-width: 0; overflow: hidden; position: relative; background: var(--card); border:1px solid var(--line); border-radius:20px; }
 .half.lead{ box-shadow: inset 0 0 0 4px rgba(255,106,0,0.18); }

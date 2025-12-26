@@ -1,1 +1,19 @@
-/* Заглушка стилей игры. Замените на ваши */
+/* Стили для игры Холодильник */
+.turn-label {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+.turn-label .score {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent);
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.score {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent);
+}

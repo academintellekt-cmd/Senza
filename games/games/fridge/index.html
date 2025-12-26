@@ -2,24 +2,25 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Холодильник 5×5</title>
+  <style>
+    html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
+    * { touch-action: pan-x pan-y; }
+    .placeholder{{position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#64748B; font-size:clamp(14px,2vw,18px);}}
+    .placeholder strong{{color:#0F172A}}
+  </style>
   <link rel="stylesheet" href="../../../style.css">
   <link rel="stylesheet" href="style.css">
   <script src="../../../common.js" defer></script>
   <script src="game.js" defer></script>
-  <style>
-    .placeholder{{position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#64748B; font-size:clamp(14px,2vw,18px);}}
-    .placeholder strong{{color:#0F172A}}
-  </style>
 </head>
 <body>
   <div id="game-container">
     <header class="hud hud-top">
       <div class="hud-row hud-rotated">
         <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Холодильник 5×5</div>
-        <div class="score" id="scoreTop">Победы: 0 – 0</div>
+        <div class="turn-label">Холодильник 5×5 <span class="score" id="scoreTop">Победы: 0 – 0</span></div>
         <button class="btn" id="newGameTop">Новая партия ↻</button>
       </div>
     </header>
@@ -39,8 +40,7 @@
     <footer class="hud hud-bottom">
       <div class="hud-row">
         <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Холодильник 5×5</div>
-        <div class="score" id="scoreBottom">Победы: 0 – 0</div>
+        <div class="turn-label">Холодильник 5×5 <span class="score" id="scoreBottom">Победы: 0 – 0</span></div>
         <button class="btn" id="newGameBottom">Новая партия ↻</button>
       </div>
     </footer>

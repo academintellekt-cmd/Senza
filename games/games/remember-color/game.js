@@ -37,7 +37,7 @@
 
   // DOM элементы
   let stage, gameField, colorSample;
-  let hudCheckTop, hudCheckBottom;
+  let hudCheckLeft, hudCheckRight;
 
   // Инициализация игры
   function initGame() {
@@ -69,8 +69,8 @@
     colorSample = document.getElementById('colorSample');
     
     // Получаем ссылки на HUD элементы
-    hudCheckTop = document.getElementById('hudCheckTop');
-    hudCheckBottom = document.getElementById('hudCheckBottom');
+    hudCheckLeft = document.getElementById('hudCheckLeft');
+    hudCheckRight = document.getElementById('hudCheckRight');
   }
 
   // Показ модального окна выбора сложности
@@ -108,26 +108,26 @@
     });
 
     // Кнопки проверки в HUD
-    if (hudCheckTop) hudCheckTop.addEventListener('click', checkSelection);
-    if (hudCheckBottom) hudCheckBottom.addEventListener('click', checkSelection);
+    if (hudCheckLeft) hudCheckLeft.addEventListener('click', checkSelection);
+    if (hudCheckRight) hudCheckRight.addEventListener('click', checkSelection);
 
     // Кнопки "Новая партия" в HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
+    if (btnNewLeft) btnNewLeft.addEventListener('click', resetGame);
+    if (btnNewRight) btnNewRight.addEventListener('click', resetGame);
     
     // Кнопки "Меню" в HUD
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     
-    if (btnBackTop) btnBackTop.addEventListener('click', () => {
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => {
       window.location.href = '../../index.html';
     });
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => {
+    if (btnBackRight) btnBackRight.addEventListener('click', () => {
       window.location.href = '../../index.html';
     });
     if (btnRematch) btnRematch.addEventListener('click', () => {
@@ -182,14 +182,14 @@
   // Показ эталона цвета
   async function showTargetColor() {
     // Показываем четкое состояние с подсветкой слова "цвет"
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
     
-    if (turnLabelTop) {
-      turnLabelTop.innerHTML = `🎨 Запомни цвет <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span>`;
+    if (turnLabelLeft) {
+      turnLabelLeft.innerHTML = `🎨 Запомни цвет <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span>`;
     }
-    if (turnLabelBottom) {
-      turnLabelBottom.innerHTML = `🎨 Запомни цвет <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span>`;
+    if (turnLabelRight) {
+      turnLabelRight.innerHTML = `🎨 Запомни цвет <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span>`;
     }
     
     colorSample.style.backgroundColor = gameState.targetColor.value;
@@ -306,24 +306,24 @@
     const needed = gameState.currentDifficulty;
     
     // Показываем прогресс в HUD с подсветкой цвета
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
     
-    if (turnLabelTop) {
-      turnLabelTop.innerHTML = `Выбрано ${selected} из ${needed} <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span> клеток`;
+    if (turnLabelLeft) {
+      turnLabelLeft.innerHTML = `Выбрано ${selected} из ${needed} <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span> клеток`;
     }
-    if (turnLabelBottom) {
-      turnLabelBottom.innerHTML = `Выбрано ${selected} из ${needed} <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span> клеток`;
+    if (turnLabelRight) {
+      turnLabelRight.innerHTML = `Выбрано ${selected} из ${needed} <span style="color: ${gameState.targetColor.value}; font-weight: bold;">${gameState.targetColor.display}</span> клеток`;
     }
     
     if (selected === needed) {
       // Включаем кнопки проверки
-      if (hudCheckTop) hudCheckTop.disabled = false;
-      if (hudCheckBottom) hudCheckBottom.disabled = false;
+      if (hudCheckLeft) hudCheckLeft.disabled = false;
+      if (hudCheckRight) hudCheckRight.disabled = false;
     } else {
       // Отключаем кнопки проверки
-      if (hudCheckTop) hudCheckTop.disabled = true;
-      if (hudCheckBottom) hudCheckBottom.disabled = true;
+      if (hudCheckLeft) hudCheckLeft.disabled = true;
+      if (hudCheckRight) hudCheckRight.disabled = true;
     }
   }
 
@@ -509,18 +509,18 @@
   // Обновление отображения
   function updateDisplay() {
     // Обновляем уровень
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
-    if (scoreTop) scoreTop.textContent = `Уровень: ${gameState.level}`;
-    if (scoreBottom) scoreBottom.textContent = `Уровень: ${gameState.level}`;
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
+    if (scoreLeft) scoreLeft.textContent = `Уровень: ${gameState.level}`;
+    if (scoreRight) scoreRight.textContent = `Уровень: ${gameState.level}`;
     
     // Обновляем основную информацию в HUD только если игра не активна
     if (!gameState.isPlaying) {
-      const turnLabelTop = document.getElementById('turnLabelTop');
-      const turnLabelBottom = document.getElementById('turnLabelBottom');
+      const turnLabelLeft = document.getElementById('turnLabelLeft');
+      const turnLabelRight = document.getElementById('turnLabelRight');
       
-      if (turnLabelTop) turnLabelTop.textContent = '🎨 Запомни цвет';
-      if (turnLabelBottom) turnLabelBottom.textContent = '🎨 Запомни цвет';
+      if (turnLabelLeft) turnLabelLeft.textContent = '🎨 Запомни цвет';
+      if (turnLabelRight) turnLabelRight.textContent = '🎨 Запомни цвет';
     }
   }
 
@@ -531,23 +531,23 @@
 
   // Обновление информации в HUD
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
     
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   // Показ кнопки проверки в HUD
   function showHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'block';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'block';
+    if (hudCheckLeft) hudCheckLeft.style.display = 'block';
+    if (hudCheckRight) hudCheckRight.style.display = 'block';
   }
 
   // Скрытие кнопки проверки в HUD
   function hideHUDCheckButton() {
-    if (hudCheckTop) hudCheckTop.style.display = 'none';
-    if (hudCheckBottom) hudCheckBottom.style.display = 'none';
+    if (hudCheckLeft) hudCheckLeft.style.display = 'none';
+    if (hudCheckRight) hudCheckRight.style.display = 'none';
   }
 
   // Принудительное скрытие модального окна результатов при загрузке
