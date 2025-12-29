@@ -23,6 +23,74 @@
     }
   };
 
+  // ФУНКЦИИ КОНВЕРТАЦИИ ЦВЕТОВ
+  function hexToHsv(hex) {
+    // Убираем # если есть
+    hex = hex.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16) / 255;
+    const g = parseInt(hex.substr(2, 2), 16) / 255;
+    const b = parseInt(hex.substr(4, 2), 16) / 255;
+    
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+    
+    let h = 0;
+    if (delta !== 0) {
+      if (max === r) {
+        h = ((g - b) / delta) % 6;
+      } else if (max === g) {
+        h = (b - r) / delta + 2;
+      } else {
+        h = (r - g) / delta + 4;
+      }
+    }
+    h = Math.round(h * 60);
+    if (h < 0) h += 360;
+    
+    const s = max === 0 ? 0 : delta / max;
+    const v = max;
+    
+    return { h, s, v };
+  }
+
+  function hsvToHex(h, s, v) {
+    const c = v * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = v - c;
+    
+    let r, g, b;
+    if (h < 60) {
+      r = c; g = x; b = 0;
+    } else if (h < 120) {
+      r = x; g = c; b = 0;
+    } else if (h < 180) {
+      r = 0; g = c; b = x;
+    } else if (h < 240) {
+      r = 0; g = x; b = c;
+    } else if (h < 300) {
+      r = x; g = 0; b = c;
+    } else {
+      r = c; g = 0; b = x;
+    }
+    
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+    
+    return '#' + [r, g, b].map(x => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    }).join('');
+  }
+
+  // Функция для получения бледного цвета (S в 2 раза меньше)
+  function getPaleColor(hexColor) {
+    const hsv = hexToHsv(hexColor);
+    const paleS = hsv.s / 2; // Уменьшаем насыщенность в 2 раза
+    return hsvToHex(hsv.h, paleS, hsv.v);
+  }
+
   // СОСТОЯНИЕ ИГРЫ
   const gameState = {
     currentPlayers: 2,
@@ -77,24 +145,24 @@
 
   // ОБЯЗАТЕЛЬНЫЕ ФУНКЦИИ
   function updateDisplay() {
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
-    if (scoreTop) scoreTop.textContent = `Скорость: ${gameState.speed}`;
-    if (scoreBottom) scoreBottom.textContent = `Скорость: ${gameState.speed}`;
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
+    if (scoreLeft) scoreLeft.textContent = `Скорость: ${gameState.speed}`;
+    if (scoreRight) scoreRight.textContent = `Скорость: ${gameState.speed}`;
     
     if (!gameState.isPlaying) {
-      const turnLabelTop = document.getElementById('turnLabelTop');
-      const turnLabelBottom = document.getElementById('turnLabelBottom');
-      if (turnLabelTop) turnLabelTop.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
-      if (turnLabelBottom) turnLabelBottom.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      const turnLabelLeft = document.getElementById('turnLabelLeft');
+      const turnLabelRight = document.getElementById('turnLabelRight');
+      if (turnLabelLeft) turnLabelLeft.innerHTML = `<span class="icon-emoji">${GAME_CONFIG.icon}</span> ${GAME_CONFIG.name}`;
+      if (turnLabelRight) turnLabelRight.innerHTML = `<span class="icon-emoji">${GAME_CONFIG.icon}</span> ${GAME_CONFIG.name}`;
     }
   }
 
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   function showHUDCheckButton() {
@@ -121,7 +189,10 @@
     }
     
     const modalBackdrop = document.getElementById('modalBackdrop');
-    if (modalBackdrop) modalBackdrop.hidden = true;
+    if (modalBackdrop) {
+      modalBackdrop.hidden = true;
+      modalBackdrop.style.display = 'none';
+    }
     
     if (gameField) gameField.style.display = 'none';
     if (controlsPanel) controlsPanel.style.display = 'none';
@@ -134,7 +205,10 @@
   function showDifficultyModal() {
     console.log('Показываем модальное окно настроек');
     const modalBackdrop = document.getElementById('modalBackdrop');
-    if (modalBackdrop) modalBackdrop.hidden = true;
+    if (modalBackdrop) {
+      modalBackdrop.hidden = true;
+      modalBackdrop.style.display = 'none';
+    }
     
     const difficultyModal = document.getElementById('difficultyModal');
     if (difficultyModal) {
@@ -154,36 +228,42 @@
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalTitle = document.getElementById('modalTitle');
     const modalSubtitle = document.getElementById('modalSubtitle');
+    const difficultyModal = document.getElementById('difficultyModal');
+    
+    // Скрываем модальное окно настроек, если оно открыто
+    if (difficultyModal) {
+      difficultyModal.style.display = 'none';
+    }
     
     if (modalBackdrop && modalTitle && modalSubtitle) {
       const aliveSnakes = gameState.snakes.filter(snake => snake.alive);
-      const longestSnake = gameState.snakes.reduce((longest, snake) => 
-        snake.segments.length > longest.segments.length ? snake : longest
-      );
-      
-      modalTitle.textContent = 'Игра окончена!';
       
       if (gameState.currentPlayers === 1) {
+        // Для одного игрока
         if (aliveSnakes.length === 0) {
-          modalSubtitle.innerHTML = `
-            <div>Игра окончена! Змея погибла.</div>
-            <div>Длина змеи: <span style="color: ${longestSnake.color}">${longestSnake.segments.length}</span> сегментов</div>
-          `;
+          modalTitle.textContent = 'Игра окончена';
+          modalSubtitle.textContent = 'Змея погибла';
         } else {
-          modalSubtitle.innerHTML = `
-            <div>Поздравляем! Вы выжили!</div>
-            <div>Длина змеи: <span style="color: ${longestSnake.color}">${longestSnake.segments.length}</span> сегментов</div>
-          `;
+          modalTitle.textContent = 'Игра окончена';
+          modalSubtitle.textContent = 'Победил Игрок 1';
         }
       } else {
-        const winner = aliveSnakes[0];
-        modalSubtitle.innerHTML = `
-          <div>Победитель: <span style="color: ${winner.color}">${winner.colorName}</span></div>
-          <div>Самая длинная змея: <span style="color: ${longestSnake.color}">${longestSnake.colorName}</span> (${longestSnake.segments.length} сегментов)</div>
-        `;
+        // Для нескольких игроков
+        if (aliveSnakes.length > 0) {
+          const winner = aliveSnakes[0];
+          const playerNumber = winner.id + 1; // id начинается с 0, поэтому +1
+          modalTitle.textContent = 'Игра окончена';
+          modalSubtitle.textContent = `победил Игрок ${playerNumber}`;
+        } else {
+          // Все змеи погибли (маловероятно, но на всякий случай)
+          modalTitle.textContent = 'Игра окончена';
+          modalSubtitle.textContent = 'Ничья';
+        }
       }
       
+      // Убираем атрибут hidden и явно устанавливаем display
       modalBackdrop.hidden = false;
+      modalBackdrop.style.display = 'flex';
     }
   }
 
@@ -221,23 +301,22 @@
     }
 
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../index.html');
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackRight) btnBackRight.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
-      if (modalBackdrop) modalBackdrop.hidden = true;
+      if (modalBackdrop) {
+        modalBackdrop.hidden = true;
+        modalBackdrop.style.display = 'none';
+      }
       resetGame();
     });
-    if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../index.html');
+    if (btnToMenu) btnToMenu.addEventListener('click', () => window.location.href = '../../index.html');
 
     // Клавиатура
     document.addEventListener('keydown', handleKeyPress);
@@ -495,8 +574,8 @@
       controlsPanel.style.display = 'none';
     }
     
-    // Добавляем обработчики для кнопок управления в HUD
-    document.querySelectorAll('.player-controls-hud .control-btn').forEach(btn => {
+    // Добавляем обработчики для кнопок управления
+    document.querySelectorAll('.control-btn-overlay').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const player = parseInt(e.currentTarget.dataset.player);
         const action = e.currentTarget.dataset.action;
@@ -644,6 +723,9 @@
         return;
       }
       
+      // Вычисляем бледный цвет для тела один раз для каждой змеи
+      const paleColor = getPaleColor(snake.color);
+      
       snake.segments.forEach((segment, index) => {
         const cell = document.getElementById(`cell-${segment.x}-${segment.y}`);
         if (cell) {
@@ -657,9 +739,22 @@
             // Применяем правильный цвет
             const colorClass = snake.colorName.toLowerCase();
             segmentElement.classList.add(`snake-${colorClass}`);
-            segmentElement.style.backgroundColor = snake.color;
+            
+            // Голова - полный цвет, тело - бледный цвет
+            if (index === 0) {
+              segmentElement.style.backgroundColor = snake.color;
+            } else {
+              segmentElement.style.backgroundColor = paleColor;
+            }
             
             cell.appendChild(segmentElement);
+          } else {
+            // Обновляем цвет для существующих элементов
+            if (index === 0) {
+              segmentElement.style.backgroundColor = snake.color;
+            } else {
+              segmentElement.style.backgroundColor = paleColor;
+            }
           }
           
           // Плавно показываем элемент
@@ -786,6 +881,6 @@
   
   // ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ НАВИГАЦИИ
   window.goToMenu = () => {
-    window.location.href = '../index.html';
+    window.location.href = '../../index.html';
   };
 })();

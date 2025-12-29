@@ -8,53 +8,48 @@
     html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
     * { touch-action: pan-x pan-y; }
   </style>
+  <link rel="stylesheet" href="../../shared/styles/fonts.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">🐍 Змейка </span><span class="score" id="scoreTop">Скорость: 1</span></div>
+        <div class="turn-label"><span id="turnLabelLeft"><span class="icon-emoji">🐍</span> Змейка </span><span class="score" id="scoreLeft">Скорость: 1</span></div>
       </div>
-      <div class="player-controls-hud" id="player1Controls" style="display: none;">
-        <div class="player-info red">Игрок 1</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="0" data-action="left">←</button>
-          <button class="control-btn" data-player="0" data-action="right">→</button>
-        </div>
-      </div>
-      <button class="btn" id="btnNewTop">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckTop" style="display: none;">Проверить</button>
+      <button class="hud-check-btn" id="hudCheckLeft" style="display: none;">Проверить</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровое поле -->
   <main class="game-container">
+    <div class="player-controls-overlay player-controls-left" id="player1Controls" style="display: none;">
+      <button class="control-btn-overlay" data-player="0" data-action="left">←</button>
+      <div class="player-info-overlay red">Игрок 1</div>
+      <button class="control-btn-overlay" data-player="0" data-action="right">→</button>
+    </div>
+    <div class="player-controls-overlay player-controls-right" id="player2Controls" style="display: none;">
+      <button class="control-btn-overlay" data-player="1" data-action="left">←</button>
+      <div class="player-info-overlay green">Игрок 2</div>
+      <button class="control-btn-overlay" data-player="1" data-action="right">→</button>
+    </div>
     <div id="stage">
       <!-- Игровые элементы создаются динамически -->
     </div>
   </main>
 
-  <!-- HUD Bottom -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">🐍 Змейка </span><span class="score" id="scoreBottom">Скорость: 1</span></div>
+        <div class="turn-label"><span id="turnLabelRight"><span class="icon-emoji">🐍</span> Змейка </span><span class="score" id="scoreRight">Скорость: 1</span></div>
       </div>
-      <div class="player-controls-hud" id="player2Controls" style="display: none;">
-        <div class="player-info green">Игрок 2</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="1" data-action="left">←</button>
-          <button class="control-btn" data-player="1" data-action="right">→</button>
-        </div>
-      </div>
-      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
-      <button class="hud-check-btn" id="hudCheckBottom" style="display: none;">Проверить</button>
+      <button class="hud-check-btn" id="hudCheckRight" style="display: none;">Проверить</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модальное окно выбора настроек -->
   <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
@@ -83,13 +78,13 @@
   </div>
 
   <!-- Модальное окно результатов -->
-  <div id="modalBackdrop" class="modal-backdrop" hidden style="display: none !important;">
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
     <div class="modal">
-      <h2 class="modal-title" id="modalTitle">Игра окончена!</h2>
-      <p class="modal-subtitle" id="modalSubtitle">Победитель: Красный</p>
+      <h2 class="modal-title" id="modalTitle">Игра окончена</h2>
+      <p class="modal-subtitle" id="modalSubtitle">победил Игрок 1</p>
       <div class="modal-actions">
-        <button class="btn" id="btnRematch">Новая партия</button>
-        <button class="btn btn-ghost" id="btnToMenu">В меню</button>
+        <button class="btn" id="btnRematch">Заново</button>
+        <button class="btn btn-ghost" id="btnToMenu">Меню</button>
       </div>
     </div>
   </div>

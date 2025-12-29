@@ -23,33 +23,148 @@ body{
   touch-action: manipulation;
 }
 
-/* HUD */
-.hud{position:fixed; left:0; right:0; z-index:1000; background:var(--card); color:var(--text);}
-.hud-top{top:0; border-bottom:1px solid var(--line);}
-.hud-bottom{bottom:0; border-top:1px solid var(--line);}
-.hud-row{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:12px clamp(12px, 3vw, 28px);
-  max-width:1400px; margin:0 auto;
+/* HUD стили - боковые панели */
+.hud {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: var(--card);
+  padding: 60px 8px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.hud-rotated{ transform: rotate(180deg); }
-.hud-center{display:flex; flex-direction:column; align-items:center; gap:4px}
-.turn-label{font-weight:600; font-size:clamp(14px, 2vw, 18px)}
-.turn-label .score{font-weight:600; font-size:clamp(14px, 2vw, 18px); color:var(--accent); display:inline-block; margin-left:0.5em}
-.score{font-size:clamp(14px, 2vw, 18px); font-weight:600; color:var(--accent)}
+
+.hud-left {
+  left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.hud-right {
+  right: 0;
+  border-left: 1px solid var(--line);
+}
+
+.hud-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.hud-rotated {
+  transform: rotate(180deg);
+}
+
+.hud-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 0;
+}
+
+.turn-label {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+
+.turn-label span {
+  display: inline-block;
+}
+
+.turn-label .icon-emoji {
+  display: inline-block;
+  transform: rotate(90deg);
+  margin-bottom: 4px;
+}
+
+.turn-label .score {
+  font-weight: 600;
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--accent);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: inline-block;
+  margin-top: 1.5em;
+}
+
+.score {
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 600;
+  color: var(--accent);
+}
 
 /* Buttons */
-.btn{
-  appearance:none; border:1px solid var(--line);
-  background:#fff; color:var(--text);
-  padding:10px 16px; border-radius:12px; font-weight:600;
-  cursor:pointer; transition: all .2s ease; box-shadow: none;
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
   font-size: clamp(14px, 2vw, 18px);
+  font-family: inherit;
 }
-.btn:hover{ border-color:var(--accent); color:#fff; background:var(--accent); box-shadow:0 10px 20px rgba(255,106,0,.18); }
-.btn:active{ transform: translateY(1px); }
-.btn-ghost{ background:#fff; border-color:var(--line); }
-.btn-ghost:hover{ border-color:var(--accent); background:#fff; color:var(--accent); }
+
+.btn:hover {
+  background: var(--line);
+}
+
+.btn:not(.hud .btn):hover {
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-ghost:hover {
+  background: var(--line);
+}
+
+/* Кнопки в HUD */
+.hud .btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+
+.hud .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud-row.hud-rotated .btn {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
 
 /* Modal */
 .modal-backdrop{
@@ -70,12 +185,105 @@ body{
 
 /* Игровой контейнер */
 .game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 80px 16px;
   background: var(--background);
+}
+
+#stage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+/* Область управления по бокам игрового поля */
+.player-controls-overlay {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  z-index: 100;
+  pointer-events: auto;
+}
+
+.player-controls-left {
+  left: -100px;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: top;
+}
+
+.player-controls-right {
+  right: -100px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: top;
+}
+
+.player-info-overlay {
+  font-size: 48px;
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
+.player-info-overlay.red {
+  background: #FE112E;
+}
+
+.player-info-overlay.green {
+  background: #2ED573;
+}
+
+.player-info-overlay.yellow {
+  background: #FFE23F;
+  color: #333;
+}
+
+.player-info-overlay.blue {
+  background: #1E6FE3;
+}
+
+
+.control-btn-overlay {
+  appearance: none;
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 48px;
+  min-width: 96px;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.control-btn-overlay:hover {
+  border-color: var(--accent);
+  background: rgba(255, 106, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.control-btn-overlay:active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Игровое поле */
@@ -83,17 +291,19 @@ body{
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
-  gap: 0px;
-  width: calc(100vw - 32px);
-  height: calc(100vh - 200px);
-  max-width: calc(100vh - 200px);
-  max-height: calc(100vh - 200px);
+  gap: 2px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: calc(100vh - 40px);
+  width: calc(100vh - 40px);
+  max-width: calc(100vw - 200px);
   border-radius: 20px;
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   padding: 0px;
-  margin: 0 auto;
 }
 
 /* Клетки поля */
@@ -244,54 +454,6 @@ body{
   flex-wrap: wrap;
 }
 
-/* Управление в HUD */
-.player-controls-hud {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.player-controls-hud .player-info {
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-  color: white;
-}
-
-.player-controls-hud .control-buttons {
-  display: flex;
-  gap: 4px;
-}
-
-.player-controls-hud .control-btn {
-  appearance: none;
-  border: 1px solid var(--line);
-  background: var(--card);
-  color: var(--text);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 12px;
-  min-width: 24px;
-  height: 24px;
-}
-
-.player-controls-hud .control-btn:hover {
-  border-color: var(--accent);
-  background: rgba(255, 106, 0, 0.1);
-  transform: translateY(-1px);
-}
-
-.player-controls-hud .control-btn:active {
-  transform: translateY(0);
-  background: var(--accent);
-  color: white;
-}
-
 .player-controls {
   display: flex;
   flex-direction: column;
@@ -350,7 +512,46 @@ body{
 }
 
 /* Адаптивность */
+@media (max-width: 1024px) {
+  .hud {
+    width: 70px;
+  }
+  
+  .game-container {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .hud .btn {
+    max-height: 54px;
+  }
+}
+
 @media (max-width: 768px) {
+  .hud {
+    width: 50px;
+    padding: 12px 8px;
+  }
+  
+  .game-container {
+    left: 50px;
+    right: 50px;
+  }
+  
+  .turn-label {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .turn-label .score {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .hud .btn {
+    padding: 6px 10px;
+    font-size: clamp(14px, 2vw, 18px);
+    max-height: 34px;
+  }
+  
   .game-field {
     grid-template-columns: repeat(15, 1fr);
     grid-template-rows: repeat(15, 1fr);

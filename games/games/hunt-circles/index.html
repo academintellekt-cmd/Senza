@@ -14,35 +14,37 @@
   <script src="game.js" defer></script>
 </head>
 <body>
-  <div id="game-container">
-    <!-- ВЕРХНИЙ HUD (повёрнут на 180°) -->
-    <header class="hud hud-top">
-      <div class="hud-row hud-rotated">
-        <button class="btn btn-ghost" id="menuTop" aria-label="Меню" onclick="goToMenu()">← Меню</button>
-        <div id="turnLabelTop" class="turn-label">Раунд · <span id="timerTop">30</span>с</div>
-        <div id="pointsTop" class="points">Очки: 0</div>
-        <div id="scoreTop" class="score">Победы: 0 – 0</div>
-        <button class="btn" id="newGameTop">Новая партия ↻</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="menuLeft" aria-label="Меню" onclick="goToMenu()">← Меню</button>
+      <div class="hud-center">
+        <div id="turnLabelLeft" class="turn-label">Раунд · <span id="timerLeft">30</span>с</div>
+        <div id="pointsLeft" class="points">Очки: 0</div>
+        <div id="scoreLeft" class="score">Победы: 0 – 0</div>
       </div>
-    </header>
+      <button class="btn" id="newGameLeft">Новая партия ↻</button>
+    </div>
+  </aside>
 
-    <!-- ИГРОВОЕ ПОЛЕ -->
-    <main id="board" aria-label="Игровое поле">
-      <section id="player1" class="half" data-player="1" aria-label="Поле игрока 1"></section>
-      <section id="player2" class="half" data-player="2" aria-label="Поле игрока 2"></section>
-    </main>
+  <!-- ИГРОВОЕ ПОЛЕ -->
+  <main id="board" aria-label="Игровое поле">
+    <section id="player1" class="half" data-player="1" aria-label="Поле игрока 1"></section>
+    <section id="player2" class="half" data-player="2" aria-label="Поле игрока 2"></section>
+  </main>
 
-    <!-- НИЖНИЙ HUD (обычный) -->
-    <footer class="hud hud-bottom">
-      <div class="hud-row">
-        <button class="btn btn-ghost" id="menuBottom" aria-label="Меню" onclick="goToMenu()">← Меню</button>
-        <div id="turnLabelBottom" class="turn-label">Раунд · <span id="timerBottom">30</span>с</div>
-        <div id="pointsBottom" class="points">Очки: 0</div>
-        <div id="scoreBottom" class="score">Победы: 0 – 0</div>
-        <button class="btn" id="newGameBottom">Новая партия ↻</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="menuRight" aria-label="Меню" onclick="goToMenu()">← Меню</button>
+      <div class="hud-center">
+        <div id="turnLabelRight" class="turn-label">Раунд · <span id="timerRight">30</span>с</div>
+        <div id="pointsRight" class="points">Очки: 0</div>
+        <div id="scoreRight" class="score">Победы: 0 – 0</div>
       </div>
-    </footer>
-  </div>
+      <button class="btn" id="newGameRight">Новая партия ↻</button>
+    </div>
+  </aside>
 
   <!-- Модалка окончания -->
   <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">

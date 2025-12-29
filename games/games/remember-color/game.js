@@ -38,6 +38,7 @@
   // DOM элементы
   let stage, gameField, colorSample;
   let hudCheckLeft, hudCheckRight;
+  let btnNewLeft, btnNewRight;
 
   // Инициализация игры
   function initGame() {
@@ -49,6 +50,8 @@
     if (modalBackdrop) modalBackdrop.hidden = true;
 
     createGameInterface();
+    // Скрываем кнопки "Новая партия" при инициализации
+    hideHUDNewGameButton();
     updateDisplay();
     bindEvents();
     showDifficultyModal();
@@ -71,6 +74,8 @@
     // Получаем ссылки на HUD элементы
     hudCheckLeft = document.getElementById('hudCheckLeft');
     hudCheckRight = document.getElementById('hudCheckRight');
+    btnNewLeft = document.getElementById('btnNewLeft');
+    btnNewRight = document.getElementById('btnNewRight');
   }
 
   // Показ модального окна выбора сложности
@@ -111,9 +116,7 @@
     if (hudCheckLeft) hudCheckLeft.addEventListener('click', checkSelection);
     if (hudCheckRight) hudCheckRight.addEventListener('click', checkSelection);
 
-    // Кнопки "Новая партия" в HUD
-    const btnNewLeft = document.getElementById('btnNewLeft');
-    const btnNewRight = document.getElementById('btnNewRight');
+    // Кнопки "Новая партия" в HUD (используем глобальные переменные)
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
@@ -162,6 +165,9 @@
     gameState.playerSelections = [];
     gameState.targetPositions = [];
     gameState.level = 1;
+
+    // Скрываем кнопки "Новая партия"
+    hideHUDNewGameButton();
 
     // Выбираем случайный целевой цвет
     gameState.targetColor = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -416,6 +422,9 @@
     // Скрываем поле
     if (gameField) gameField.style.display = 'none';
     
+    // Скрываем кнопки "Новая партия"
+    hideHUDNewGameButton();
+    
     // Увеличиваем сложность каждые 3 уровня
     if (gameState.level % 3 === 0 && gameState.currentDifficulty < 10) {
       gameState.currentDifficulty = Math.min(10, gameState.currentDifficulty + 2);
@@ -443,6 +452,9 @@
     
     // Скрываем HUD элементы
     hideHUDCheckButton();
+    
+    // Показываем кнопки "Новая партия" (только при проигрыше)
+    showHUDNewGameButton();
     
     // Показываем сообщение "Давай сыграем еще?" в HUD
     updateHUDInfo('Давай сыграем еще?');
@@ -500,6 +512,7 @@
     
     // Скрываем HUD элементы
     hideHUDCheckButton();
+    hideHUDNewGameButton();
     
     // Показываем выбор сложности
     showDifficultyModal();
@@ -548,6 +561,18 @@
   function hideHUDCheckButton() {
     if (hudCheckLeft) hudCheckLeft.style.display = 'none';
     if (hudCheckRight) hudCheckRight.style.display = 'none';
+  }
+
+  // Показ кнопки "Новая партия" в HUD
+  function showHUDNewGameButton() {
+    if (btnNewLeft) btnNewLeft.style.display = 'block';
+    if (btnNewRight) btnNewRight.style.display = 'block';
+  }
+
+  // Скрытие кнопки "Новая партия" в HUD
+  function hideHUDNewGameButton() {
+    if (btnNewLeft) btnNewLeft.style.display = 'none';
+    if (btnNewRight) btnNewRight.style.display = 'none';
   }
 
   // Принудительное скрытие модального окна результатов при загрузке

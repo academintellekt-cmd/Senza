@@ -1,66 +1,70 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Холодильник 5×5</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Холодильник</title>
   <style>
     html, body { height: 100%; touch-action: pan-x pan-y; overscroll-behavior: none; }
     * { touch-action: pan-x pan-y; }
-    .placeholder{{position:absolute; inset:0; display:grid; place-items:center; text-align:center; color:#64748B; font-size:clamp(14px,2vw,18px);}}
-    .placeholder strong{{color:#0F172A}}
   </style>
-  <link rel="stylesheet" href="../../../style.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="../../../common.js" defer></script>
-  <script src="game.js" defer></script>
+  <link rel="stylesheet" href="../../shared/styles/fonts.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-container">
-    <header class="hud hud-top">
-      <div class="hud-row hud-rotated">
-        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Холодильник 5×5 <span class="score" id="scoreTop">Победы: 0 – 0</span></div>
-        <button class="btn" id="newGameTop">Новая партия ↻</button>
-      </div>
-    </header>
-
-    <main id="board" aria-label="Игровое поле">
-      <section id="stage" class="half" style="display:block; position:relative;">
-        <div class="placeholder">
-          <div>
-            <strong>Холодильник 5×5</strong><br/>
-            Заглушка. Замените файлы <code>style.css</code> и <code>game.js</code> на ваши из сборки.<br/>
-            Макет HUD и маршрутизация уже настроены.
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label">
+          <span id="turnLabelLeft">
+            <span class="icon-emoji">🧊</span> Холодильник
+          </span>
+          <span class="score" id="scoreLeft">Ходы: 0</span>
           </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="hud hud-bottom">
-      <div class="hud-row">
-        <button class="btn btn-ghost" onclick="goToMenu()">← Меню</button>
-        <div class="turn-label">Холодильник 5×5 <span class="score" id="scoreBottom">Победы: 0 – 0</span></div>
-        <button class="btn" id="newGameBottom">Новая партия ↻</button>
       </div>
-    </footer>
-  </div>
+      <button class="btn" id="btnNewLeft">Новая партия ↻</button>
+    </div>
+  </aside>
 
-  <div id="endModal" class="modal hidden" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <h2 id="resultText"></h2>
+  <!-- Игровое поле -->
+  <main class="game-container">
+    <div id="stage">
+      <div class="game-board" id="gameBoard">
+        <!-- Квадраты создаются динамически -->
+      </div>
+    </div>
+  </main>
+
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
+      <div class="hud-center">
+        <div class="turn-label">
+          <span id="turnLabelRight">
+            <span class="icon-emoji">🧊</span> Холодильник
+          </span>
+          <span class="score" id="scoreRight">Ходы: 0</span>
+        </div>
+      </div>
+      <button class="btn" id="btnNewRight">Новая партия ↻</button>
+    </div>
+  </aside>
+
+  <!-- Модальное окно результатов -->
+  <div id="modalBackdrop" class="modal-backdrop" hidden>
+    <div class="modal">
+      <h2 class="modal-title">Победа!</h2>
+      <p class="modal-subtitle" id="modalSubtitle">Всего сделано ходов: <span id="movesCount">0</span></p>
       <div class="modal-actions">
-        <button id="newGameBtn" class="btn primary">Новая игра</button>
-        <button class="btn" onclick="goToMenu()">← Меню</button>
+        <button class="btn" id="btnRematch">Начать заново</button>
+        <button class="btn btn-ghost" id="btnToMenu">Меню</button>
       </div>
     </div>
   </div>
 
-  <script>
-    function goToMenu(){{ window.location.href='../../index.html'; }}
-    document.getElementById('newGameTop').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-    document.getElementById('newGameBottom').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-    document.getElementById('newGameBtn').addEventListener('click', ()=> document.getElementById('endModal').classList.add('hidden'));
-  </script>
+  <script src="game.js"></script>
 </body>
 </html>

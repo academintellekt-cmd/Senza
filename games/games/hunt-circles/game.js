@@ -1,18 +1,18 @@
 // Охота на кружки — HUD single-line & points
 const p1 = document.getElementById("player1");
 const p2 = document.getElementById("player2");
-const scoreTop = document.getElementById("scoreTop");
-const scoreBottom = document.getElementById("scoreBottom");
-const timerTop = document.getElementById("timerTop");
-const timerBottom = document.getElementById("timerBottom");
-const pointsTop = document.getElementById("pointsTop");
-const pointsBottom = document.getElementById("pointsBottom");
+const scoreLeft = document.getElementById("scoreLeft");
+const scoreRight = document.getElementById("scoreRight");
+const timerLeft = document.getElementById("timerLeft");
+const timerRight = document.getElementById("timerRight");
+const pointsLeft = document.getElementById("pointsLeft");
+const pointsRight = document.getElementById("pointsRight");
 const modal = document.getElementById("endModal");
 const resultText = document.getElementById("resultText");
 const scoresText = document.getElementById("scoresText");
 const newGameBtn = document.getElementById("newGameBtn");
-const newGameTopBtn = document.getElementById("newGameTop");
-const newGameBottomBtn = document.getElementById("newGameBottom");
+const newGameLeftBtn = document.getElementById("newGameLeft");
+const newGameRightBtn = document.getElementById("newGameRight");
 
 let score1 = 0, score2 = 0;
 let wins1 = 0, wins2 = 0;
@@ -259,10 +259,10 @@ function onHit(player){
 }
 
 function updateHUD(){
-  if(pointsTop) pointsTop.textContent = `Очки: ${score1}`;
-  if(pointsBottom) pointsBottom.textContent = `Очки: ${score2}`;
-  scoreTop.textContent = `Победы: ${wins1} – ${wins2}`;
-  scoreBottom.textContent = `Победы: ${wins2} – ${wins1}`;
+  if(pointsLeft) pointsLeft.textContent = `Очки: ${score1}`;
+  if(pointsRight) pointsRight.textContent = `Очки: ${score2}`;
+  if(scoreLeft) scoreLeft.textContent = `Победы: ${wins1} – ${wins2}`;
+  if(scoreRight) scoreRight.textContent = `Победы: ${wins2} – ${wins1}`;
   p1.classList.toggle("lead", score1 > score2);
   p2.classList.toggle("lead", score2 > score1);
 }
@@ -308,13 +308,13 @@ function startGame(){
   clearInterval(tickTimer);
   clearInterval(cycleTimer);
   
-  timerTop.textContent = String(seconds);
-  timerBottom.textContent = String(seconds);
+  if(timerLeft) timerLeft.textContent = String(seconds);
+  if(timerRight) timerRight.textContent = String(seconds);
   
   tickTimer = setInterval(()=>{
     seconds -= 1;
-    timerTop.textContent = String(seconds);
-    timerBottom.textContent = String(seconds);
+    if(timerLeft) timerLeft.textContent = String(seconds);
+    if(timerRight) timerRight.textContent = String(seconds);
     if(seconds <= 0){ endGame(); }
   }, 1000);
   
@@ -374,6 +374,6 @@ window.addEventListener("resize", ()=>{
 });
 
 newGameBtn.addEventListener("click", startGame);
-newGameTopBtn.addEventListener("click", startGame);
-newGameBottomBtn.addEventListener("click", startGame);
+if(newGameLeftBtn) newGameLeftBtn.addEventListener("click", startGame);
+if(newGameRightBtn) newGameRightBtn.addEventListener("click", startGame);
 window.addEventListener("load", startGame);

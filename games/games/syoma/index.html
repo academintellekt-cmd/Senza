@@ -43,16 +43,29 @@
     </div>
   </aside>
 
-  <!-- Модальное окно выбора количества игроков -->
-  <div id="playersModal" class="modal-backdrop" style="display: flex;">
+  <!-- Модальное окно выбора настроек -->
+  <div id="difficultyModal" class="modal-backdrop" style="display: flex;">
     <div class="modal">
       <div class="modal-title">🧠 Сёма</div>
-      <div class="modal-subtitle">Выберите количество игроков</div>
-      <div class="difficulty-options">
-        <button class="difficulty-option" data-players="1">1 игрок</button>
-        <button class="difficulty-option" data-players="2">2 игрока</button>
-        <button class="difficulty-option" data-players="3">3 игрока</button>
-        <button class="difficulty-option" data-players="4">4 игрока</button>
+      <div class="modal-subtitle">Выберите настройки игры</div>
+      <div class="snake-settings">
+        <div class="setting-group">
+          <h3>Режим игры:</h3>
+          <div class="mode-options">
+            <button class="mode-option selected" data-mode="easy">Простой</button>
+            <button class="mode-option" data-mode="hard">Сложный</button>
+          </div>
+        </div>
+        <div class="setting-group">
+          <h3>Количество игроков:</h3>
+          <div class="player-options">
+            <button class="player-option selected" data-players="1">1 игрок</button>
+            <button class="player-option" data-players="2">2 игрока</button>
+            <button class="player-option" data-players="3">3 игрока</button>
+            <button class="player-option" data-players="4">4 игрока</button>
+          </div>
+        </div>
+        <button class="btn start-game-btn" id="startGameBtn">Начать игру</button>
       </div>
     </div>
   </div>

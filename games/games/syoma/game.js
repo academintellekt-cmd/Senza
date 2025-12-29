@@ -18,6 +18,7 @@
   // СОСТОЯНИЕ ИГРЫ
   const gameState = {
     currentPlayers: 1,
+    gameMode: 'hard', // 'easy' или 'hard'
     score: 0,
     level: 1,
     isPlaying: false,
@@ -31,7 +32,8 @@
     isShowingSequence: false,
     playersAnswered: 0, // Количество игроков, давших ответ
     totalActivePlayers: 0, // Текущее количество активных игроков
-    playersAtRoundStart: 0 // Количество активных игроков в начале раунда
+    playersAtRoundStart: 0, // Количество активных игроков в начале раунда
+    roundTransitionInProgress: false // Флаг для предотвращения повторного перехода к следующему уровню
   };
 
   // DOM ЭЛЕМЕНТЫ
@@ -47,11 +49,26 @@
       return;
     }
     
+    // Убеждаемся, что модальное окно результатов скрыто при загрузке
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    if (modalBackdrop) {
+      modalBackdrop.hidden = true;
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.style.visibility = 'hidden';
+    }
+    
     console.log('Создание интерфейса...');
     createGameInterface();
     updateDisplay();
     bindEvents();
-    showPlayersModal();
+    
+    // Синхронизируем начальное состояние с HTML (по умолчанию выбран простой режим и 1 игрок)
+    gameState.gameMode = 'easy';
+    gameState.currentPlayers = 1;
+    
+    showDifficultyModal();
+    // Обновляем состояние кнопки "Начать игру" после загрузки
+    setTimeout(() => updateStartButton(), 100);
     console.log('Игра инициализирована!');
   }
 
@@ -125,7 +142,7 @@
     gameState.isPlaying = false;
     gameState.gamePhase = 'selecting';
     gameState.isWin = false;
-    gameState.currentSequence = [];
+    gameState.currentSequence = []; // Сбрасываем последовательность для обоих режимов
     gameState.playerSequences = {};
     gameState.currentPlayerIndex = 0;
     gameState.players = [];
@@ -134,6 +151,8 @@
     gameState.playersAnswered = 0;
     gameState.totalActivePlayers = 0;
     gameState.playersAtRoundStart = 0;
+    gameState.roundTransitionInProgress = false; // Сбрасываем флаг
+    // Режим игры не сбрасываем, оставляем выбранный
     
     const modalBackdrop = document.getElementById('modalBackdrop');
     if (modalBackdrop) {
@@ -144,22 +163,31 @@
     
     hideHUDCheckButton();
     
-    showPlayersModal();
+    showDifficultyModal();
     updateDisplay();
   }
 
   // МОДАЛЬНЫЕ ОКНА
-  function showPlayersModal() {
+  function showDifficultyModal() {
+    console.log('Показываем модальное окно настроек');
     const modalBackdrop = document.getElementById('modalBackdrop');
-    if (modalBackdrop) modalBackdrop.hidden = true;
+    if (modalBackdrop) {
+      modalBackdrop.hidden = true;
+      modalBackdrop.style.display = 'none';
+    }
     
-    const playersModal = document.getElementById('playersModal');
-    if (playersModal) playersModal.style.display = 'flex';
+    const difficultyModal = document.getElementById('difficultyModal');
+    if (difficultyModal) {
+      difficultyModal.style.display = 'flex';
+      console.log('Модальное окно показано');
+    } else {
+      console.error('Модальное окно не найдено!');
+    }
   }
 
-  function hidePlayersModal() {
-    const playersModal = document.getElementById('playersModal');
-    if (playersModal) playersModal.style.display = 'none';
+  function hideDifficultyModal() {
+    const difficultyModal = document.getElementById('difficultyModal');
+    if (difficultyModal) difficultyModal.style.display = 'none';
   }
 
   function showEndModal(winner, finalScore) {
@@ -167,6 +195,12 @@
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalTitle = document.getElementById('modalTitle');
     const modalSubtitle = document.getElementById('modalSubtitle');
+    const difficultyModal = document.getElementById('difficultyModal');
+    
+    // Скрываем модальное окно настроек, если оно открыто
+    if (difficultyModal) {
+      difficultyModal.style.display = 'none';
+    }
     
     console.log('Элементы модального окна:', {
       modalBackdrop: !!modalBackdrop,
@@ -191,18 +225,48 @@
     }
   }
 
+  function updateStartButton() {
+    const startBtn = document.getElementById('startGameBtn');
+    const modeSelected = document.querySelector('.mode-option.selected');
+    const playersSelected = document.querySelector('.player-option.selected');
+    
+    if (startBtn && modeSelected && playersSelected) {
+      startBtn.disabled = false;
+    }
+  }
+
   // ОБРАБОТЧИКИ СОБЫТИЙ
   function bindEvents() {
-    // Выбор количества игроков
-    const difficultyOptions = document.querySelectorAll('.difficulty-option');
-    difficultyOptions.forEach(option => {
+    // Выбор режима игры
+    const modeOptions = document.querySelectorAll('.mode-option');
+    modeOptions.forEach(option => {
       option.addEventListener('click', (e) => {
-        const players = parseInt(e.currentTarget.dataset.players);
-        gameState.currentPlayers = players;
-        hidePlayersModal();
-        startGame();
+        modeOptions.forEach(opt => opt.classList.remove('selected'));
+        e.currentTarget.classList.add('selected');
+        gameState.gameMode = e.currentTarget.dataset.mode;
+        updateStartButton();
       });
     });
+
+    // Выбор количества игроков
+    const playerOptions = document.querySelectorAll('.player-option');
+    playerOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        playerOptions.forEach(opt => opt.classList.remove('selected'));
+        e.currentTarget.classList.add('selected');
+        gameState.currentPlayers = parseInt(e.currentTarget.dataset.players);
+        updateStartButton();
+      });
+    });
+
+    // Кнопка начала игры
+    const startGameBtn = document.getElementById('startGameBtn');
+    if (startGameBtn) {
+      startGameBtn.addEventListener('click', () => {
+        hideDifficultyModal();
+        startGame();
+      });
+    }
 
     // Кнопки HUD
     const btnNewLeft = document.getElementById('btnNewLeft');
@@ -281,12 +345,17 @@
         `;
       }
       
-      // Позиционируем игроков по углам
+      // Позиционируем игроков по углам (с учетом HUD панелей)
+      // Определяем отступы в зависимости от размера экрана
+      const isMobile = window.innerWidth <= 768;
+      const isSmallMobile = window.innerWidth <= 480;
+      const leftRightOffset = isSmallMobile ? '15px' : isMobile ? '18px' : '20px';
+      
       const positions = [
-        { top: '120px', left: '20px' },      // Верхний левый
-        { top: '120px', right: '20px' },     // Верхний правый
-        { bottom: '120px', left: '20px' },   // Нижний левый
-        { bottom: '120px', right: '20px' }   // Нижний правый
+        { top: '20px', left: leftRightOffset },      // Верхний левый
+        { top: '20px', right: leftRightOffset },     // Верхний правый
+        { bottom: '20px', left: leftRightOffset },   // Нижний левый
+        { bottom: '20px', right: leftRightOffset }   // Нижний правый
       ];
       
       if (positions[index]) {
@@ -321,12 +390,26 @@
   }
 
   function generateNewSequence() {
-    gameState.currentSequence = [];
-    const sequenceLength = gameState.level;
-    
-    for (let i = 0; i < sequenceLength; i++) {
-      const randomColor = GAME_CONFIG.colors[Math.floor(Math.random() * GAME_CONFIG.colors.length)];
-      gameState.currentSequence.push(randomColor.name);
+    if (gameState.gameMode === 'easy') {
+      // Простой режим: добавляем один новый цвет к существующей последовательности
+      if (gameState.currentSequence.length === 0) {
+        // Первый раунд - начинаем с одного случайного цвета
+        const randomColor = GAME_CONFIG.colors[Math.floor(Math.random() * GAME_CONFIG.colors.length)];
+        gameState.currentSequence = [randomColor.name];
+      } else {
+        // Последующие раунды - добавляем один новый случайный цвет
+        const randomColor = GAME_CONFIG.colors[Math.floor(Math.random() * GAME_CONFIG.colors.length)];
+        gameState.currentSequence.push(randomColor.name);
+      }
+    } else {
+      // Сложный режим: генерируем новую последовательность каждый раз
+      gameState.currentSequence = [];
+      const sequenceLength = gameState.level;
+      
+      for (let i = 0; i < sequenceLength; i++) {
+        const randomColor = GAME_CONFIG.colors[Math.floor(Math.random() * GAME_CONFIG.colors.length)];
+        gameState.currentSequence.push(randomColor.name);
+      }
     }
     
     // Сбрасываем последовательности всех игроков
@@ -336,6 +419,7 @@
     gameState.playersAtRoundStart = gameState.totalActivePlayers;
     gameState.showSequenceIndex = 0;
     gameState.isShowingSequence = true;
+    gameState.roundTransitionInProgress = false; // Сбрасываем флаг при генерации новой последовательности
   }
 
   async function showSequence() {
@@ -433,7 +517,8 @@
       updateHUDInfo(`Игрок ${player.id} правильно! (${gameState.playersAnswered}/${gameState.playersAtRoundStart})`);
       
       // Если все игроки ответили, переходим к следующему уровню
-      if (gameState.playersAnswered >= gameState.playersAtRoundStart) {
+      if (gameState.playersAnswered >= gameState.playersAtRoundStart && !gameState.roundTransitionInProgress) {
+        gameState.roundTransitionInProgress = true; // Устанавливаем флаг
         gameState.level++;
         
         setTimeout(() => {
@@ -464,8 +549,9 @@
           endGame();
         } else {
           // Проверяем, ответили ли все игроки
-          if (gameState.playersAnswered >= gameState.playersAtRoundStart) {
+          if (gameState.playersAnswered >= gameState.playersAtRoundStart && !gameState.roundTransitionInProgress) {
             // Все игроки ответили, переходим к следующему уровню
+            gameState.roundTransitionInProgress = true; // Устанавливаем флаг
             gameState.level++;
             setTimeout(() => {
               generateNewSequence();

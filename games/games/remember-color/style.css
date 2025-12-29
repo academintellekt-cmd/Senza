@@ -162,10 +162,8 @@ body{
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   gap: 8px;
-  width: calc(100vw - 32px);
-  height: calc(100vh - 200px);
-  max-width: calc(100vh - 200px);
-  max-height: calc(100vh - 200px);
+  width: min(calc(100vh - 40px), calc(100vw - 180px - 24px));
+  height: min(calc(100vh - 40px), calc(100vw - 180px - 24px));
   border-radius: 20px;
   background: var(--card);
   border: 1px solid var(--line);
@@ -351,6 +349,43 @@ body{
   transform: none;
 }
 
+/* Кнопка проверки в HUD - поворот на 90 градусов */
+.hud .hud-check-btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+
+.hud .hud-check-btn:hover {
+  background: rgba(255, 106, 0, 0.9);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud-row.hud-rotated .hud-check-btn {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .hud-check-btn:hover {
+  background: rgba(255, 106, 0, 0.9);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud .hud-check-btn:disabled {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .hud-check-btn:disabled {
+  transform: rotate(90deg);
+}
+
 /* Модальные окна */
 .modal-backdrop {
   position: fixed;
@@ -485,6 +520,11 @@ body{
     right: 70px;
   }
   
+  .game-field {
+    width: min(calc(100vh - 40px), calc(100vw - 140px - 24px));
+    height: min(calc(100vh - 40px), calc(100vw - 140px - 24px));
+  }
+  
   .hud .btn,
   .hud .hud-check-btn {
     max-height: 54px;
@@ -500,6 +540,11 @@ body{
   .game-container {
     left: 50px;
     right: 50px;
+  }
+  
+  .game-field {
+    width: min(calc(100vh - 40px), calc(100vw - 100px - 24px));
+    height: min(calc(100vh - 40px), calc(100vw - 100px - 24px));
   }
   
   .turn-label {
@@ -542,8 +587,8 @@ body{
   }
   
   .game-field {
-    width: min(85vmin, 300px);
-    height: min(85vmin, 300px);
+    width: min(calc(100vh - 40px), calc(100vw - 100px - 16px));
+    height: min(calc(100vh - 40px), calc(100vw - 100px - 16px));
     padding: 8px;
     gap: 6px;
   }

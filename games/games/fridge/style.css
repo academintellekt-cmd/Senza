@@ -1,19 +1,337 @@
-/* Стили для игры Холодильник */
+/* Подключение корневых стилей */
+@import url('../../shared/styles/fonts.css');
+
+/* CSS переменные - светлая тема */
+:root {
+  --background: #f8fafc;
+  --card: #ffffff;
+  --line: #e2e8f0;
+  --text: #1e293b;
+  --accent: #ff6a00;
+  --accent-hover: #e55a00;
+  --neutral-color: #cbd5e1;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --square-active: #FE7800;
+  --square-inactive: #cbd5e1;
+}
+
+/* Базовые стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Involve', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* HUD стили - боковые панели */
+.hud {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background: var(--card);
+  padding: 60px 8px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hud-left {
+  left: 0;
+  border-right: 1px solid var(--line);
+}
+
+.hud-right {
+  right: 0;
+  border-left: 1px solid var(--line);
+}
+
+.hud-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 16px 0;
+  box-sizing: border-box;
+}
+
+.hud-rotated {
+  transform: rotate(180deg);
+}
+
+.hud-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 0;
+}
+
 .turn-label {
   font-weight: 600;
   font-size: clamp(14px, 2vw, 18px);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+
+.turn-label span {
+  display: inline-block;
+}
+
+.turn-label .icon-emoji {
+  display: inline-block;
+  transform: rotate(90deg);
+  margin-bottom: 4px;
 }
 
 .turn-label .score {
   font-weight: 600;
   font-size: clamp(14px, 2vw, 18px);
   color: var(--accent);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
   display: inline-block;
-  margin-left: 0.5em;
+  margin-top: 1.5em;
 }
 
-.score {
+/* Кнопки */
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 8px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
   font-size: clamp(14px, 2vw, 18px);
-  color: var(--accent);
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--line);
+}
+
+.btn:not(.hud .btn):hover {
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--line);
+}
+
+.btn-ghost:hover {
+  background: var(--line);
+}
+
+/* Кнопки в HUD */
+.hud .btn {
+  width: auto;
+  max-height: 74px;
+  min-width: 0;
+  padding: 10px 12px;
+  transform: rotate(90deg);
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+
+.hud .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.hud-row.hud-rotated .btn {
+  transform: rotate(90deg);
+}
+
+.hud-row.hud-rotated .btn:hover {
+  background: var(--line);
+  transform: rotate(90deg) translateX(-1px);
+}
+
+/* Игровой контейнер */
+.game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+}
+
+#stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Игровое поле */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  max-width: calc(100vh - 32px);
+  max-height: 100vh;
+}
+
+/* Квадраты */
+.square {
+  background: var(--square-inactive);
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+  aspect-ratio: 1;
+}
+
+.square:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15);
+}
+
+.square:active {
+  transform: scale(0.98);
+}
+
+.square.active {
+  background: var(--square-active);
+  border-color: var(--square-active);
+  box-shadow: 0 4px 12px rgba(254, 120, 0, 0.4);
+}
+
+.square.active:hover {
+  box-shadow: 0 6px 16px rgba(254, 120, 0, 0.5);
+}
+
+/* Модальные окна */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-backdrop[hidden] {
+  display: none !important;
+}
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.modal-subtitle {
+  font-size: 18px;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .hud {
+    width: 70px;
+  }
+  
+  .game-container {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .game-board {
+    max-width: calc(100vh - 32px);
+  }
+  
+  .hud .btn {
+    max-height: 54px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hud {
+    width: 50px;
+    padding: 12px 8px;
+  }
+  
+  .game-container {
+    left: 50px;
+    right: 50px;
+  }
+  
+  .game-board {
+    max-width: calc(100vh - 32px);
+    gap: 4px;
+    padding: 8px;
+  }
+  
+  .turn-label {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .turn-label .score {
+    font-size: clamp(14px, 2vw, 18px);
+  }
+  
+  .hud .btn {
+    padding: 6px 10px;
+    font-size: clamp(14px, 2vw, 18px);
+    max-height: 34px;
+  }
 }
