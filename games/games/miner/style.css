@@ -24,20 +24,43 @@ body{
 }
 
 /* HUD */
-.hud{position:fixed; left:0; right:0; z-index:1000; background:var(--card); color:var(--text);}
-.hud-top{top:0; border-bottom:1px solid var(--line);}
-.hud-bottom{bottom:0; border-top:1px solid var(--line);}
+.hud{
+  position:fixed; top:0; bottom:0; z-index:1000;
+  background:var(--card); color:var(--text);
+  padding:60px 8px; width:90px;
+  display:flex; align-items:center; justify-content:center;
+}
+.hud-left{left:0; border-right:1px solid var(--line);}
+.hud-right{right:0; border-left:1px solid var(--line);}
 .hud-row{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:12px clamp(12px, 3vw, 28px);
-  max-width:1400px; margin:0 auto;
-  flex-wrap: wrap;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:space-between;
+  width:100%; height:100%;
+  padding:16px 0; box-sizing:border-box;
 }
 .hud-rotated{ transform: rotate(180deg); }
-.hud-center{display:flex; flex-direction:column; align-items:center; gap:4px}
-.turn-label{font-weight:600; font-size:clamp(14px, 2vw, 18px)}
-.turn-label .score{font-weight:600; font-size:clamp(14px, 2vw, 18px); color:var(--accent); display:inline-block; margin-left:0.5em}
-.score{font-size:clamp(14px, 2vw, 18px); font-weight:600; color:var(--accent);}
+.hud-center{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; min-height:0; gap:8px;
+}
+.turn-label{
+  font-weight:600; font-size:clamp(14px, 2vw, 18px);
+  writing-mode:vertical-rl; text-orientation:mixed;
+  white-space:nowrap;
+}
+.turn-label span{display:inline-block;}
+.turn-label .score{
+  font-weight:600; font-size:clamp(14px, 2vw, 18px);
+  color:var(--accent); writing-mode:vertical-rl;
+  text-orientation:mixed; display:inline-block;
+  margin-top:1.5em;
+}
+.score{
+  font-size:clamp(14px, 2vw, 18px); font-weight:600;
+  color:var(--accent); writing-mode:vertical-rl;
+  text-orientation:mixed; white-space:nowrap;
+}
 
 /* Buttons */
 .btn{
@@ -53,6 +76,28 @@ body{
 .btn-ghost{ background:#fff; border-color:var(--line); }
 .btn-ghost:hover{ border-color:var(--accent); background:#fff; color:var(--accent); }
 .btn-ghost:active{ background:rgba(255, 106, 0, 0.1); }
+
+/* Кнопки в HUD */
+.hud .btn{
+  width:auto; max-height:74px; min-width:0;
+  padding:10px 12px; transform:rotate(90deg);
+  white-space:nowrap; flex-shrink:0;
+  box-sizing:border-box; overflow:hidden;
+  text-overflow:ellipsis; align-self:center;
+}
+.hud .btn:hover{
+  border-color:var(--accent); color:#fff;
+  background:var(--accent);
+  transform:rotate(90deg) translateX(-1px);
+  box-shadow:0 10px 20px rgba(255,106,0,.18);
+}
+.hud-row.hud-rotated .btn{transform:rotate(90deg);}
+.hud-row.hud-rotated .btn:hover{
+  border-color:var(--accent); color:#fff;
+  background:var(--accent);
+  transform:rotate(90deg) translateX(-1px);
+  box-shadow:0 10px 20px rgba(255,106,0,.18);
+}
 
 /* Modal */
 .modal-backdrop{
@@ -73,11 +118,14 @@ body{
 
 /* Игровой контейнер */
 .game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 100px 16px;
   background: var(--background);
 }
 
@@ -87,10 +135,10 @@ body{
   grid-template-columns: repeat(15, 1fr);
   grid-template-rows: repeat(15, 1fr);
   gap: 0px;
-  width: calc(100vw - 32px);
-  height: calc(100vh - 220px);
-  max-width: calc(100vh - 220px);
-  max-height: calc(100vh - 220px);
+  width: min(calc(100vw - 220px), calc(100vh - 40px));
+  height: min(calc(100vw - 220px), calc(100vh - 40px));
+  max-width: calc(100vh - 40px);
+  max-height: calc(100vh - 40px);
   border-radius: 12px;
   background: #1a1a1a;
   border: 2px solid var(--line);
@@ -318,79 +366,112 @@ body{
   font-weight: 700;
 }
 
-/* Управление в HUD */
-.player-controls-hud {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
+/* Кнопки управления игроков - размещены по углам */
+.players-section {
+  position: fixed;
+  top: 0;
+  left: 90px;
+  right: 90px;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  box-sizing: border-box;
+  overflow: visible;
 }
 
-/* Переворот стрелок для игроков в верхнем HUD (1 и 4) */
-#player1Controls .control-btn,
-#player4Controls .control-btn {
+.player-controls {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: 12px;
+  border: 2px solid var(--line);
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  max-width: 200px;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* Размещение по углам */
+.player-controls.player-1 {
+  top: 20px;
+  left: 20px;
   transform: rotate(180deg);
 }
 
-#player1Controls .control-btn:hover,
-#player4Controls .control-btn:hover {
-  transform: rotate(180deg) translateY(-1px);
+.player-controls.player-2 {
+  top: 20px;
+  right: 20px;
+  transform: rotate(180deg);
 }
 
-#player1Controls .control-btn:active,
-#player1Controls .control-btn.active,
-#player4Controls .control-btn:active,
-#player4Controls .control-btn.active {
-  transform: rotate(180deg) translateY(0);
+.player-controls.player-3 {
+  bottom: 20px;
+  left: 20px;
 }
 
-.player-controls-hud .player-info {
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-weight: 600;
-  color: white;
-  min-width: 70px;
-  text-align: center;
+.player-controls.player-4 {
+  bottom: 20px;
+  right: 20px;
 }
 
-.player-controls-hud .control-buttons {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  max-width: 280px;
-  justify-content: center;
-}
-
-.player-controls-hud .control-btn {
-  appearance: none;
-  border: 1px solid var(--line);
-  background: var(--card);
-  color: var(--text);
+.player-controls .player-info {
+  font-size: 16px;
   padding: 8px 12px;
   border-radius: 8px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 16px;
-  min-width: 40px;
-  height: 44px;
+  color: white;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
-.player-controls-hud .control-btn.bomb-btn {
+.player-controls .control-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.player-controls .control-btn {
+  appearance: none;
+  border: 3px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 0;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 24px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-controls .control-btn.bomb-btn {
+  grid-column: 1 / -1;
+  width: 100%;
   background: rgba(255, 106, 0, 0.1);
   border-color: var(--accent);
 }
 
-.player-controls-hud .control-btn:hover {
+.player-controls .control-btn:hover {
   border-color: var(--accent);
   background: rgba(255, 106, 0, 0.15);
-  transform: translateY(-1px);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.player-controls-hud .control-btn:active,
-.player-controls-hud .control-btn.active {
-  transform: translateY(0);
+.player-controls .control-btn:active,
+.player-controls .control-btn.active {
+  transform: scale(0.95);
   background: var(--accent);
   color: white;
   box-shadow: 0 0 8px rgba(255, 106, 0, 0.5);
@@ -402,34 +483,84 @@ body{
 .player-info.blue { background: #1E6FE3; }
 
 /* Адаптивность */
+@media (max-width: 1200px) {
+  .game-container {
+    left: 90px;
+    right: 90px;
+  }
+  
+  .players-section {
+    left: 90px;
+    right: 90px;
+  }
+}
+
 @media (max-width: 768px) {
   .game-field {
     grid-template-columns: repeat(13, 1fr);
     grid-template-rows: repeat(13, 1fr);
   }
   
+  .game-container {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .players-section {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .hud {
+    width: 70px;
+    padding: 60px 4px;
+  }
+  
   .hud-row {
-    gap: 8px;
     padding: 8px 12px;
-    justify-content: center;
+    gap: 0.5rem;
   }
   
   .btn-ghost, .btn {
     font-size: 12px;
-    padding: 8px 12px;
+    padding: 6px 12px;
   }
   
-  .player-controls-hud .control-btn {
-    padding: 6px 10px;
+  .player-controls {
+    min-width: 150px;
+    max-width: 150px;
+    padding: 0.75rem;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-3 {
+    left: 10px;
+  }
+  
+  .player-controls.player-2,
+  .player-controls.player-4 {
+    right: 10px;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-2 {
+    top: 10px;
+  }
+  
+  .player-controls.player-3,
+  .player-controls.player-4 {
+    bottom: 10px;
+  }
+  
+  .player-controls .control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 18px;
+  }
+  
+  .player-controls .player-info {
     font-size: 14px;
-    min-width: 36px;
-    height: 40px;
-  }
-  
-  .player-controls-hud .player-info {
-    font-size: 12px;
-    padding: 4px 8px;
-    min-width: 65px;
+    padding: 6px 10px;
   }
 }
 
@@ -439,26 +570,65 @@ body{
     grid-template-rows: repeat(11, 1fr);
   }
   
+  .game-container {
+    left: 60px;
+    right: 60px;
+  }
+  
+  .players-section {
+    left: 60px;
+    right: 60px;
+  }
+  
+  .hud {
+    width: 60px;
+    padding: 60px 2px;
+  }
+  
   .player-option {
     width: 100%;
     max-width: 200px;
   }
   
-  .player-controls-hud .control-buttons {
-    gap: 3px;
+  .player-controls {
+    min-width: 120px;
+    max-width: 120px;
+    padding: 0.5rem;
   }
   
-  .player-controls-hud .control-btn {
-    padding: 5px 9px;
-    font-size: 13px;
-    min-width: 32px;
-    height: 36px;
+  .player-controls.player-1,
+  .player-controls.player-3 {
+    left: 5px;
   }
   
-  .player-controls-hud .player-info {
-    font-size: 11px;
-    padding: 3px 7px;
-    min-width: 55px;
+  .player-controls.player-2,
+  .player-controls.player-4 {
+    right: 5px;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-2 {
+    top: 5px;
+  }
+  
+  .player-controls.player-3,
+  .player-controls.player-4 {
+    bottom: 5px;
+  }
+  
+  .player-controls .control-buttons {
+    gap: 0.3rem;
+  }
+  
+  .player-controls .control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  
+  .player-controls .player-info {
+    font-size: 12px;
+    padding: 4px 8px;
   }
   
   .turn-label {

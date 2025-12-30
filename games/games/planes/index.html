@@ -12,66 +12,38 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- HUD Top (повёрнут на 180°) -->
-  <header class="hud hud-top">
-    <div class="hud-row hud-rotated">
-      <button class="btn btn-ghost" id="btnBackTop">← Меню</button>
+  <!-- HUD Left -->
+  <aside class="hud hud-left">
+    <div class="hud-row">
+      <button class="btn btn-ghost" id="btnBackLeft">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelTop">✈️ Самолеты </span><span class="score" id="scoreTop">Игроков: 2</span></div>
+        <div class="turn-label"><span id="turnLabelLeft">✈️ Самолеты</span></div>
+        <div class="score" id="scoreLeft">Игроков: 2</div>
       </div>
-      <div class="player-controls-hud" id="player3Controls" style="display: none;">
-        <div class="player-info blue">Игрок 3</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="2" data-action="left">←</button>
-          <button class="control-btn" data-player="2" data-action="right">→</button>
-          <button class="control-btn bomb-btn" data-player="2" data-action="shoot">💥</button>
-        </div>
-      </div>
-      <div class="player-controls-hud" id="player1Controls" style="display: none;">
-        <div class="player-info red">Игрок 1</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="0" data-action="left">←</button>
-          <button class="control-btn" data-player="0" data-action="right">→</button>
-          <button class="control-btn bomb-btn" data-player="0" data-action="shoot">💥</button>
-        </div>
-      </div>
-      <button class="btn" id="btnNewTop">Новая партия ↻</button>
+      <button class="btn" id="btnNewLeft">Новая партия ↻</button>
     </div>
-  </header>
+  </aside>
 
   <!-- Игровое поле -->
   <main class="game-container">
     <div id="stage">
       <!-- Игровые элементы создаются динамически -->
     </div>
+    <!-- Секция для кнопок управления игроков -->
+    <div class="players-section" id="playersSection"></div>
   </main>
 
-  <!-- HUD Bottom -->
-  <footer class="hud hud-bottom">
-    <div class="hud-row">
-      <button class="btn btn-ghost" id="btnBackBottom">← Меню</button>
+  <!-- HUD Right (повёрнут на 180°) -->
+  <aside class="hud hud-right">
+    <div class="hud-row hud-rotated">
+      <button class="btn btn-ghost" id="btnBackRight">← Меню</button>
       <div class="hud-center">
-        <div class="turn-label"><span id="turnLabelBottom">✈️ Самолеты </span><span class="score" id="scoreBottom">Игроков: 2</span></div>
+        <div class="turn-label"><span id="turnLabelRight">✈️ Самолеты</span></div>
+        <div class="score" id="scoreRight">Игроков: 2</div>
       </div>
-      <div class="player-controls-hud" id="player4Controls" style="display: none;">
-        <div class="player-info green">Игрок 4</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="3" data-action="left">←</button>
-          <button class="control-btn" data-player="3" data-action="right">→</button>
-          <button class="control-btn bomb-btn" data-player="3" data-action="shoot">💥</button>
-        </div>
-      </div>
-      <div class="player-controls-hud" id="player2Controls" style="display: none;">
-        <div class="player-info yellow">Игрок 2</div>
-        <div class="control-buttons">
-          <button class="control-btn" data-player="1" data-action="left">←</button>
-          <button class="control-btn" data-player="1" data-action="right">→</button>
-          <button class="control-btn bomb-btn" data-player="1" data-action="shoot">💥</button>
-        </div>
-      </div>
-      <button class="btn" id="btnNewBottom">Новая партия ↻</button>
+      <button class="btn" id="btnNewRight">Новая партия ↻</button>
     </div>
-  </footer>
+  </aside>
 
   <!-- Модальное окно выбора настроек -->
   <div id="playersModal" class="modal-backdrop" style="display: flex;">

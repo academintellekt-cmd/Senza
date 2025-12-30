@@ -28,32 +28,80 @@ body{
 }
 
 /* HUD */
-.hud{position:fixed; left:0; right:0; z-index:1000; background:var(--card); color:var(--text);}
-.hud-top{top:0; border-bottom:1px solid var(--line);}
-.hud-bottom{bottom:0; border-top:1px solid var(--line);}
+.hud{
+  position:fixed; top:0; bottom:0; z-index:1000;
+  background:var(--card); color:var(--text);
+  padding:60px 8px; width:90px;
+  display:flex; align-items:center; justify-content:center;
+}
+.hud-left{left:0; border-right:1px solid var(--line);}
+.hud-right{right:0; border-left:1px solid var(--line);}
 .hud-row{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:16px; padding:12px clamp(12px, 3vw, 28px);
-  max-width:1400px; margin:0 auto;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:space-between;
+  width:100%; height:100%;
+  padding:16px 0; box-sizing:border-box;
 }
 .hud-rotated{ transform: rotate(180deg); }
-.hud-center{display:flex; flex-direction:column; align-items:center; gap:4px}
-.turn-label{font-weight:600; font-size:clamp(14px, 2vw, 18px)}
-.turn-label .score{font-weight:600; font-size:clamp(14px, 2vw, 18px); color:var(--accent); display:inline-block; margin-left:0.5em}
-.score{font-size:clamp(14px, 2vw, 18px); font-weight:600; color:var(--accent)}
+.hud-center{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; min-height:0; gap:8px;
+}
+.turn-label{
+  font-weight:600; font-size:clamp(14px, 2vw, 18px);
+  writing-mode:vertical-rl; text-orientation:mixed;
+  white-space:nowrap;
+}
+.turn-label span{display:inline-block;}
+.turn-label .score{
+  font-weight:600; font-size:clamp(14px, 2vw, 18px);
+  color:var(--accent); writing-mode:vertical-rl;
+  text-orientation:mixed; display:inline-block;
+  margin-top:1.5em;
+}
+.score{
+  font-size:clamp(14px, 2vw, 18px); font-weight:600;
+  color:var(--accent); writing-mode:vertical-rl;
+  text-orientation:mixed; white-space:nowrap;
+}
 
 /* Buttons */
 .btn{
   appearance:none; border:1px solid var(--line);
   background:#fff; color:var(--text);
-  padding:10px 16px; border-radius:12px; font-weight:600;
+  padding:8px 12px; border-radius:8px; font-weight:600;
   cursor:pointer; transition: all .2s ease; box-shadow: none;
   font-size: clamp(14px, 2vw, 18px);
 }
 .btn:hover{ border-color:var(--accent); color:#fff; background:var(--accent); box-shadow:0 10px 20px rgba(255,106,0,.18); }
-.btn:active{ transform: translateY(1px); }
+.btn:active,
+.btn.active{ transform: translateY(1px); background:var(--accent); color:#fff; }
 .btn-ghost{ background:#fff; border-color:var(--line); }
 .btn-ghost:hover{ border-color:var(--accent); background:#fff; color:var(--accent); }
+.btn-ghost:active{ background:rgba(255, 106, 0, 0.1); }
+
+/* Кнопки в HUD */
+.hud .btn{
+  width:auto; max-height:74px; min-width:0;
+  padding:10px 12px; transform:rotate(90deg);
+  white-space:nowrap; flex-shrink:0;
+  box-sizing:border-box; overflow:hidden;
+  text-overflow:ellipsis; align-self:center;
+}
+.hud .btn:hover{
+  border-color:var(--accent); color:#fff;
+  background:var(--accent);
+  transform:rotate(90deg) translateX(-1px);
+  box-shadow:0 10px 20px rgba(255,106,0,.18);
+}
+.hud-row.hud-rotated .btn{transform:rotate(90deg);}
+.hud-row.hud-rotated .btn:hover{
+  border-color:var(--accent); color:#fff;
+  background:var(--accent);
+  transform:rotate(90deg) translateX(-1px);
+  box-shadow:0 10px 20px rgba(255,106,0,.18);
+}
 
 /* Modal */
 .modal-backdrop{
@@ -125,78 +173,132 @@ body{
   font-size: 18px;
 }
 
-/* Player controls in HUD */
-.player-controls-hud {
+/* Кнопки управления игроков - размещены по углам */
+.players-section {
+  position: fixed;
+  top: 0;
+  left: 90px;
+  right: 90px;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.player-controls {
+  position: absolute;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-}
-
-.player-info {
-  font-weight: 700;
-  font-size: clamp(14px, 1.8vw, 18px);
-  padding: 4px 8px;
-  border-radius: 6px;
-}
-
-.player-info.red { color: #FE112E; }
-.player-info.green { color: #2ED573; }
-.player-info.yellow { color: #FFE23F; }
-.player-info.blue { color: #1E6FE3; }
-
-.control-buttons {
-  display: flex;
-  gap: 6px;
-}
-
-.control-btn {
-  appearance: none;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--card);
+  border-radius: 12px;
   border: 2px solid var(--line);
-  background: #fff;
-  color: var(--text);
-  padding: 6px 10px;
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  max-width: 200px;
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+/* Размещение по углам */
+.player-controls.player-1 {
+  top: 20px;
+  left: 20px;
+  transform: rotate(180deg);
+}
+
+.player-controls.player-2 {
+  top: 20px;
+  right: 20px;
+  transform: rotate(180deg);
+}
+
+.player-controls.player-3 {
+  bottom: 20px;
+  left: 20px;
+}
+
+.player-controls.player-4 {
+  bottom: 20px;
+  right: 20px;
+}
+
+.player-controls .player-info {
+  font-size: 16px;
+  padding: 8px 12px;
   border-radius: 8px;
-  font-weight: 700;
-  font-size: clamp(14px, 1.8vw, 18px);
+  font-weight: 600;
+  color: white;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.player-controls .control-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.player-controls .control-btn {
+  appearance: none;
+  border: 3px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  padding: 0;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s ease;
-  min-width: 36px;
-  height: 36px;
+  transition: all 0.2s ease;
+  font-size: 24px;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.control-btn:hover {
+.player-controls .control-btn.bomb-btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  background: rgba(255, 106, 0, 0.1);
   border-color: var(--accent);
-  background: var(--accent);
-  color: #fff;
+}
+
+.player-controls .control-btn:hover {
+  border-color: var(--accent);
+  background: rgba(255, 106, 0, 0.15);
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.control-btn:active {
+.player-controls .control-btn:active,
+.player-controls .control-btn.active {
   transform: scale(0.95);
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 0 8px rgba(255, 106, 0, 0.5);
 }
 
-.control-btn.bomb-btn {
-  background: #FF6B35;
-  border-color: #FF6B35;
-  color: #fff;
-  min-width: 44px;
-}
-
-.control-btn.bomb-btn:hover {
-  background: #FF8C42;
-  border-color: #FF8C42;
-}
+.player-info.red { background: #FE112E; }
+.player-info.green { background: #2ED573; }
+.player-info.yellow { background: #FFE23F; color: #333; }
+.player-info.blue { background: #1E6FE3; }
 
 /* Игровой контейнер */
 .game-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 90px;
+  right: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 80px 16px;
   background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #B0E0E6 100%);
   position: relative;
   overflow: hidden;
@@ -315,8 +417,10 @@ body{
 /* Игровое поле */
 .game-field {
   position: relative;
-  width: calc(100vw - 32px);
-  height: calc(100vh - 200px);
+  width: min(calc(100vw - 260px), calc(100vh * 1.4 - 40px));
+  height: min(calc(100vw - 260px), calc(100vh - 40px));
+  max-width: calc(100vh * 1.4 - 40px);
+  max-height: calc(100vh - 40px);
   border-radius: 20px;
   background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #B0E0E6 100%);
   border: 3px solid #4682B4;
@@ -460,24 +564,173 @@ body{
 }
 
 /* Адаптивность */
+@media (max-width: 1200px) {
+  .game-container {
+    left: 90px;
+    right: 90px;
+  }
+  
+  .players-section {
+    left: 90px;
+    right: 90px;
+  }
+}
+
 @media (max-width: 768px) {
   .game-field {
-    width: calc(100vw - 16px);
-    height: calc(100vh - 160px);
+    width: min(calc(100vw - 220px), calc(100vh * 1.4 - 40px));
+    height: min(calc(100vw - 220px), calc(100vh - 40px));
+    max-width: calc(100vh * 1.4 - 40px);
+    max-height: calc(100vh - 40px);
   }
   
-  .player-controls-hud {
-    gap: 8px;
+  .game-container {
+    left: 70px;
+    right: 70px;
   }
   
-  .control-btn {
-    min-width: 32px;
-    height: 32px;
+  .players-section {
+    left: 70px;
+    right: 70px;
+  }
+  
+  .hud {
+    width: 70px;
+    padding: 60px 4px;
+  }
+  
+  .hud-row {
+    padding: 8px 12px;
+    gap: 0.5rem;
+  }
+  
+  .btn-ghost, .btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .player-controls {
+    min-width: 150px;
+    max-width: 150px;
+    padding: 0.75rem;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-3 {
+    left: 10px;
+  }
+  
+  .player-controls.player-2,
+  .player-controls.player-4 {
+    right: 10px;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-2 {
+    top: 10px;
+  }
+  
+  .player-controls.player-3,
+  .player-controls.player-4 {
+    bottom: 10px;
+  }
+  
+  .player-controls .control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 18px;
+  }
+  
+  .player-controls .player-info {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-field {
+    width: min(calc(100vw - 200px), calc(100vh * 1.3 - 40px));
+    height: min(calc(100vw - 200px), calc(100vh - 40px));
+    max-width: calc(100vh * 1.3 - 40px);
+    max-height: calc(100vh - 40px);
+  }
+  
+  .game-container {
+    left: 60px;
+    right: 60px;
+  }
+  
+  .players-section {
+    left: 60px;
+    right: 60px;
+  }
+  
+  .hud {
+    width: 60px;
+    padding: 60px 2px;
+  }
+  
+  .player-controls {
+    min-width: 120px;
+    max-width: 120px;
+    padding: 0.5rem;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-3 {
+    left: 5px;
+  }
+  
+  .player-controls.player-2,
+  .player-controls.player-4 {
+    right: 5px;
+  }
+  
+  .player-controls.player-1,
+  .player-controls.player-2 {
+    top: 5px;
+  }
+  
+  .player-controls.player-3,
+  .player-controls.player-4 {
+    bottom: 5px;
+  }
+  
+  .player-controls .control-buttons {
+    gap: 0.3rem;
+  }
+  
+  .player-controls .control-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+  
+  .player-controls .player-info {
+    font-size: 12px;
     padding: 4px 8px;
-    font-size: clamp(12px, 1.5vw, 16px);
   }
   
-  .control-btn.bomb-btn {
-    min-width: 38px;
+  .turn-label {
+    font-size: 12px;
   }
+  
+  .score {
+    font-size: 10px;
+  }
+}
+
+/* Улучшенная поддержка touch */
+.control-btn,
+.btn {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Предотвращение случайного выделения */
+* {
+  -webkit-touch-callout: none;
 }

@@ -37,12 +37,14 @@
   };
 
   // DOM ЭЛЕМЕНТЫ
-  let stage, gameField, controlsPanel;
+  let stage, gameField, playersSection;
 
   // ИНИЦИАЛИЗАЦИЯ
   function initGame() {
     stage = document.getElementById('stage');
     if (!stage) return;
+    
+    playersSection = document.getElementById('playersSection');
     
     createGameInterface();
     updateDisplay();
@@ -68,24 +70,24 @@
 
   // ОБЯЗАТЕЛЬНЫЕ ФУНКЦИИ
   function updateDisplay() {
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
-    if (scoreTop) scoreTop.textContent = `Игроков: ${gameState.playersCount}`;
-    if (scoreBottom) scoreBottom.textContent = `Игроков: ${gameState.playersCount}`;
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
+    if (scoreLeft) scoreLeft.textContent = `Игроков: ${gameState.playersCount}`;
+    if (scoreRight) scoreRight.textContent = `Игроков: ${gameState.playersCount}`;
     
     if (!gameState.isPlaying) {
-      const turnLabelTop = document.getElementById('turnLabelTop');
-      const turnLabelBottom = document.getElementById('turnLabelBottom');
-      if (turnLabelTop) turnLabelTop.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
-      if (turnLabelBottom) turnLabelBottom.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      const turnLabelLeft = document.getElementById('turnLabelLeft');
+      const turnLabelRight = document.getElementById('turnLabelRight');
+      if (turnLabelLeft) turnLabelLeft.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
+      if (turnLabelRight) turnLabelRight.textContent = `${GAME_CONFIG.icon} ${GAME_CONFIG.name}`;
     }
   }
 
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   function showHUDCheckButton() {
@@ -207,17 +209,17 @@
     }
 
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
-    if (btnNewTop) btnNewTop.addEventListener('click', resetGame);
-    if (btnNewBottom) btnNewBottom.addEventListener('click', resetGame);
-    if (btnBackTop) btnBackTop.addEventListener('click', () => window.location.href = '../../index.html');
-    if (btnBackBottom) btnBackBottom.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnNewLeft) btnNewLeft.addEventListener('click', resetGame);
+    if (btnNewRight) btnNewRight.addEventListener('click', resetGame);
+    if (btnBackLeft) btnBackLeft.addEventListener('click', () => window.location.href = '../../index.html');
+    if (btnBackRight) btnBackRight.addEventListener('click', () => window.location.href = '../../index.html');
     if (btnRematch) btnRematch.addEventListener('click', () => {
       const modalBackdrop = document.getElementById('modalBackdrop');
       if (modalBackdrop) modalBackdrop.hidden = true;
@@ -228,40 +230,44 @@
 
   // Скрыть все панели управления
   function hideAllPlayerControls() {
-    const controls = ['player1Controls', 'player2Controls', 'player3Controls', 'player4Controls'];
-    controls.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    });
+    if (playersSection) {
+      playersSection.innerHTML = '';
+    }
   }
   
   // Показать панели управления для игроков
   function showPlayerControls() {
+    if (!playersSection) return;
+    
     hideAllPlayerControls();
     
-    // Игрок 1 - всегда на верхней панели
-    if (gameState.playersCount >= 1) {
-      const p1 = document.getElementById('player1Controls');
-      if (p1) p1.style.display = 'flex';
+    const playerPositions = [
+      { class: 'player-1', name: 'Игрок 1', color: 'red' },
+      { class: 'player-2', name: 'Игрок 2', color: 'yellow' },
+      { class: 'player-3', name: 'Игрок 3', color: 'blue' },
+      { class: 'player-4', name: 'Игрок 4', color: 'green' }
+    ];
+    
+    for (let i = 0; i < gameState.playersCount; i++) {
+      const playerDiv = document.createElement('div');
+      playerDiv.className = `player-controls ${playerPositions[i].class}`;
+      
+      const playerInfo = playerPositions[i];
+      
+      playerDiv.innerHTML = `
+        <div class="player-info ${playerInfo.color}">${playerInfo.name}</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="${i}" data-action="left">←</button>
+          <button class="control-btn" data-player="${i}" data-action="right">→</button>
+          <button class="control-btn bomb-btn" data-player="${i}" data-action="shoot">💥</button>
+        </div>
+      `;
+      
+      playersSection.appendChild(playerDiv);
     }
     
-    // Игрок 2 - всегда на нижней панели
-    if (gameState.playersCount >= 2) {
-      const p2 = document.getElementById('player2Controls');
-      if (p2) p2.style.display = 'flex';
-    }
-    
-    // Игрок 3 - на верхней панели
-    if (gameState.playersCount >= 3) {
-      const p3 = document.getElementById('player3Controls');
-      if (p3) p3.style.display = 'flex';
-    }
-    
-    // Игрок 4 - на нижней панели
-    if (gameState.playersCount >= 4) {
-      const p4 = document.getElementById('player4Controls');
-      if (p4) p4.style.display = 'flex';
-    }
+    // Привязать обработчики событий к новым кнопкам
+    setupPlayerControls();
   }
 
   // ИГРОВАЯ ЛОГИКА
@@ -276,7 +282,6 @@
     GAME_CONFIG.turnSpeed = speedSettings.turnSpeed;
     
     createPlanes();
-    setupPlayerControls();
     showPlayerControls();
     startGameLoop();
     
@@ -331,6 +336,83 @@
     // Найти все кнопки управления и привязать к ним обработчики
     const controlButtons = document.querySelectorAll('.control-btn');
     
+    // Универсальный обработчик для кнопок (click и touch)
+    const addButtonHandler = (element, handler) => {
+      if (!element) return;
+      
+      element.addEventListener('click', handler);
+      element.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        handler(e);
+      });
+    };
+    
+    // Touch события для мультитача
+    const activeButtons = new Set();
+    
+    document.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      
+      Array.from(e.changedTouches).forEach(touch => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.classList.contains('control-btn')) {
+          const playerIndex = parseInt(element.dataset.player);
+          const action = element.dataset.action;
+          
+          if (!gameState.isPlaying || !gameState.planes[playerIndex] || !gameState.planes[playerIndex].isAlive) {
+            return;
+          }
+          
+          const buttonId = `${playerIndex}-${action}`;
+          if (!activeButtons.has(buttonId)) {
+            activeButtons.add(buttonId);
+            element.classList.add('active');
+            
+            if (action === 'left' || action === 'right') {
+              gameState.keysPressed[`${playerIndex}_${action}`] = true;
+            } else if (action === 'shoot') {
+              shootBullet(playerIndex);
+            }
+          }
+        }
+      });
+    }, { passive: false });
+    
+    document.addEventListener('touchend', (e) => {
+      Array.from(e.changedTouches).forEach(touch => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.classList.contains('control-btn')) {
+          const playerIndex = parseInt(element.dataset.player);
+          const action = element.dataset.action;
+          const buttonId = `${playerIndex}-${action}`;
+          activeButtons.delete(buttonId);
+          element.classList.remove('active');
+          
+          if (action === 'left' || action === 'right') {
+            gameState.keysPressed[`${playerIndex}_${action}`] = false;
+          }
+        }
+      });
+    }, { passive: false });
+    
+    document.addEventListener('touchcancel', (e) => {
+      Array.from(e.changedTouches).forEach(touch => {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (element && element.classList.contains('control-btn')) {
+          const playerIndex = parseInt(element.dataset.player);
+          const action = element.dataset.action;
+          const buttonId = `${playerIndex}-${action}`;
+          activeButtons.delete(buttonId);
+          element.classList.remove('active');
+          
+          if (action === 'left' || action === 'right') {
+            gameState.keysPressed[`${playerIndex}_${action}`] = false;
+          }
+        }
+      });
+    }, { passive: false });
+    
+    // Click события для десктопа
     controlButtons.forEach(btn => {
       const playerIndex = parseInt(btn.dataset.player);
       const action = btn.dataset.action;
@@ -339,56 +421,19 @@
         // Обработчики для зажатия кнопок поворота
         btn.addEventListener('mousedown', () => {
           gameState.keysPressed[`${playerIndex}_${action}`] = true;
+          btn.classList.add('active');
         });
         btn.addEventListener('mouseup', () => {
           gameState.keysPressed[`${playerIndex}_${action}`] = false;
+          btn.classList.remove('active');
         });
         btn.addEventListener('mouseleave', () => {
           gameState.keysPressed[`${playerIndex}_${action}`] = false;
-        });
-        btn.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          // Обработка множественных касаний
-          for (let touch of e.touches) {
-            if (touch.target === btn) {
-              gameState.keysPressed[`${playerIndex}_${action}`] = true;
-              break;
-            }
-          }
-        });
-        btn.addEventListener('touchend', (e) => {
-          e.preventDefault();
-          // Обработка множественных касаний
-          for (let touch of e.changedTouches) {
-            if (touch.target === btn) {
-              gameState.keysPressed[`${playerIndex}_${action}`] = false;
-              break;
-            }
-          }
-        });
-        btn.addEventListener('touchcancel', (e) => {
-          e.preventDefault();
-          // Обработка отмены касаний
-          for (let touch of e.changedTouches) {
-            if (touch.target === btn) {
-              gameState.keysPressed[`${playerIndex}_${action}`] = false;
-              break;
-            }
-          }
+          btn.classList.remove('active');
         });
       } else if (action === 'shoot') {
         // Обработчик для выстрела
-        btn.addEventListener('click', () => shootBullet(playerIndex));
-        btn.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          // Обработка множественных касаний для выстрела
-          for (let touch of e.touches) {
-            if (touch.target === btn) {
-              shootBullet(playerIndex);
-              break;
-            }
-          }
-        });
+        addButtonHandler(btn, () => shootBullet(playerIndex));
       }
     });
   }

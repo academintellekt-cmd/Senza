@@ -23,6 +23,25 @@
     ]
   };
 
+  // КОНФИГУРАЦИЯ КНОПОК УПРАВЛЕНИЯ
+  // Кнопки для игроков 1 и 4 (перевернутые блоки)
+  const BUTTONS_PLAYERS_1_4 = {
+    up: { action: 'down', label: '↑' },
+    down: { action: 'up', label: '↓' },
+    left: { action: 'right', label: '←' },
+    right: { action: 'left', label: '→' },
+    bomb: { action: 'bomb', label: '💣' }
+  };
+
+  // Кнопки для игроков 2 и 3 (обычные блоки)
+  const BUTTONS_PLAYERS_2_3 = {
+    up: { action: 'up', label: '↑' },
+    down: { action: 'down', label: '↓' },
+    left: { action: 'left', label: '←' },
+    right: { action: 'right', label: '→' },
+    bomb: { action: 'bomb', label: '💣' }
+  };
+
   // СОСТОЯНИЕ ИГРЫ
   const gameState = {
     playerCount: 2,
@@ -39,12 +58,14 @@
   };
 
   // DOM ЭЛЕМЕНТЫ
-  let stage, gameField;
+  let stage, gameField, playersSection;
 
   // ИНИЦИАЛИЗАЦИЯ
   function initGame() {
     stage = document.getElementById('stage');
     if (!stage) return;
+    
+    playersSection = document.getElementById('playersSection');
     
     createGameInterface();
     updateDisplay();
@@ -64,27 +85,27 @@
 
   // ОБНОВЛЕНИЕ ДИСПЛЕЯ
   function updateDisplay() {
-    const scoreTop = document.getElementById('scoreTop');
-    const scoreBottom = document.getElementById('scoreBottom');
+    const scoreLeft = document.getElementById('scoreLeft');
+    const scoreRight = document.getElementById('scoreRight');
     
     if (gameState.isPlaying) {
       const minutes = Math.floor(gameState.timeLeft / 60);
       const seconds = gameState.timeLeft % 60;
       const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
       
-      if (scoreTop) scoreTop.textContent = `Время: ${timeString}`;
-      if (scoreBottom) scoreBottom.textContent = `Время: ${timeString}`;
+      if (scoreLeft) scoreLeft.textContent = `Время: ${timeString}`;
+      if (scoreRight) scoreRight.textContent = `Время: ${timeString}`;
     } else {
-      if (scoreTop) scoreTop.textContent = `Время: 3:00`;
-      if (scoreBottom) scoreBottom.textContent = `Время: 3:00`;
+      if (scoreLeft) scoreLeft.textContent = `Время: 3:00`;
+      if (scoreRight) scoreRight.textContent = `Время: 3:00`;
     }
   }
 
   function updateHUDInfo(text) {
-    const turnLabelTop = document.getElementById('turnLabelTop');
-    const turnLabelBottom = document.getElementById('turnLabelBottom');
-    if (turnLabelTop) turnLabelTop.textContent = text;
-    if (turnLabelBottom) turnLabelBottom.textContent = text;
+    const turnLabelLeft = document.getElementById('turnLabelLeft');
+    const turnLabelRight = document.getElementById('turnLabelRight');
+    if (turnLabelLeft) turnLabelLeft.textContent = text;
+    if (turnLabelRight) turnLabelRight.textContent = text;
   }
 
   // СБРОС ИГРЫ
@@ -177,17 +198,17 @@
     });
 
     // Кнопки HUD
-    const btnNewTop = document.getElementById('btnNewTop');
-    const btnNewBottom = document.getElementById('btnNewBottom');
-    const btnBackTop = document.getElementById('btnBackTop');
-    const btnBackBottom = document.getElementById('btnBackBottom');
+    const btnNewLeft = document.getElementById('btnNewLeft');
+    const btnNewRight = document.getElementById('btnNewRight');
+    const btnBackLeft = document.getElementById('btnBackLeft');
+    const btnBackRight = document.getElementById('btnBackRight');
     const btnRematch = document.getElementById('btnRematch');
     const btnToMenu = document.getElementById('btnToMenu');
     
-    addButtonHandler(btnNewTop, resetGame);
-    addButtonHandler(btnNewBottom, resetGame);
-    addButtonHandler(btnBackTop, () => window.location.href = '../index.html');
-    addButtonHandler(btnBackBottom, () => window.location.href = '../index.html');
+    addButtonHandler(btnNewLeft, resetGame);
+    addButtonHandler(btnNewRight, resetGame);
+    addButtonHandler(btnBackLeft, () => window.location.href = '../index.html');
+    addButtonHandler(btnBackRight, () => window.location.href = '../index.html');
     addButtonHandler(btnRematch, resetGame);
     addButtonHandler(btnToMenu, () => window.location.href = '../index.html');
 
@@ -640,23 +661,42 @@
 
   // ПОКАЗ УПРАВЛЕНИЯ ИГРОКОВ
   function showPlayerControls() {
-    hideAllPlayerControls();
+    if (!playersSection) return;
+    
+    playersSection.innerHTML = '';
+    
+    const playerPositions = [
+      { class: 'player-1', name: 'Игрок 1', color: 'red', buttons: BUTTONS_PLAYERS_1_4 },
+      { class: 'player-4', name: 'Игрок 2', color: 'green', buttons: BUTTONS_PLAYERS_2_3 },
+      { class: 'player-3', name: 'Игрок 3', color: 'yellow', buttons: BUTTONS_PLAYERS_2_3 },
+      { class: 'player-2', name: 'Игрок 4', color: 'blue', buttons: BUTTONS_PLAYERS_1_4 }
+    ];
     
     for (let i = 0; i < gameState.playerCount; i++) {
-      const controlId = `player${i + 1}Controls`;
-      const control = document.getElementById(controlId);
-      if (control) {
-        control.style.display = 'flex';
-      }
+      const playerDiv = document.createElement('div');
+      playerDiv.className = `player-controls ${playerPositions[i].class}`;
+      
+      const playerInfo = playerPositions[i];
+      const buttons = playerInfo.buttons;
+      
+      playerDiv.innerHTML = `
+        <div class="player-info ${playerInfo.color}">${playerInfo.name}</div>
+        <div class="control-buttons">
+          <button class="control-btn" data-player="${i}" data-action="${buttons.up.action}">${buttons.up.label}</button>
+          <button class="control-btn" data-player="${i}" data-action="${buttons.down.action}">${buttons.down.label}</button>
+          <button class="control-btn" data-player="${i}" data-action="${buttons.left.action}">${buttons.left.label}</button>
+          <button class="control-btn" data-player="${i}" data-action="${buttons.right.action}">${buttons.right.label}</button>
+          <button class="control-btn bomb-btn" data-player="${i}" data-action="${buttons.bomb.action}">${buttons.bomb.label}</button>
+        </div>
+      `;
+      
+      playersSection.appendChild(playerDiv);
     }
   }
 
   function hideAllPlayerControls() {
-    for (let i = 1; i <= 4; i++) {
-      const control = document.getElementById(`player${i}Controls`);
-      if (control) {
-        control.style.display = 'none';
-      }
+    if (playersSection) {
+      playersSection.innerHTML = '';
     }
   }
 
